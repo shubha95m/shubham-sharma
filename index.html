@@ -20,131 +20,129 @@
   <div id="root"></div>
 
 <script>
+const e = React.createElement;
 const { motion } = window['framer-motion'];
 
-const Section = ({ title, children }) => (
-  <motion.section
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    viewport={{ once: true }}
-    className="mb-16"
-  >
-    <h2 className="text-2xl font-semibold mb-6 border-b pb-2">
-      {title}
-    </h2>
-    {children}
-  </motion.section>
-);
+/* ---------- Reusable Components ---------- */
 
-const Skill = ({ name }) => (
-  <motion.span
-    whileHover={{ scale: 1.1 }}
-    className="px-4 py-2 bg-white rounded-full shadow hover:shadow-lg transition cursor-default"
-  >
-    {name}
-  </motion.span>
-);
+const Section = (props) =>
+  e(motion.section, {
+      initial: { opacity: 0, y: 30 },
+      whileInView: { opacity: 1, y: 0 },
+      transition: { duration: 0.6 },
+      viewport: { once: true },
+      className: "mb-16"
+    },
+    e("h2", { className: "text-2xl font-semibold mb-6 border-b pb-2" }, props.title),
+    props.children
+  );
 
-const ExperienceCard = ({ role, company, period, points }) => (
-  <motion.div
-    whileHover={{ y: -6 }}
-    className="bg-white rounded-xl shadow-md hover:shadow-xl transition p-6 mb-6"
-  >
-    <h3 className="text-lg font-semibold">{role}</h3>
-    <p className="text-sm text-slate-500">{company} • {period}</p>
-    <ul className="list-disc ml-5 mt-3 space-y-2">
-      {points.map(p => <li key={p}>{p}</li>)}
-    </ul>
-  </motion.div>
-);
+const Skill = (props) =>
+  e(motion.span, {
+      whileHover: { scale: 1.1 },
+      className: "px-4 py-2 bg-white rounded-full shadow hover:shadow-lg transition cursor-default"
+    },
+    props.name
+  );
 
-const App = () => (
-  <div className="max-w-6xl mx-auto px-6 py-14">
+const ExperienceCard = (props) =>
+  e(motion.div, {
+      whileHover: { y: -6 },
+      className: "bg-white rounded-xl shadow-md hover:shadow-xl transition p-6 mb-6"
+    },
+    e("h3", { className: "text-lg font-semibold" }, props.role),
+    e("p", { className: "text-sm text-slate-500" }, `${props.company} • ${props.period}`),
+    e("ul", { className: "list-disc ml-5 mt-3 space-y-2" },
+      props.points.map(p => e("li", { key: p }, p))
+    )
+  );
 
-    {/* HEADER */}
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      className="mb-20"
-    >
-      <h1 className="text-4xl font-bold">Shubham Sharma</h1>
-      <p className="text-xl mt-2 text-blue-600 font-medium">
-        Staff SDET · QA Platform Engineer
-      </p>
-      <p className="mt-4 text-slate-600 max-w-3xl">
-        Building scalable QA platforms, cloud-agnostic test systems, and
-        automation-first engineering cultures across SaaS environments.
-      </p>
-    </motion.div>
+/* ---------- Main App ---------- */
 
-    {/* SUMMARY */}
-    <Section title="Staff-Level Summary">
-      <p className="leading-7 max-w-4xl">
-        Results-driven QA leader with 8.6+ years of experience leading teams,
-        architecting test platforms, and embedding quality deeply into CI/CD.
-        Strong focus on leverage, cost efficiency, and long-term system design
-        rather than manual execution.
-      </p>
-    </Section>
+const App = () =>
+  e("div", { className: "max-w-6xl mx-auto px-6 py-14" },
 
-    {/* EXPERIENCE */}
-    <Section title="Experience">
-      <ExperienceCard
-        role="Staff QA Engineer"
-        company="AlphaSense"
-        period="Oct 2024 – Present"
-        points={[
-          "Designed cloud-agnostic testing via Crossplane (AWS, Azure, GCP)",
-          "Implemented Testkube at scale: workflows, triggers, cluster testing",
-          "Built in-cluster testing for Java, JS, Python repos",
-          "Shifted quality left into CI/CD pipelines"
-        ]}
-      />
-      <ExperienceCard
-        role="Team Lead"
-        company="AlphaSense"
-        period="Oct 2023 – Sept 2024"
-        points={[
-          "Automated Slack-based operational workflows",
-          "Reduced cloud costs by $1K+/month via automation",
-          "Mentored QA engineers into senior technical roles"
-        ]}
-      />
-      <ExperienceCard
-        role="Sr Automation QA"
-        company="AlphaSense"
-        period="Jan 2022 – Sept 2023"
-        points={[
-          "Owned automation strategy (Java, JS, Cypress, K6)",
-          "Integrated automation into Spinnaker pipelines",
-          "Built performance testing for microservices"
-        ]}
-      />
-    </Section>
+    /* Header */
+    e(motion.div, {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        transition: { duration: 0.8 },
+        className: "mb-20"
+      },
+      e("h1", { className: "text-4xl font-bold" }, "Shubham Sharma"),
+      e("p", { className: "text-xl mt-2 text-blue-600 font-medium" },
+        "Staff SDET · QA Platform Engineer"
+      ),
+      e("p", { className: "mt-4 text-slate-600 max-w-3xl" },
+        "Building scalable QA platforms, cloud-agnostic test systems, and automation-first engineering cultures across SaaS environments."
+      )
+    ),
 
-    {/* SKILLS */}
-    <Section title="Technical Stack">
-      <div className="flex flex-wrap gap-4">
-        {[
+    /* Summary */
+    e(Section, { title: "Staff-Level Summary" },
+      e("p", { className: "leading-7 max-w-4xl" },
+        "Results-driven QA leader with 8.6+ years of experience leading teams, architecting test platforms, and embedding quality deeply into CI/CD. Strong focus on leverage, cost efficiency, and long-term system design rather than manual execution."
+      )
+    ),
+
+    /* Experience */
+    e(Section, { title: "Experience" },
+      e(ExperienceCard, {
+        role: "Staff QA Engineer",
+        company: "AlphaSense",
+        period: "Oct 2024 – Present",
+        points: [
+          "Designed cloud-agnostic testing using Crossplane across AWS, Azure, and GCP",
+          "Implemented Testkube at scale (workflows, triggers, cluster tests)",
+          "Built in-cluster testing for Java, JavaScript, and Python repositories",
+          "Shifted quality gates left into CI/CD pipelines"
+        ]
+      }),
+      e(ExperienceCard, {
+        role: "Team Lead",
+        company: "AlphaSense",
+        period: "Oct 2023 – Sept 2024",
+        points: [
+          "Automated Slack-based operational and support workflows",
+          "Reduced cloud costs by $1K+/month via scheduled automation",
+          "Mentored QA engineers into senior and platform-focused roles"
+        ]
+      }),
+      e(ExperienceCard, {
+        role: "Sr Automation QA",
+        company: "AlphaSense",
+        period: "Jan 2022 – Sept 2023",
+        points: [
+          "Owned automation strategy using Java, JavaScript, Cypress, and K6",
+          "Integrated automation into Spinnaker post-deployment pipelines",
+          "Built performance testing for microservices and queue systems"
+        ]
+      })
+    ),
+
+    /* Skills */
+    e(Section, { title: "Technical Stack" },
+      e("div", { className: "flex flex-wrap gap-4" },
+        [
           "Java","Kotlin","JavaScript","Python","Playwright","Selenium",
           "RestAssured","Cypress","K6","Jenkins","Testkube",
           "Kubernetes","AWS","Azure","GCP"
-        ].map(s => <Skill key={s} name={s} />)}
-      </div>
-    </Section>
+        ].map(s => e(Skill, { key: s, name: s }))
+      )
+    ),
 
-    {/* EDUCATION */}
-    <Section title="Education & Certification">
-      <p><strong>B.Tech – Mechanical Engineering</strong>, JECRC (2012–2016)</p>
-      <p className="mt-2">Selenium Professional Certification – VSkills</p>
-    </Section>
+    /* Education */
+    e(Section, { title: "Education & Certification" },
+      e("p", null, e("strong", null, "B.Tech – Mechanical Engineering"), ", JECRC (2012–2016)"),
+      e("p", { className: "mt-2" }, "Selenium Professional Certification – VSkills")
+    )
+  );
 
-  </div>
-);
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+/* ---------- Render ---------- */
+ReactDOM
+  .createRoot(document.getElementById("root"))
+  .render(e(App));
 </script>
+
 </body>
 </html>
