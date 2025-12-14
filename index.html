@@ -2,147 +2,132 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Shubham Sharma | Staff SDET</title>
+  <title>Shubham Sharma | Staff SDET / QA Platform Engineer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tailwind -->
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- React -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Custom animations -->
+  <style>
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  <!-- Framer Motion -->
-  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+    .animate-fade-up {
+      animation: fadeUp 0.8s ease-out forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
-  <div id="root"></div>
 
-<script>
-const e = React.createElement;
-const { motion } = window['framer-motion'];
+  <main class="max-w-6xl mx-auto px-6 py-14">
 
-/* ---------- Reusable Components ---------- */
+    <!-- HEADER -->
+    <section class="animate-fade-up">
+      <h1 class="text-4xl font-bold tracking-tight">Shubham Sharma</h1>
+      <p class="text-xl mt-2 text-blue-600 font-semibold">
+        Staff SDET · QA Platform Engineer
+      </p>
+      <p class="mt-4 max-w-3xl text-slate-600 leading-7">
+        Building scalable QA platforms, cloud-agnostic test systems, and
+        automation-first engineering cultures across SaaS environments.
+      </p>
+    </section>
 
-const Section = (props) =>
-  e(motion.section, {
-      initial: { opacity: 0, y: 30 },
-      whileInView: { opacity: 1, y: 0 },
-      transition: { duration: 0.6 },
-      viewport: { once: true },
-      className: "mb-16"
-    },
-    e("h2", { className: "text-2xl font-semibold mb-6 border-b pb-2" }, props.title),
-    props.children
-  );
+    <!-- SUMMARY -->
+    <section class="mt-20 animate-fade-up delay-1">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Staff-Level Summary</h2>
+      <p class="max-w-4xl leading-7">
+        Results-driven QA leader with 8.6+ years of experience leading teams,
+        architecting test platforms, and embedding quality deeply into CI/CD.
+        Strong focus on leverage, cost efficiency, and long-term system design
+        rather than manual execution.
+      </p>
+    </section>
 
-const Skill = (props) =>
-  e(motion.span, {
-      whileHover: { scale: 1.1 },
-      className: "px-4 py-2 bg-white rounded-full shadow hover:shadow-lg transition cursor-default"
-    },
-    props.name
-  );
+    <!-- EXPERIENCE -->
+    <section class="mt-20 animate-fade-up delay-2">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-8">Experience</h2>
 
-const ExperienceCard = (props) =>
-  e(motion.div, {
-      whileHover: { y: -6 },
-      className: "bg-white rounded-xl shadow-md hover:shadow-xl transition p-6 mb-6"
-    },
-    e("h3", { className: "text-lg font-semibold" }, props.role),
-    e("p", { className: "text-sm text-slate-500" }, `${props.company} • ${props.period}`),
-    e("ul", { className: "list-disc ml-5 mt-3 space-y-2" },
-      props.points.map(p => e("li", { key: p }, p))
-    )
-  );
+      <div class="space-y-6">
 
-/* ---------- Main App ---------- */
+        <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+          <h3 class="text-lg font-semibold">Staff QA Engineer</h3>
+          <p class="text-sm text-slate-500">AlphaSense · Oct 2024 – Present</p>
+          <ul class="list-disc ml-5 mt-4 space-y-2">
+            <li>Designed cloud-agnostic testing using Crossplane across AWS, Azure, and GCP</li>
+            <li>Implemented Testkube at scale (workflows, triggers, cluster testing)</li>
+            <li>Built in-cluster testing for Java, JavaScript, and Python repositories</li>
+            <li>Shifted quality gates left into CI/CD pipelines</li>
+          </ul>
+        </div>
 
-const App = () =>
-  e("div", { className: "max-w-6xl mx-auto px-6 py-14" },
+        <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+          <h3 class="text-lg font-semibold">Team Lead</h3>
+          <p class="text-sm text-slate-500">AlphaSense · Oct 2023 – Sept 2024</p>
+          <ul class="list-disc ml-5 mt-4 space-y-2">
+            <li>Automated Slack-based operational and support workflows</li>
+            <li>Reduced cloud costs by $1K+ per month via scheduled automation</li>
+            <li>Mentored QA engineers into senior and platform-focused roles</li>
+          </ul>
+        </div>
 
-    /* Header */
-    e(motion.div, {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.8 },
-        className: "mb-20"
-      },
-      e("h1", { className: "text-4xl font-bold" }, "Shubham Sharma"),
-      e("p", { className: "text-xl mt-2 text-blue-600 font-medium" },
-        "Staff SDET · QA Platform Engineer"
-      ),
-      e("p", { className: "mt-4 text-slate-600 max-w-3xl" },
-        "Building scalable QA platforms, cloud-agnostic test systems, and automation-first engineering cultures across SaaS environments."
-      )
-    ),
+        <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+          <h3 class="text-lg font-semibold">Senior Automation QA</h3>
+          <p class="text-sm text-slate-500">AlphaSense · Jan 2022 – Sept 2023</p>
+          <ul class="list-disc ml-5 mt-4 space-y-2">
+            <li>Owned automation strategy using Java, JavaScript, Cypress, and K6</li>
+            <li>Integrated automation into Spinnaker post-deployment pipelines</li>
+            <li>Built performance testing for microservices and queue systems</li>
+          </ul>
+        </div>
 
-    /* Summary */
-    e(Section, { title: "Staff-Level Summary" },
-      e("p", { className: "leading-7 max-w-4xl" },
-        "Results-driven QA leader with 8.6+ years of experience leading teams, architecting test platforms, and embedding quality deeply into CI/CD. Strong focus on leverage, cost efficiency, and long-term system design rather than manual execution."
-      )
-    ),
+      </div>
+    </section>
 
-    /* Experience */
-    e(Section, { title: "Experience" },
-      e(ExperienceCard, {
-        role: "Staff QA Engineer",
-        company: "AlphaSense",
-        period: "Oct 2024 – Present",
-        points: [
-          "Designed cloud-agnostic testing using Crossplane across AWS, Azure, and GCP",
-          "Implemented Testkube at scale (workflows, triggers, cluster tests)",
-          "Built in-cluster testing for Java, JavaScript, and Python repositories",
-          "Shifted quality gates left into CI/CD pipelines"
-        ]
-      }),
-      e(ExperienceCard, {
-        role: "Team Lead",
-        company: "AlphaSense",
-        period: "Oct 2023 – Sept 2024",
-        points: [
-          "Automated Slack-based operational and support workflows",
-          "Reduced cloud costs by $1K+/month via scheduled automation",
-          "Mentored QA engineers into senior and platform-focused roles"
-        ]
-      }),
-      e(ExperienceCard, {
-        role: "Sr Automation QA",
-        company: "AlphaSense",
-        period: "Jan 2022 – Sept 2023",
-        points: [
-          "Owned automation strategy using Java, JavaScript, Cypress, and K6",
-          "Integrated automation into Spinnaker post-deployment pipelines",
-          "Built performance testing for microservices and queue systems"
-        ]
-      })
-    ),
+    <!-- SKILLS -->
+    <section class="mt-20 animate-fade-up delay-3">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Technical Stack</h2>
+      <div class="flex flex-wrap gap-3">
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Java</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Kotlin</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">JavaScript</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Python</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Playwright</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Selenium</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Cypress</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">K6</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Jenkins</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Testkube</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Kubernetes</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">AWS</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Azure</span>
+        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">GCP</span>
+      </div>
+    </section>
 
-    /* Skills */
-    e(Section, { title: "Technical Stack" },
-      e("div", { className: "flex flex-wrap gap-4" },
-        [
-          "Java","Kotlin","JavaScript","Python","Playwright","Selenium",
-          "RestAssured","Cypress","K6","Jenkins","Testkube",
-          "Kubernetes","AWS","Azure","GCP"
-        ].map(s => e(Skill, { key: s, name: s }))
-      )
-    ),
+    <!-- EDUCATION -->
+    <section class="mt-20 animate-fade-up delay-4">
+      <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Education & Certification</h2>
+      <p><strong>B.Tech – Mechanical Engineering</strong>, JECRC (2012–2016)</p>
+      <p class="mt-2">Selenium Professional Certification – VSkills</p>
+    </section>
 
-    /* Education */
-    e(Section, { title: "Education & Certification" },
-      e("p", null, e("strong", null, "B.Tech – Mechanical Engineering"), ", JECRC (2012–2016)"),
-      e("p", { className: "mt-2" }, "Selenium Professional Certification – VSkills")
-    )
-  );
-
-/* ---------- Render ---------- */
-ReactDOM
-  .createRoot(document.getElementById("root"))
-  .render(e(App));
-</script>
+  </main>
 
 </body>
 </html>
