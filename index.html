@@ -8,126 +8,160 @@
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Custom animations -->
   <style>
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
-    .animate-fade-up {
-      animation: fadeUp 0.8s ease-out forwards;
-    }
-
+    .fade-up { animation: fadeUp 0.8s ease-out both; }
     .delay-1 { animation-delay: 0.1s; }
     .delay-2 { animation-delay: 0.2s; }
     .delay-3 { animation-delay: 0.3s; }
     .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
   </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
 
-  <main class="max-w-6xl mx-auto px-6 py-14">
+<main class="max-w-6xl mx-auto px-6 py-14">
 
-    <!-- HEADER -->
-    <section class="animate-fade-up">
-      <h1 class="text-4xl font-bold tracking-tight">Shubham Sharma</h1>
-      <p class="text-xl mt-2 text-blue-600 font-semibold">
-        Staff SDET · QA Platform Engineer
-      </p>
-      <p class="mt-4 max-w-3xl text-slate-600 leading-7">
-        Building scalable QA platforms, cloud-agnostic test systems, and
-        automation-first engineering cultures across SaaS environments.
-      </p>
-    </section>
+<!-- HEADER -->
+<section class="fade-up">
+  <h1 class="text-4xl font-bold tracking-tight">Shubham Sharma</h1>
+  <p class="text-xl mt-2 text-blue-600 font-semibold">
+    Staff QA / Staff SDET · QA Platform & Automation Engineering
+  </p>
+  <p class="mt-4 max-w-4xl text-slate-600 leading-7">
+    Results-driven QA leader with 8.6+ years of experience building scalable
+    automation platforms, leading high-impact QA teams, and embedding quality
+    deeply into CI/CD and cloud-native architectures.
+  </p>
+</section>
 
-    <!-- SUMMARY -->
-    <section class="mt-20 animate-fade-up delay-1">
-      <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Staff-Level Summary</h2>
-      <p class="max-w-4xl leading-7">
-        Results-driven QA leader with 8.6+ years of experience leading teams,
-        architecting test platforms, and embedding quality deeply into CI/CD.
-        Strong focus on leverage, cost efficiency, and long-term system design
-        rather than manual execution.
-      </p>
-    </section>
+<!-- CONTACT -->
+<section class="mt-8 fade-up delay-1 text-sm text-slate-600">
+  <p>📍 Pune, India</p>
+  <p>📞 +91-8769340009</p>
+  <p>📧 shubham.sharma75319@gmail.com</p>
+  <p>
+    🔗
+    <a href="https://github.com/shubha95m" class="text-blue-600 underline">GitHub</a> ·
+    <a href="https://www.linkedin.com/in/shubham-sharma-4a4aaab9" class="text-blue-600 underline">LinkedIn</a>
+  </p>
+</section>
 
-    <!-- EXPERIENCE -->
-    <section class="mt-20 animate-fade-up delay-2">
-      <h2 class="text-2xl font-semibold border-b pb-2 mb-8">Experience</h2>
+<!-- SUMMARY -->
+<section class="mt-20 fade-up delay-2">
+  <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Professional Summary</h2>
+  <p class="leading-7 max-w-5xl">
+    Results-driven QA leader with 8.6 years of experience managing and mentoring QA teams,
+    currently leading multiple teams with a total of 10 QA engineers. Adept at unblocking
+    complex technical challenges, streamlining automation processes, and ensuring optimal
+    test coverage while maintaining cost efficiency.
+  </p>
+  <p class="leading-7 max-w-5xl mt-4">
+    Strong expertise in multi-cloud environments (AWS, Azure, GCP) with a focus on building
+    enterprise-grade testing frameworks and cloud-agnostic automation strategies.
+    Proven collaborator across global teams (US, UK, HKI) with a strong focus on platform
+    thinking, solution architecture, and long-term quality ownership.
+  </p>
+</section>
 
-      <div class="space-y-6">
+<!-- EXPERIENCE -->
+<section class="mt-20 fade-up delay-3">
+  <h2 class="text-2xl font-semibold border-b pb-2 mb-8">Professional Experience</h2>
 
-        <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
-          <h3 class="text-lg font-semibold">Staff QA Engineer</h3>
-          <p class="text-sm text-slate-500">AlphaSense · Oct 2024 – Present</p>
-          <ul class="list-disc ml-5 mt-4 space-y-2">
-            <li>Designed cloud-agnostic testing using Crossplane across AWS, Azure, and GCP</li>
-            <li>Implemented Testkube at scale (workflows, triggers, cluster testing)</li>
-            <li>Built in-cluster testing for Java, JavaScript, and Python repositories</li>
-            <li>Shifted quality gates left into CI/CD pipelines</li>
-          </ul>
-        </div>
+  <!-- AlphaSense Staff -->
+  <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition mb-6">
+    <h3 class="text-lg font-semibold">Staff QA Engineer</h3>
+    <p class="text-sm text-slate-500">AlphaSense · Oct 2024 – Present · Pune</p>
+    <ul class="list-disc ml-5 mt-4 space-y-2">
+      <li>Integrated cloud resources using Crossplane, enabling cloud-agnostic test execution across AWS, Azure, and GCP.</li>
+      <li>Implemented and enhanced Testkube with cluster testing, triggers, and workflows.</li>
+      <li>Developed in-cluster testing for Java, JavaScript, and Python repositories.</li>
+      <li>Shifted validation to build-level execution, reducing manual testing and strengthening CI/CD pipelines.</li>
+    </ul>
+  </div>
 
-        <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
-          <h3 class="text-lg font-semibold">Team Lead</h3>
-          <p class="text-sm text-slate-500">AlphaSense · Oct 2023 – Sept 2024</p>
-          <ul class="list-disc ml-5 mt-4 space-y-2">
-            <li>Automated Slack-based operational and support workflows</li>
-            <li>Reduced cloud costs by $1K+ per month via scheduled automation</li>
-            <li>Mentored QA engineers into senior and platform-focused roles</li>
-          </ul>
-        </div>
+  <!-- Team Lead -->
+  <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition mb-6">
+    <h3 class="text-lg font-semibold">Team Lead – QA Automation</h3>
+    <p class="text-sm text-slate-500">AlphaSense · Oct 2023 – Sept 2024 · Pune</p>
+    <ul class="list-disc ml-5 mt-4 space-y-2">
+      <li>Automated manual workflows using Slack-based automation, reducing response time.</li>
+      <li>Optimized cloud costs via cron-based cleanup, saving $1K+ per month.</li>
+      <li>Led technical revamp initiatives contributing to significant operational savings.</li>
+      <li>Mentored QA engineers to independently handle complex systems and tooling.</li>
+      <li>Designed Jenkins-based pipelines for early defect detection.</li>
+    </ul>
+  </div>
 
-        <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
-          <h3 class="text-lg font-semibold">Senior Automation QA</h3>
-          <p class="text-sm text-slate-500">AlphaSense · Jan 2022 – Sept 2023</p>
-          <ul class="list-disc ml-5 mt-4 space-y-2">
-            <li>Owned automation strategy using Java, JavaScript, Cypress, and K6</li>
-            <li>Integrated automation into Spinnaker post-deployment pipelines</li>
-            <li>Built performance testing for microservices and queue systems</li>
-          </ul>
-        </div>
+  <!-- Senior QA -->
+  <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition mb-6">
+    <h3 class="text-lg font-semibold">Senior Automation QA</h3>
+    <p class="text-sm text-slate-500">AlphaSense · Jan 2022 – Sept 2023 · Pune</p>
+    <ul class="list-disc ml-5 mt-4 space-y-2">
+      <li>Led a team of 3 QA engineers and managed sprint planning.</li>
+      <li>Built scalable frameworks using Java, JavaScript, Cypress, K6, and Selenide.</li>
+      <li>Integrated post-deployment automation using Spinnaker.</li>
+      <li>Implemented performance testing for microservices and SQS queues.</li>
+    </ul>
+  </div>
 
-      </div>
-    </section>
+  <!-- Automation QA -->
+  <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition mb-6">
+    <h3 class="text-lg font-semibold">Automation QA</h3>
+    <p class="text-sm text-slate-500">AlphaSense · Mar 2020 – Dec 2021 · Pune</p>
+    <ul class="list-disc ml-5 mt-4 space-y-2">
+      <li>Frontend automation using Selenium (Java) and Selenide (Kotlin).</li>
+      <li>Backend API automation using Kotlin and RestAssured.</li>
+      <li>GraphQL API automation and large-scale regression (4K+ test cases).</li>
+      <li>Integrated Allure, ReportPortal, and Selenoid Grid.</li>
+    </ul>
+  </div>
 
-    <!-- SKILLS -->
-    <section class="mt-20 animate-fade-up delay-3">
-      <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Technical Stack</h2>
-      <div class="flex flex-wrap gap-3">
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Java</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Kotlin</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">JavaScript</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Python</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Playwright</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Selenium</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Cypress</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">K6</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Jenkins</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Testkube</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Kubernetes</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">AWS</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">Azure</span>
-        <span class="px-4 py-2 bg-white rounded-full shadow hover:scale-105 transition">GCP</span>
-      </div>
-    </section>
+  <!-- Accenture -->
+  <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition">
+    <h3 class="text-lg font-semibold">QA Automation / Associate QA</h3>
+    <p class="text-sm text-slate-500">Accenture · Jan 2017 – Mar 2020 · Pune</p>
+    <ul class="list-disc ml-5 mt-4 space-y-2">
+      <li>Automated 100+ healthcare web applications.</li>
+      <li>Executed E2E, regression, smoke, UAT, and UI testing.</li>
+      <li>Worked on US government projects with strict quality standards.</li>
+    </ul>
+  </div>
+</section>
 
-    <!-- EDUCATION -->
-    <section class="mt-20 animate-fade-up delay-4">
-      <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Education & Certification</h2>
-      <p><strong>B.Tech – Mechanical Engineering</strong>, JECRC (2012–2016)</p>
-      <p class="mt-2">Selenium Professional Certification – VSkills</p>
-    </section>
+<!-- SKILLS -->
+<section class="mt-20 fade-up delay-4">
+  <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Technical Skills</h2>
+  <div class="flex flex-wrap gap-3">
+    <span class="px-4 py-2 bg-white rounded-full shadow">Java</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Kotlin</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">JavaScript</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Python</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Selenium</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Playwright</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Cypress</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">RestAssured</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">K6</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Jenkins</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Testkube</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Kubernetes</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">AWS</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">Azure</span>
+    <span class="px-4 py-2 bg-white rounded-full shadow">GCP</span>
+  </div>
+</section>
 
-  </main>
+<!-- EDUCATION -->
+<section class="mt-20 fade-up delay-5">
+  <h2 class="text-2xl font-semibold border-b pb-2 mb-6">Education & Certifications</h2>
+  <p><strong>B.Tech – Mechanical Engineering</strong>, JECRC (2012–2016)</p>
+  <p class="mt-2">Selenium Professional Certification – VSkills (2019)</p>
+</section>
 
+</main>
 </body>
 </html>
