@@ -1,0 +1,14 @@
+[
+    {
+        "id": "shubham",
+        "name": "Shubham Sharma",
+        "title": "Staff SDET / QA Architect",
+        "avatar": "profile_pic.jpg"
+    },
+    {
+        "id": "jdoe",
+        "name": "John Doe",
+        "title": "Senior Frontend Engineer",
+        "avatar": "https://randomuser.me/api/portraits/men/32.jpg"
+    }
+]

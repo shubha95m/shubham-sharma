@@ -1,0 +1,26 @@
+{
+  "name": "John Doe",
+  "taglines": [
+    "Senior Frontend Developer",
+    "UI/UX Enthusiast",
+    "Open Source Contributor"
+  ],
+  "contact": {
+    "location": "San Francisco, CA",
+    "phone": "+1-555-0199",
+    "email": "john.doe@example.com"
+  },
+  "social": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/johndoe",
+      "icon": "fab fa-github"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/in/johndoe",
+      "icon": "fab fa-linkedin-in"
+    }
+  ],
+  "profilePic": "https://randomuser.me/api/portraits/men/32.jpg"
+}

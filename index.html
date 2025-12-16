@@ -113,6 +113,10 @@
         <button class="pattern-btn" onclick="startRender('clean')">3. Modern Clean</button>
         <button class="pattern-btn" onclick="startRender('classic')">4. Classic Dark</button>
         <div style="height:1px; background:rgba(255,255,255,0.1); margin:10px 0;"></div>
+        <button class="pattern-btn" onclick="window.location.href='home.html'"
+            style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); margin-bottom: 5px;">
+            <i class="fas fa-arrow-left"></i> Change Profile
+        </button>
         <button class="pattern-btn" onclick="window.print()"
             style="background:var(--accent); border-color:var(--accent); font-weight:bold;">
             <i class="fas fa-download"></i> Download PDF
@@ -132,13 +136,24 @@
         // Fetch Data
         async function loadContent() {
             try {
+                // Get User ID from URL or default to 'shubham'
+                const params = new URLSearchParams(window.location.search);
+                const userId = params.get('user') || 'shubham';
+
+                console.log(`Loading profile for: ${userId}`);
+
+                const basePath = `cv-content/${userId}`;
+
                 const [profile, summary, journey, skills, education, highlights] = await Promise.all([
-                    fetch('cv-content/profile.json').then(r => r.json()),
-                    fetch('cv-content/summary.json').then(r => r.json()),
-                    fetch('cv-content/journey.json').then(r => r.json()),
-                    fetch('cv-content/skills.json').then(r => r.json()),
-                    fetch('cv-content/education.json').then(r => r.json()),
-                    fetch('cv-content/highlights.json').then(r => r.json())
+                    fetch(`${basePath}/profile.json`).then(r => {
+                        if (!r.ok) throw new Error(`Profile not found for user: ${userId}`);
+                        return r.json();
+                    }),
+                    fetch(`${basePath}/summary.json`).then(r => r.json()),
+                    fetch(`${basePath}/journey.json`).then(r => r.json()),
+                    fetch(`${basePath}/skills.json`).then(r => r.json()),
+                    fetch(`${basePath}/education.json`).then(r => r.json()),
+                    fetch(`${basePath}/highlights.json`).then(r => r.json())
                 ]);
 
                 DATA.profile = profile;
@@ -152,7 +167,12 @@
                 startRender('split');
             } catch (e) {
                 console.error(e);
-                ROOT.innerHTML = `<div class='loading' style='color:red'>Error loading content: ${e.message}</div>`;
+                ROOT.innerHTML = `
+                    <div class='loading' style='flex-direction: column; gap: 1rem; color:#ef4444'>
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem;"></i>
+                        <div>Error loading content: ${e.message}</div>
+                        <a href="home.html" style="margin-top:20px; color:#3b82f6; text-decoration:none; border-bottom:1px solid">Return to Home</a>
+                    </div>`;
             }
         }
 
