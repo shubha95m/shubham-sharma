@@ -38,21 +38,25 @@ window.renderGlass = (DATA, ROOT, STYLE) => {
 
     ROOT.innerHTML = `
         <div class="container">
-            <header class="hero">
+            <header class="hero" id="profile">
                 <div class="profile-glow"><img src="${DATA.profile.profilePic}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;"></div>
                 <h1>${DATA.profile.name}</h1>
                 <div style="font-family:'Space Grotesk'; color:var(--accent); letter-spacing:2px; text-transform:uppercase;">${DATA.profile.taglines.join(' · ')}</div>
-                <p style="max-width:600px; margin: 1.5rem auto; color:var(--text-muted);">${DATA.profile.contact.location} · ${DATA.profile.contact.email}</p>
+                <p style="max-width:600px; margin: 1.5rem auto; color:var(--text-muted);">
+                    <i class="fas fa-map-marker-alt"></i> ${DATA.profile.contact.location} &ensp;|&ensp; 
+                    <i class="fas fa-envelope"></i> ${DATA.profile.contact.email} &ensp;|&ensp;
+                    <i class="fas fa-phone"></i> ${DATA.profile.contact.phone}
+                </p>
             </header>
 
-            <section>
+            <section id="about">
                  <h2 class="section-title"><span>01.</span> About <div class="line"></div></h2>
                  <div class="glass-card">
                     ${DATA.summary.summary.join('<br><br>')}
                  </div>
             </section>
 
-            <section>
+            <section id="innovation">
                 <h2 class="section-title"><span>02.</span> Highlights <div class="line"></div></h2>
                  <div class="glass-card">
                     <h3 style="color:white; margin-bottom:1rem;">Scope & Impact</h3>
@@ -74,14 +78,14 @@ window.renderGlass = (DATA, ROOT, STYLE) => {
                  </div>
             </section>
 
-            <section>
+            <section id="skills">
                 <h2 class="section-title"><span>03.</span> Arsenal <div class="line"></div></h2>
                 <div class="glass-card" style="text-align:center;">
                     ${DATA.skills.map(s => `<span class="skill-chip">${s}</span>`).join('')}
                 </div>
             </section>
             
-            <section>
+            <section id="experience">
                 <h2 class="section-title"><span>03.</span> Journey <div class="line"></div></h2>
                 ${DATA.journey.map(role => `
                     <div class="glass-card">
@@ -97,7 +101,7 @@ window.renderGlass = (DATA, ROOT, STYLE) => {
                 `).join('')}
             </section>
 
-            <section>
+            <section id="education">
                 <h2 class="section-title"><span>04.</span> Education <div class="line"></div></h2>
                 ${DATA.education.degrees.map(d => `
                     <div class="glass-card">

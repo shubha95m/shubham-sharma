@@ -1,9 +1,9 @@
 window.renderSplit = (DATA, ROOT, STYLE) => {
     STYLE.innerHTML = `
         :root { --sidebar-bg: #0f172a; --content-bg: #ffffff; --text-main: #334155; --text-muted: #64748b; --accent: #2563eb; --sidebar-text: #f8fafc; --border: #e2e8f0; }
-        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--content-bg); color: var(--text-main); display: flex; min-height: 100vh; }
-        .sidebar { width: 320px; background: var(--sidebar-bg); color: var(--sidebar-text); padding: 3rem 2rem; position: fixed; height: 100vh; overflow-y: auto; text-align: center; }
-        .main-content { margin-left: 320px; flex: 1; padding: 4rem 5rem; max-width: 1000px; }
+        body { margin: 0 !important; font-family: 'Outfit', sans-serif; background: var(--content-bg); color: var(--text-main); min-height: 100vh; display: block !important; }
+        .sidebar { width: 320px !important; background: var(--sidebar-bg); color: var(--sidebar-text); padding: 3rem 2rem; position: fixed !important; left: 0 !important; top: 0 !important; height: 100vh; overflow-y: auto; text-align: center; z-index: 10; box-sizing: border-box; }
+        .main-content { margin-left: 320px !important; padding: 2rem 5rem; min-height: 100vh; max-width: calc(100vw - 320px) !important; box-sizing: border-box; }
         .profile-img { width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1); object-fit: cover; margin-bottom: 1.5rem; }
         .sidebar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; margin: 0; }
         .nav-link { display: block; padding: 0.8rem 0; color: rgba(255,255,255,0.6); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
@@ -34,7 +34,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
     `;
 
     ROOT.innerHTML = `
-        <aside class="sidebar">
+        <aside class="sidebar" id="profile">
             <img src="${DATA.profile.profilePic}" class="profile-img">
             <h1>${DATA.profile.name}</h1>
             <p style="opacity: 0.8; margin-top: 0.5rem;">${DATA.profile.taglines[0]}</p>
@@ -53,6 +53,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                 </div>
                 <div class="contact-item"><i class="fas fa-map-marker-alt"></i> ${DATA.profile.contact.location}</div>
                 <div class="contact-item"><i class="fas fa-envelope"></i> ${DATA.profile.contact.email}</div>
+                <div class="contact-item"><i class="fas fa-phone"></i> ${DATA.profile.contact.phone}</div>
                  <div style="margin-top: 1.5rem; display:flex; gap:15px; justify-content:center;">
                     ${DATA.profile.social.map(s => `<a href="${s.url}" target="_blank" style="color:white; font-size:1.2rem;"><i class="${s.icon}"></i></a>`).join('')}
                 </div>
@@ -65,7 +66,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                     ${DATA.summary.summary.map(p => `<p style="margin-bottom:1rem;">${p}</p>`).join('')}
                 </div>
                 
-                <div style="margin-top: 3rem;">
+                <div id="exec-highlights" style="margin-top: 3rem;">
                     <h3 style="color:var(--text-main); font-family: 'Space Grotesk'; border-left: 4px solid var(--accent); padding-left: 1rem; margin-bottom: 1.5rem;">Executive Highlights</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                         <div>

@@ -15,54 +15,63 @@ window.renderClean = (DATA, ROOT, STYLE) => {
 
     ROOT.innerHTML = `
         <div class="max-w">
-            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 2rem;">
+            <header id="profile" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 2rem;">
                 <div>
                     <h1>${DATA.profile.name}</h1>
                     <div class="tagline">${DATA.profile.taglines.join(' / ')}</div>
                     <p style="margin-top:1rem; color:#64748b;">
                         <i class="fas fa-map-marker-alt"></i> ${DATA.profile.contact.location} &nbsp; | &nbsp; 
-                        <i class="fas fa-envelope"></i> ${DATA.profile.contact.email}
+                        <i class="fas fa-envelope"></i> ${DATA.profile.contact.email} &nbsp; | &nbsp; 
+                        <i class="fas fa-phone"></i> ${DATA.profile.contact.phone}
                     </p>
                 </div>
                 <img src="${DATA.profile.profilePic}" style="width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
             </header>
-            <div class="summary-text">${DATA.summary.summary.join(' ')}</div>
+            <div id="about" class="summary-text">${DATA.summary.summary.join(' ')}</div>
             
-            <h2 class="section-head">Executive Highlights</h2>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                <div>
-                    <h3 style="font-size:1.1rem; color:#2563eb;">Scope & Impact</h3>
-                    <ul style="color:#475569; padding-left:1.2rem;">${DATA.highlights.scope.map(s => `<li>${s}</li>`).join('')}</ul>
+            <div id="innovation">
+                <h2 class="section-head">Executive Highlights</h2>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <h3 style="font-size:1.1rem; color:#2563eb;">Scope & Impact</h3>
+                        <ul style="color:#475569; padding-left:1.2rem;">${DATA.highlights.scope.map(s => `<li>${s}</li>`).join('')}</ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size:1.1rem; color:#2563eb;">Architecture & Design</h3>
+                        <ul style="color:#475569; padding-left:1.2rem;">${DATA.highlights.architecture.map(s => `<li>${s}</li>`).join('')}</ul>
+                    </div>
                 </div>
+    
+                <h2 class="section-head">Key Platforms</h2>
+                 <ul style="color:#475569; padding-left:1.2rem; columns: 2;">
+                    ${DATA.highlights.platforms.map(s => `<li style="margin-bottom:0.5rem;">${s}</li>`).join('')}
+                </ul>
+            </div>
+
+            <div id="skills">
+                <h2 class="section-head">Skills</h2>
                 <div>
-                    <h3 style="font-size:1.1rem; color:#2563eb;">Architecture & Design</h3>
-                     <ul style="color:#475569; padding-left:1.2rem;">${DATA.highlights.architecture.map(s => `<li>${s}</li>`).join('')}</ul>
+                    ${DATA.skills.map(s => `<span class="pill">${s}</span>`).join('')}
                 </div>
             </div>
 
-            <h2 class="section-head">Key Platforms</h2>
-             <ul style="color:#475569; padding-left:1.2rem; columns: 2;">
-                ${DATA.highlights.platforms.map(s => `<li style="margin-bottom:0.5rem;">${s}</li>`).join('')}
-            </ul>
-
-            <h2 class="section-head">Skills</h2>
-            <div>
-                ${DATA.skills.map(s => `<span class="pill">${s}</span>`).join('')}
+            <div id="experience">
+                <h2 class="section-head">Experience</h2>
+                ${DATA.journey.map(j => `
+                    <div class="job-card">
+                        <div class="job-title">${j.role}</div>
+                        <div class="meta">${j.company} · ${j.date}</div>
+                        <ul style="padding-left:1.2rem; color:#475569;">
+                            ${j.details.map(d => `<li style="margin-bottom:0.4rem;">${d}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
             </div>
 
-            <h2 class="section-head">Experience</h2>
-            ${DATA.journey.map(j => `
-                <div class="job-card">
-                    <div class="job-title">${j.role}</div>
-                    <div class="meta">${j.company} · ${j.date}</div>
-                    <ul style="padding-left:1.2rem; color:#475569;">
-                        ${j.details.map(d => `<li style="margin-bottom:0.4rem;">${d}</li>`).join('')}
-                    </ul>
-                </div>
-            `).join('')}
-
-            <h2 class="section-head">Education</h2>
-            ${DATA.education.degrees.map(d => `<p><strong>${d.degree}</strong>, ${d.school} (${d.year}) - ${d.grade}</p>`).join('')}
+            <div id="education">
+                <h2 class="section-head">Education</h2>
+                ${DATA.education.degrees.map(d => `<p><strong>${d.degree}</strong>, ${d.school} (${d.year}) - ${d.grade}</p>`).join('')}
+            </div>
         </div>
     `;
 };
