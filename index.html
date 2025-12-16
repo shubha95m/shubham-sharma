@@ -127,28 +127,81 @@
         <div class="loading">Loading Resume Engine...</div>
     </div>
 
+    <!-- EDITOR MODAL -->
+    <div id="editor-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10000; align-items:center; justify-content:center;">
+        <div
+            style="background:#1e293b; color:white; padding:2rem; width:80%; max-width:800px; border-radius:12px; box-shadow:0 20px 50px rgba(0,0,0,0.5); display:flex; flex-direction:column; gap:1rem;">
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:1rem;">
+                <h3 style="margin:0; font-family:'Space Grotesk'">Edit Content: <span id="editor-filename"
+                        style="color:var(--accent)"></span></h3>
+                <button onclick="closeEditor()"
+                    style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem;">
+                <!-- Code Editor -->
+                <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                    <label style="color:#94a3b8; font-size:0.9rem;">JSON Content</label>
+                    <textarea id="editor-content"
+                        style="width:100%; height:400px; background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:8px; padding:1rem; font-family:'Courier New', monospace; line-height:1.5; resize:none;"></textarea>
+                </div>
+
+                <!-- AI Assistant -->
+                <div
+                    style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:8px; display:flex; flex-direction:column; gap:1rem;">
+                    <h4 style="margin:0; color:#c084fc;"><i class="fas fa-magic"></i> AI Assistant</h4>
+                    <p style="font-size:0.85rem; color:#94a3b8; margin:0;">Select text in the editor or provide
+                        instructions to improve the content.</p>
+
+                    <div>
+                        <label style="font-size:0.8rem; color:#cbd5e1;">Instruction</label>
+                        <textarea id="ai-instruction" placeholder="e.g., Make it more impactful and result-oriented..."
+                            style="width:100%; height:80px; margin-top:0.5rem; background:#0f172a; border:1px solid #334155; color:white; padding:0.5rem; border-radius:6px;"></textarea>
+                    </div>
+
+                    <button onclick="runAIOptimization()"
+                        style="background:linear-gradient(135deg, #a855f7, #ec4899); border:none; color:white; padding:0.8rem; border-radius:6px; cursor:pointer; font-weight:600; transition:0.3s;">
+                        <i class="fas fa-sparkles"></i> Improve with Claude
+                    </button>
+                    <div id="ai-status" style="font-size:0.8rem; color:#94a3b8; text-align:center;"></div>
+                </div>
+            </div>
+
+            <div
+                style="display:flex; justify-content:flex-end; gap:1rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:1rem;">
+                <button onclick="closeEditor()"
+                    style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; padding:0.8rem 1.5rem; border-radius:6px; cursor:pointer;">Cancel</button>
+                <button onclick="saveContent()"
+                    style="background:#22c55e; border:none; color:white; padding:0.8rem 1.5rem; border-radius:6px; font-weight:600; cursor:pointer;">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // State
         const DATA = {};
         const ROOT = document.getElementById('app-root');
         const STYLE = document.getElementById('dynamic-style');
 
+        let CURRENT_USER = 'shubham';
+        let CURRENT_FILE = ''; // e.g., 'profile.json'
+
         // Fetch Data
         async function loadContent() {
             try {
-                // Get User ID from URL or default to 'shubham'
                 const params = new URLSearchParams(window.location.search);
                 const userId = params.get('user') || 'shubham';
+                CURRENT_USER = userId;
 
                 console.log(`Loading profile for: ${userId}`);
 
                 const basePath = `cv-content/${userId}`;
 
                 const [profile, summary, journey, skills, education, highlights] = await Promise.all([
-                    fetch(`${basePath}/profile.json`).then(r => {
-                        if (!r.ok) throw new Error(`Profile not found for user: ${userId}`);
-                        return r.json();
-                    }),
+                    fetch(`${basePath}/profile.json`).then(r => { if (!r.ok) throw new Error('Profile not found'); return r.json() }),
                     fetch(`${basePath}/summary.json`).then(r => r.json()),
                     fetch(`${basePath}/journey.json`).then(r => r.json()),
                     fetch(`${basePath}/skills.json`).then(r => r.json()),
@@ -165,29 +218,173 @@
 
                 // Load default
                 startRender('split');
+                renderEditButtons(); // Add edit buttons after render
             } catch (e) {
                 console.error(e);
-                ROOT.innerHTML = `
-                    <div class='loading' style='flex-direction: column; gap: 1rem; color:#ef4444'>
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem;"></i>
-                        <div>Error loading content: ${e.message}</div>
-                        <a href="home.html" style="margin-top:20px; color:#3b82f6; text-decoration:none; border-bottom:1px solid">Return to Home</a>
-                    </div>`;
+                ROOT.innerHTML = `<div class='loading' style='color:red'>Error loading content: ${e.message} <br> <a href='home.html'>Back</a></div>`;
             }
         }
 
         // --- RENDER CONTROLLER ---
-
         function startRender(pattern) {
-            // Update Active Button
             document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
             document.querySelector(`button[onclick="startRender('${pattern}')"]`)?.classList.add('active');
 
-            // Call Modular Renderers
             if (pattern === 'split' && window.renderSplit) window.renderSplit(DATA, ROOT, STYLE);
             if (pattern === 'glass' && window.renderGlass) window.renderGlass(DATA, ROOT, STYLE);
             if (pattern === 'clean' && window.renderClean) window.renderClean(DATA, ROOT, STYLE);
             if (pattern === 'classic' && window.renderClassic) window.renderClassic(DATA, ROOT, STYLE);
+
+            setTimeout(renderEditButtons, 500); // Re-attach buttons after render
+        }
+
+        // --- EDITING LOGIC ---
+
+        function renderEditButtons() {
+            // Remove existing edit buttons to avoid duplicates
+            document.querySelectorAll('.edit-trigger').forEach(e => e.remove());
+
+            const createBtn = (file, top, right) => {
+                const btn = document.createElement('button');
+                btn.className = 'edit-trigger';
+                btn.innerHTML = '<i class="fas fa-pen"></i>';
+                btn.style.cssText = `position:absolute; top:${top}; right:${right}; z-index:1000; background:#3b82f6; color:white; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; opacity:0.7; transition:0.2s;`;
+                btn.onmouseenter = () => btn.style.opacity = '1';
+                btn.onmouseleave = () => btn.style.opacity = '0.7';
+                btn.onclick = () => openEditor(file);
+                return btn;
+            };
+
+            // Heuristic placement of edit buttons
+            // Sidebar (Profile)
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.style.position = 'relative';
+                sidebar.appendChild(createBtn('profile.json', '10px', '10px'));
+            }
+
+            // Main Content Sections
+            const sections = {
+                '#about': 'summary.json',
+                '#experience': 'journey.json',
+                '#skills': 'skills.json',
+                '#education': 'education.json',
+                '#innovation': 'highlights.json'
+            };
+
+            for (const [selector, file] of Object.entries(sections)) {
+                const el = document.querySelector(selector);
+                if (el) {
+                    el.style.position = 'relative';
+                    el.appendChild(createBtn(file, '0', '0'));
+                }
+            }
+        }
+
+        function openEditor(filename) {
+            CURRENT_FILE = filename;
+            document.getElementById('editor-filename').innerText = filename;
+            document.getElementById('editor-modal').style.display = 'flex';
+
+            // Map filename to DATA property
+            let content = {};
+            if (filename === 'profile.json') content = DATA.profile;
+            if (filename === 'summary.json') content = DATA.summary;
+            if (filename === 'journey.json') content = DATA.journey;
+            if (filename === 'skills.json') content = DATA.skills;
+            if (filename === 'education.json') content = DATA.education;
+            if (filename === 'highlights.json') content = DATA.highlights;
+
+            document.getElementById('editor-content').value = JSON.stringify(content, null, 2);
+        }
+
+        function closeEditor() {
+            document.getElementById('editor-modal').style.display = 'none';
+        }
+
+        async function saveContent() {
+            try {
+                const content = document.getElementById('editor-content').value;
+                // Validate JSON
+                const parsed = JSON.parse(content);
+
+                // Optimistic UI Update
+                if (CURRENT_FILE === 'profile.json') DATA.profile = parsed;
+                if (CURRENT_FILE === 'summary.json') DATA.summary = parsed;
+                if (CURRENT_FILE === 'journey.json') DATA.journey = parsed;
+                if (CURRENT_FILE === 'skills.json') DATA.skills = parsed;
+                if (CURRENT_FILE === 'education.json') DATA.education = parsed;
+                if (CURRENT_FILE === 'highlights.json') DATA.highlights = parsed;
+
+                // Re-render
+                const currentPattern = document.querySelector('.pattern-btn.active')?.innerText.includes('1') ? 'split' :
+                    document.querySelector('.pattern-btn.active')?.innerText.includes('2') ? 'glass' :
+                        document.querySelector('.pattern-btn.active')?.innerText.includes('3') ? 'clean' : 'classic';
+                startRender(currentPattern);
+                closeEditor();
+
+                // Backend Save
+                const res = await fetch(`http://localhost:3000/api/save/${CURRENT_USER}/${CURRENT_FILE}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: content
+                });
+
+                if (!res.ok) alert('Failed to save to server!');
+
+            } catch (e) {
+                alert('Invalid JSON! Please check syntax.');
+            }
+        }
+
+        // --- AI LOGIC ---
+        async function runAIOptimization() {
+            const status = document.getElementById('ai-status');
+            const editor = document.getElementById('editor-content');
+            const instruction = document.getElementById('ai-instruction').value;
+
+            if (!instruction) {
+                alert('Please enter an instruction for the AI.');
+                return;
+            }
+
+            // Get selected text or full text
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const selectedText = editor.value.substring(start, end);
+            const contextText = selectedText || editor.value;
+
+            status.innerText = "Processing with Claude 3.5 Sonnet...";
+
+            try {
+                const res = await fetch('http://localhost:3000/api/ai/optimize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: contextText,
+                        context: CURRENT_FILE,
+                        instruction: instruction
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.refinedText) {
+                    if (selectedText) {
+                        editor.setRangeText(data.refinedText);
+                    } else {
+                        // If it's full JSON, we might be careful, but here we just replace
+                        // Note: AI might return plain text instead of JSON if not prompted carefully.
+                        // For this V1, let's just append or replace
+                        editor.value = data.refinedText;
+                    }
+                    status.innerText = "Done!";
+                } else {
+                    status.innerText = "Error: " + (data.error || "Unknown");
+                }
+            } catch (e) {
+                status.innerText = "Network Error: " + e.message;
+            }
         }
 
         // Init
