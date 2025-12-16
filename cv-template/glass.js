@@ -13,7 +13,7 @@ window.renderGlass = (DATA, ROOT, STYLE) => {
         .role-header { display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; }
         .role-title { font-size: 1.4rem; font-weight: 600; color: white; }
         .company-name { color: var(--accent); font-family: 'Space Grotesk'; }
-        .section-title { font-family: 'Space Grotesk'; font-size: 2rem; margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center; }
+        .section-title { font-family: 'Space Grotesk'; font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: center; }
         .section-title span { color: var(--accent); }
         .line { flex: 1; height: 1px; background: linear-gradient(to right, var(--accent), transparent); }
         .skill-chip { display: inline-block; background: rgba(255,255,255,0.05); padding: 0.5rem 1rem; border-radius: 50px; margin: 5px; border: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; transition: 0.3s; }
@@ -72,9 +72,9 @@ window.renderGlass = (DATA, ROOT, STYLE) => {
                  
                  <div class="glass-card">
                     <h3 style="color:white; margin-bottom:1rem;">Key Platforms</h3>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                        ${DATA.highlights.platforms.map(p => `<div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:8px; font-size:0.9rem;">${p}</div>`).join('')}
-                    </div>
+                    <ul style="padding-left: 1.5rem; line-height: 1.8; columns: 2; column-gap: 2rem; color: rgba(255,255,255,0.8);">
+                        ${DATA.highlights.platforms.map(p => `<li style="margin-bottom: 0.5rem; break-inside: avoid;">${p}</li>`).join('')}
+                    </ul>
                  </div>
             </section>
 

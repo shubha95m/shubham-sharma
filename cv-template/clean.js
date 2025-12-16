@@ -2,13 +2,13 @@ window.renderClean = (DATA, ROOT, STYLE) => {
     STYLE.innerHTML = `
         body { background: #f8fafc; color: #334155; font-family: 'Outfit', sans-serif; padding: 4rem 2rem; margin: 0; }
         .max-w { max-width: 900px; margin: 0 auto; }
-        h1 { font-family: sans-serif; font-size: 3rem; margin: 0; color: #1e293b; }
+        h1 { font-family: sans-serif; font-size: 2.2rem; margin: 0; color: #1e293b; }
         .tagline { color: #2563eb; font-weight: 600; font-size: 1.2rem; margin-top: 0.5rem; }
-        .summary-text { color: #475569; line-height: 1.7; margin-top: 2rem; font-size: 1.1rem; }
-        .section-head { font-size: 1.5rem; font-weight: 700; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 4rem; margin-bottom: 2rem; color: #1e293b; }
+        .summary-text { color: #475569; line-height: 1.6; margin-top: 1.5rem; font-size: 1rem; }
+        .section-head { font-size: 1.4rem; font-weight: 700; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2.5rem; margin-bottom: 1.5rem; color: #1e293b; }
         .job-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 1.5rem; transition: 0.3s; }
         .job-card:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transform: translateY(-2px); }
-        .job-title { font-size: 1.2rem; font-weight: 700; }
+        .job-title { font-size: 1.1rem; font-weight: 700; }
         .meta { color: #64748b; font-size: 0.9rem; margin-bottom: 1rem; }
         .pill { display: inline-block; background: white; padding: 0.5rem 1rem; border-radius: 50px; margin: 0.3rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); color: #334155; font-size: 0.9rem; }
     `;
@@ -70,7 +70,8 @@ window.renderClean = (DATA, ROOT, STYLE) => {
 
             <div id="education">
                 <h2 class="section-head">Education</h2>
-                ${DATA.education.degrees.map(d => `<p><strong>${d.degree}</strong>, ${d.school} (${d.year}) - ${d.grade}</p>`).join('')}
+                ${DATA.education.degrees.map(d => `<p style="padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;"><strong>${d.degree}</strong> <span style="color: #64748b; font-size: 0.9rem;">| ${d.school} | ${d.year} | ${d.grade}</span></p>`).join('')}
+                ${DATA.education.certifications && DATA.education.certifications.length > 0 ? `<p style="margin-top: 1rem; padding: 0.8rem; background: white; border-radius: 6px; font-size: 0.9rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"><strong>Certifications:</strong> ${DATA.education.certifications.map(c => `${c.name} (${c.issuer}, ${c.year})`).join(' • ')}</p>` : ''}
             </div>
         </div>
     `;

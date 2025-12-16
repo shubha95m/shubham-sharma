@@ -1,0 +1,18 @@
+{
+  "degrees": [
+    {
+      "degree": "Bachelor of Technology (B.Tech) in Computer Science",
+      "school": "Fr. Conceicao Rodrigues College of Engineering (FRCRCE), Mumbai",
+      "year": "2011 - 2015",
+      "grade": "70%"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Multiple Tosca Certifications",
+      "issuer": "Tricentis",
+      "year": "Various",
+      "grade": "Certified"
+    }
+  ]
+}

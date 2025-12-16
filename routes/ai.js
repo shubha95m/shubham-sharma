@@ -142,7 +142,41 @@ router.post('/build-cv', async (req, res) => {
 
         // Process user's response and format it
         if (currentSection !== 'complete') {
-            systemPrompt = `You are a professional resume writer helping someone build their CV. 
+            // Check if user wants to add more entries for multi-entry sections
+            const multiEntrySections = ['experience', 'education'];
+            const userSaidDone = userMessage && userMessage.toLowerCase().trim() === 'done';
+
+            // Determine if we should stay in the same section or move to next
+            const shouldStayInSection = multiEntrySections.includes(currentSection) && !userSaidDone;
+
+            if (shouldStayInSection) {
+                // User wants to add another entry
+                systemPrompt = `You are a professional resume writer helping someone build their CV. 
+
+The user just provided information for another entry in the "${currentSection}" section.
+
+Your task:
+1. Acknowledge their input briefly
+2. Reformat their response to be professional, impactful, and result-oriented
+3. Convert paragraph text to clear bullet points
+4. Make it quantifiable where possible
+5. Then ask if they want to add another ${currentSection === 'experience' ? 'job' : 'degree/certification'}: "Would you like to add another ${currentSection === 'experience' ? 'work experience' : 'education entry'}? (Type your next entry or 'done' to continue)"
+
+Keep your response conversational but professional.`;
+            } else if (userSaidDone) {
+                // User is done with this multi-entry section
+                systemPrompt = `You are a professional resume writer helping someone build their CV.
+
+The user has finished adding entries for the "${currentSection}" section.
+
+Your task:
+1. Acknowledge completion briefly
+2. Then ask the next question: "${sections[sections[currentSection].next]?.question || 'Thank you!'}"
+
+Keep your response conversational but professional.`;
+            } else {
+                // Regular single-entry section
+                systemPrompt = `You are a professional resume writer helping someone build their CV. 
             
 The user just provided information for the "${currentSection}" section.
 
@@ -157,6 +191,7 @@ Keep your response conversational but professional. Format like:
 "Great! I've formatted that as: [formatted content]
 
 ${sections[sections[currentSection].next]?.question || 'We have all the information needed!'}"`;
+            }
 
             messages.push({
                 role: 'user',
@@ -170,7 +205,9 @@ ${sections[sections[currentSection].next]?.question || 'We have all the informat
             });
 
             const aiResponse = response.content[0].text;
-            nextSection = sections[currentSection].next;
+
+            // Only move to next section if not staying in current section
+            nextSection = shouldStayInSection ? currentSection : sections[currentSection].next;
 
             return res.json({
                 message: aiResponse,

@@ -5,16 +5,16 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         .sidebar { width: 320px !important; background: var(--sidebar-bg); color: var(--sidebar-text); padding: 3rem 2rem; position: fixed !important; left: 0 !important; top: 0 !important; height: 100vh; overflow-y: auto; text-align: center; z-index: 10; box-sizing: border-box; }
         .main-content { margin-left: 320px !important; padding: 2rem 5rem; min-height: 100vh; max-width: calc(100vw - 320px) !important; box-sizing: border-box; }
         .profile-img { width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1); object-fit: cover; margin-bottom: 1.5rem; }
-        .sidebar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; margin: 0; }
+        .sidebar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; margin: 0; }
         .nav-link { display: block; padding: 0.8rem 0; color: rgba(255,255,255,0.6); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
         .nav-link:hover, .nav-link.active { color: white; padding-left: 10px; }
         .contact-item { margin-top: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .section { margin-bottom: 4rem; opacity: 0; animation: fadeIn 0.8s forwards; }
+        .section { margin-bottom: 2.5rem; opacity: 0; animation: fadeIn 0.8s forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
-        h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; color: var(--sidebar-bg); border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; display: inline-block; margin-bottom: 2rem; }
-        .timeline-item { border-left: 3px solid var(--border); padding-left: 2rem; margin-bottom: 2.5rem; position: relative; }
-        .timeline-icon { position: absolute; left: -21px; top: 0; width: 40px; height: 40px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; box-shadow: 0 0 0 5px white; }
-        .timeline-content h3 { margin: 0; font-size: 1.3rem; color: var(--text-main); }
+        h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--sidebar-bg); border-bottom: 2px solid var(--accent); padding-bottom: 0.4rem; display: inline-block; margin-bottom: 1.2rem; }
+        .timeline-item { border-left: 2px solid var(--border); padding-left: 1.5rem; margin-bottom: 1.8rem; position: relative; }
+        .timeline-icon { position: absolute; left: -17px; top: 0; width: 32px; height: 32px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; box-shadow: 0 0 0 4px white; }
+        .timeline-content h3 { margin: 0; font-size: 1.1rem; color: var(--text-main); font-weight: 600; }
         .company { color: var(--accent); font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
         .date { font-size: 0.9rem; color: var(--text-muted); margin-left: 10px; }
         .skills-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
@@ -87,11 +87,9 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
 
             <section id="skills" class="section">
                 <h2>Technical Skills</h2>
-                <div class="skills-grid">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
                     ${DATA.skills.map(s => `
-                        <div class="skill-card">
-                            <h4>${s}</h4>
-                        </div>
+                        <span style="background: #f1f5f9; color: var(--text-main); padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.9rem; border: 1px solid var(--border);">${s}</span>
                     `).join('')}
                 </div>
             </section>
@@ -113,25 +111,22 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
 
             <section id="innovation" class="section">
                 <h2>Key Platforms & Innovation</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                <ul style="padding-left: 1.5rem; line-height: 1.8; color: var(--text-muted); columns: 2; column-gap: 2rem;">
                     ${DATA.highlights.platforms.map(p => `
-                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                            <div style="color:var(--accent); margin-bottom:0.5rem;"><i class="fas fa-rocket"></i></div>
-                            <p style="margin:0; font-size: 0.95rem; line-height: 1.6; color: var(--text-main);">${p}</p>
-                        </div>
+                        <li style="margin-bottom: 0.5rem; break-inside: avoid;">${p}</li>
                     `).join('')}
-                </div>
+                </ul>
             </section>
             <section id="education" class="section">
                 <h2>Education</h2>
                 ${DATA.education.degrees.map(d => `
-                    <div style="background:#f8fafc; padding:1.5rem; border-left:4px solid var(--accent); margin-bottom: 1rem;">
-                        <h3 style="margin:0;">${d.degree}</h3>
-                        <p style="color:var(--text-muted); margin:0.5rem 0;">${d.school} (${d.year}) - ${d.grade}</p>
+                    <div style="padding: 0.6rem 0; border-bottom: 1px solid var(--border);">
+                        <strong style="color: var(--text-main);">${d.degree}</strong> 
+                        <span style="color: var(--text-muted); font-size: 0.9rem;"> | ${d.school} | ${d.year} | ${d.grade}</span>
                     </div>
                 `).join('')}
-                 <div style="margin-top: 1rem; padding:1.5rem; border:1px solid #e2e8f0;">
-                    <strong>Certifications:</strong> ${DATA.education.certifications.map(c => `${c.name} (${c.issuer} ${c.year})`).join(', ')}
+                <div style="margin-top: 1rem; padding: 0.8rem; background: #f8fafc; border-radius: 6px; font-size: 0.9rem;">
+                    <strong>Certifications:</strong> ${DATA.education.certifications.map(c => `${c.name} (${c.issuer}, ${c.year})`).join(' • ')}
                 </div>
             </section>
         </main>
