@@ -1,0 +1,64 @@
+[
+    {
+        "role": "Staff SDET",
+        "company": "AlphaSense",
+        "date": "March 2025 – Present",
+        "details": [
+            "Designed and rolled out a custom Playwright MCP Server used org-wide to generate base automation scripts in minutes.",
+            "Built backend E2E generators covering full API surfaces, significantly reducing manual test effort.",
+            "Developed auto-regression analysis tooling to track failures and release trends.",
+            "Designed auto-SDK pipelines detecting Swagger changes and automatically updating multi-language SDKs.",
+            "Launched Slack automation apps to reduce manual intervention in support and operational workflows.",
+            "Regularly debugged Spring Boot and Node.js services to distinguish test vs product issues and unblock releases.",
+            "Acted as a quality architect influencing automation standards and test strategy across teams."
+        ]
+    },
+    {
+        "role": "Team Lead – QA Automation",
+        "company": "AlphaSense",
+        "date": "Oct 2023 – March 2025",
+        "details": [
+            "Automated manual operational workflows using Slack-based automation, reducing response times.",
+            "Optimized cloud costs via cron-based cleanup and governance, saving ~$1K+ per month.",
+            "Integrated cloud resources using Crossplane, enabling cloud-agnostic test execution across AWS, Azure, and GCP.",
+            "Implemented and enhanced Testkube with in-cluster testing, triggers, and reusable workflows.",
+            "Shifted validation to build-level execution, strengthening CI/CD pipelines and reducing late failures.",
+            "Designed Jenkins-based pipelines focused on early defect detection and fast feedback.",
+            "Mentored QA engineers to independently own complex automation systems and cloud tooling."
+        ]
+    },
+    {
+        "role": "Senior Automation QA",
+        "company": "AlphaSense",
+        "date": "Jan 2022 – Sept 2023",
+        "details": [
+            "Led a team of 3 QA engineers and managed sprint planning and execution.",
+            "Built scalable automation frameworks using Java, JavaScript, Cypress, K6, and Selenide.",
+            "Integrated post-deployment automation using Spinnaker.",
+            "Implemented performance testing strategies for microservices and SQS-based systems.",
+            "Improved system reliability through proactive automation and performance insights."
+        ]
+    },
+    {
+        "role": "Automation QA",
+        "company": "AlphaSense",
+        "date": "Mar 2020 – Dec 2021",
+        "details": [
+            "Implemented frontend automation using Selenium (Java) and Selenide (Kotlin).",
+            "Built backend API automation using Kotlin and RestAssured.",
+            "Automated GraphQL APIs and maintained large-scale regression suites (~4K+ test cases).",
+            "Integrated Allure, ReportPortal, and Selenoid Grid for reporting and execution scalability."
+        ]
+    },
+    {
+        "role": "QA Automation / Associate QA",
+        "company": "Accenture",
+        "date": "Jan 2017 – Mar 2020",
+        "details": [
+            "Automated 100+ healthcare web applications across enterprise client engagements.",
+            "Executed E2E, regression, smoke, UAT, and UI testing.",
+            "Worked on US government projects with strict compliance and quality standards.",
+            "Built strong foundations in enterprise QA processes and documentation."
+        ]
+    }
+]

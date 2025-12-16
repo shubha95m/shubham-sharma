@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shubham Sharma | Staff SDET · QA Platform Engineer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, .3);
+            --border: #334155;
+            --t: all .3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Space Grotesk', sans-serif
+        }
+
+        .section {
+            max-width: 1100px;
+            margin: auto;
+            padding: 6rem 2rem
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 4px;
+            background: var(--accent);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, .06);
+            transition: var(--t);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+        }
+
+        .fade {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .8s ease, transform .8s ease
+        }
+
+        .fade.visible {
+            opacity: 1;
+            transform: none
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: -50%;
+            background: radial-gradient(circle, var(--accent-glow), transparent 55%);
+            animation: pulse 8s infinite alternate;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2
+        }
+
+        .hero h1 {
+            font-size: 4.2rem;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+
+        .cta {
+            margin-top: 2.5rem;
+            display: inline-block;
+            padding: 1rem 2.2rem;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            border-radius: 10px;
+            font-weight: 600;
+            transition: var(--t);
+        }
+
+        .cta:hover {
+            background: var(--accent);
+            color: var(--bg);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            margin-top: 3rem
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            width: 50%;
+            padding: 0 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%
+        }
+
+        .dot {
+            position: absolute;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--bg);
+            border: 4px solid var(--accent);
+            border-radius: 50%;
+        }
+
+        .timeline-item:nth-child(odd) .dot {
+            right: -10px
+        }
+
+        .timeline-item:nth-child(even) .dot {
+            left: -10px
+        }
+
+        .timeline ul {
+            margin-top: 1rem;
+            padding-left: 1.5rem
+        }
+
+        .timeline li {
+            color: var(--muted);
+            margin-bottom: .5rem
+        }
+
+        /* SKILLS */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .skill {
+            padding: .7rem 1.5rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid transparent;
+            transition: var(--t);
+        }
+
+        .skill:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-3px);
+        }
+
+        /* MOBILE */
+        @media(max-width:900px) {
+            .timeline::before {
+                left: 30px
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                text-align: left;
+                padding-left: 70px
+            }
+
+            .dot {
+                left: 21px !important
+            }
+        }
+
+        @keyframes pulse {
+            from {
+                opacity: .1
+            }
+
+            to {
+                opacity: .25
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content fade">
+            <h1>Shubham Sharma</h1>
+            <p>Staff SDET · QA Platform Engineer · 9+ Years</p>
+            <p>Series-B SaaS · Shift-Left Transformation · IPO-Readiness</p>
+            <a href="#about" class="cta">Explore My Impact</a>
+        </div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="section fade" id="about">
+        <h2 class="section-title">Professional Summary</h2>
+        <div class="card">
+            <p>
+                Staff SDET with <strong>9+ years of experience</strong> driving quality transformation
+                in <strong>high-growth Series-B SaaS organizations</strong> progressing toward IPO readiness.
+            </p>
+            <p style="margin-top:1rem">
+                Specialized in <strong>shift-left transition</strong> by integrating org-wide automation platforms,
+                saving substantial company efforts and costs. Proven track record of contributing to
+                business success by embedding quality deeply into the engineering culture.
+            </p>
+            <p style="margin-top:1rem">
+                Expert in building <strong>Strategic QA Platforms</strong>—from custom Playwright MCP servers
+                to auto-regression intelligence—ensuring that quality is not just a gate,
+                but a catalyst for speed.
+            </p>
+        </div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section class="section fade" id="journey">
+        <h2 class="section-title">Professional Journey</h2>
+        <div class="timeline">
+
+            <!-- New Top Role -->
+            <div class="timeline-item fade">
+                <span class="dot"></span>
+                <div class="card">
+                    <h3>Staff SDET</h3>
+                    <strong>AlphaSense</strong> · March 2025 – Present
+                    <ul>
+                        <li>Created <strong>Playwright MCP Server</strong> org-wide to generate base scripts in minutes.
+                        </li>
+                        <li>Built <strong>Backend E2E Generators</strong> providing full test script coverage instantly.
+                        </li>
+                        <li>Developed <strong>Auto-Regression Analysis Tool</strong> to monitor and analyze regression
+                            trends.</li>
+                        <li>Designed <strong>Auto-SDK Pipelines</strong> that detect Swagger changes and update
+                            multi-language SDKs automatically.</li>
+                        <li>Launched <strong>Slack Automation Apps</strong> to resolve client/support queries
+                            programmatically.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Previous Roles (Dates adjusted to avoid overlap or kept as requested? The user said "from 2025 march to continue" but also "where staff sdet should be tope". The previous role was "Staff QA Engineer" starting Oct 2024. I will keep it as a separate progression entry.) -->
+            <div class="timeline-item fade">
+                <span class="dot"></span>
+                <div class="card">
+                    <h3>Staff QA Engineer</h3>
+                    <strong>AlphaSense</strong> · Oct 2024 – Feb 2025
+                    <ul>
+                        <li>Cross-cloud test execution via Crossplane (AWS, Azure, GCP).</li>
+                        <li>Testkube adoption at org scale (triggers, workflows).</li>
+                        <li>In-cluster testing for Polyglot repositories.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item fade">
+                <span class="dot"></span>
+                <div class="card">
+                    <h3>Team Lead – QA</h3>
+                    <strong>AlphaSense</strong> · Oct 2023 – Sept 2024
+                    <ul>
+                        <li>Slack automation for support & ops.</li>
+                        <li>$1K+/month cloud cost optimization.</li>
+                        <li>Mentored QA engineers to senior platform roles.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item fade">
+                <span class="dot"></span>
+                <div class="card">
+                    <h3>Senior Automation QA</h3>
+                    <strong>AlphaSense</strong> · Jan 2022 – Sept 2023
+                    <ul>
+                        <li>Java, Cypress, K6 automation platforms.</li>
+                        <li>Spinnaker CI/CD integration.</li>
+                        <li>Performance testing strategies.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item fade">
+                <span class="dot"></span>
+                <div class="card">
+                    <h3>Automation QA</h3>
+                    <strong>Accenture</strong> · 2017 – 2020
+                    <ul>
+                        <li>100+ healthcare apps automated.</li>
+                        <li>Strict US government quality compliance.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- STAFF SDET IMPACT -->
+    <section class="section fade">
+        <h2 class="section-title">Staff SDET · Org-Wide Platforms</h2>
+        <div class="card">
+            <ul>
+                <li>Built <strong>Playwright MCP Server</strong> enabling UI automation generation in minutes</li>
+                <li>Created <strong>backend E2E test generators</strong> for rapid service coverage</li>
+                <li>Developed <strong>auto regression intelligence platform</strong> (flake detection, trend analysis)
+                </li>
+                <li>Implemented <strong>auto SDK pipelines</strong> detecting Swagger changes and updating
+                    multi-language SDKs</li>
+                <li>Built <strong>Slack automation apps</strong> to resolve client & support queries programmatically
+                </li>
+                <li>Drove QA from validation → <strong>strategic engineering enabler</strong></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section fade">
+        <h2 class="section-title">Technical Arsenal</h2>
+        <div class="skills">
+            <span class="skill">Java</span><span class="skill">Kotlin</span><span class="skill">JavaScript</span>
+            <span class="skill">Python</span><span class="skill">Playwright</span><span class="skill">Cypress</span>
+            <span class="skill">Selenium</span><span class="skill">Testkube</span><span class="skill">Kubernetes</span>
+            <span class="skill">AWS</span><span class="skill">Azure</span><span class="skill">GCP</span>
+            <span class="skill">Jenkins</span><span class="skill">K6</span><span class="skill">CI/CD</span>
+        </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="section fade">
+        <h2 class="section-title">Education</h2>
+        <div class="card">
+            <strong>B.Tech – Mechanical Engineering</strong><br>
+            JECRC (2012 – 2016)<br><br>
+            Selenium Professional Certification – VSkills
+        </div>
+    </section>
+
+    <footer class="section" style="text-align:center;color:var(--muted)">
+        © 2024 Shubham Sharma · Staff SDET · Platform Thinking
+    </footer>
+
+    <script>
+        const obs = new IntersectionObserver(e => e.forEach(i => {
+            if (i.isIntersecting) { i.target.classList.add('visible'); obs.unobserve(i.target) }
+        }), { threshold: .1 });
+        document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+    </script>
+
+</body>
+
+</html>

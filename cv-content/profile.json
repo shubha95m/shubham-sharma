@@ -1,0 +1,31 @@
+{
+  "name": "Shubham Sharma",
+  "taglines": [
+    "Staff SDET",
+    "QA Platform Engineer",
+    "Quality Architect"
+  ],
+  "contact": {
+    "location": "Pune, India",
+    "phone": "+91-8769340009",
+    "email": "shubham.sharma75319@gmail.com"
+  },
+  "social": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/shubha95m",
+      "icon": "fab fa-github"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/shubham-sharma-4a4aaab9",
+      "icon": "fab fa-linkedin-in"
+    },
+    {
+      "platform": "Email",
+      "url": "mailto:shubham.sharma75319@gmail.com",
+      "icon": "fas fa-envelope"
+    }
+  ],
+  "profilePic": "profile_pic.jpg"
+}

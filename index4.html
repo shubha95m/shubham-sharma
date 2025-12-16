@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shubham Sharma | Staff SDET</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Color Palette */
+            --bg-sidebar: #0f172a;
+            --bg-content: #f8fafc;
+            --text-sidebar: #e2e8f0;
+            --text-content: #334155;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --accent-light: #eff6ff;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-content);
+            background: var(--bg-content);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* SIDEBAR (Left - 30%) */
+        .sidebar {
+            width: 350px;
+            background: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem;
+            position: relative;
+            z-index: 10;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .navbar {
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .contact-info {
+            margin-top: auto;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-item i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-sidebar);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* MAIN CONTENT (Right - 70%) */
+        .main-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 4rem 5rem;
+            scroll-behavior: smooth;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 1rem;
+            color: var(--accent);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            margin-bottom: 6rem;
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
+        }
+
+        /* Timeline */
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 50px;
+            bottom: -50px;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-light);
+            color: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .company {
+            font-weight: 600;
+            color: var(--text-content);
+        }
+
+        .date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-content);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-muted);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            background: var(--accent-light);
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-content);
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                overflow: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 2rem;
+                align-items: center;
+                text-align: center;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+
+            .main-content {
+                padding: 2rem;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .timeline-item::before {
+                left: 24px;
+                top: 50px;
+                bottom: -20px;
+            }
+
+            .navbar {
+                display: none;
+            }
+
+            /* Hide nav on mobile for simplicity */
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="profile-section">
+            <img src="profile_pic.png" alt="Shubham Sharma" class="profile-img">
+            <h1>Shubham Sharma</h1>
+            <p class="tagline" style="font-size: 1rem; margin-top: 0.5rem; opacity: 0.8;">Staff QA / Staff SDET</p>
+        </div>
+
+        <nav class="navbar">
+            <a href="#about" class="nav-link active"><i class="fas fa-user"></i> About Me</a>
+            <a href="#experience" class="nav-link"><i class="fas fa-briefcase"></i> Experience</a>
+            <a href="#skills" class="nav-link"><i class="fas fa-code"></i> Skills</a>
+            <a href="#education" class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a>
+        </nav>
+
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i> Pune, India
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i> +91-8769340009
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i> shubham.sharma75319@gmail.com
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/shubha95m" target="_blank" class="social-btn"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/shubham-sharma-4a4aaab9" target="_blank" class="social-btn"><i
+                        class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- ABOUT -->
+        <section id="about" class="section" style="animation-delay: 0.1s;">
+            <p class="tagline">QA Platform & Automation Engineering · 8.6+ Years</p>
+            <div class="card">
+                <h2 style="font-size: 1.5rem; margin-bottom: 1rem; border: none; padding: 0;">Professional Summary</h2>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-content); margin-bottom: 1rem;">
+                    Results-driven QA leader with <strong>8.6 years of experience</strong> managing and mentoring QA
+                    teams,
+                    currently leading multiple teams with a total of 10 QA engineers. Adept at unblocking
+                    complex technical challenges, streamlining automation processes, and ensuring optimal
+                    test coverage while maintaining cost efficiency.
+                </p>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-content);">
+                    Strong expertise in <strong>multi-cloud environments (AWS, Azure, GCP)</strong> with a focus on
+                    building
+                    enterprise-grade testing frameworks and cloud-agnostic automation strategies.
+                    Proven collaborator across global teams (US, UK, HKI) with a strong focus on platform
+                    thinking, solution architecture, and long-term quality ownership.
+                </p>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="section" style="animation-delay: 0.2s;">
+            <h2><i class="fas fa-history"></i> Professional Journey</h2>
+
+            <!-- Role 1 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="timeline-content">
+                    <h3>Staff QA Engineer</h3>
+                    <span class="company">AlphaSense</span>
+                    <span class="date">Oct 2024 – Present</span>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.2rem; line-height: 1.6;">
+                        <li>Integrated cloud resources using <strong>Crossplane</strong>, enabling cloud-agnostic test
+                            execution across AWS, Azure, and GCP.</li>
+                        <li>Implemented and enhanced <strong>Testkube</strong> with cluster testing, triggers, and
+                            workflows.</li>
+                        <li>Developed in-cluster testing for <strong>Java, JavaScript, and Python</strong> repositories.
+                        </li>
+                        <li>Shifted validation to build-level execution, reducing manual testing and strengthening CI/CD
+                            pipelines.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Role 2 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <div class="timeline-content">
+                    <h3>Team Lead – QA Automation</h3>
+                    <span class="company">AlphaSense</span>
+                    <span class="date">Oct 2023 – Sept 2024</span>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.2rem; line-height: 1.6;">
+                        <li>Automated manual workflows using <strong>Slack-based automation</strong>, reducing response
+                            time.</li>
+                        <li>Optimized cloud costs via cron-based cleanup, saving <strong>$1K+ per month</strong>.</li>
+                        <li>Led technical revamp initiatives contributing to significant operational savings.</li>
+                        <li>Mentored QA engineers to independently handle complex systems and tooling.</li>
+                        <li>Designed <strong>Jenkins-based pipelines</strong> for early defect detection.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Role 3 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <div class="timeline-content">
+                    <h3>Senior Automation QA</h3>
+                    <span class="company">AlphaSense</span>
+                    <span class="date">Jan 2022 – Sept 2023</span>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.2rem; line-height: 1.6;">
+                        <li>Led a team of 3 QA engineers and managed sprint planning.</li>
+                        <li>Built scalable frameworks using <strong>Java, JavaScript, Cypress, K6, and
+                                Selenide</strong>.</li>
+                        <li>Integrated post-deployment automation using <strong>Spinnaker</strong>.</li>
+                        <li>Implemented performance testing for microservices and SQS queues.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Role 4 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="timeline-content">
+                    <h3>Automation QA</h3>
+                    <span class="company">AlphaSense</span>
+                    <span class="date">Mar 2020 – Dec 2021</span>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.2rem; line-height: 1.6;">
+                        <li>Frontend automation using <strong>Selenium (Java)</strong> and <strong>Selenide
+                                (Kotlin)</strong>.</li>
+                        <li>Backend API automation using <strong>Kotlin and RestAssured</strong>.</li>
+                        <li>GraphQL API automation and large-scale regression (4K+ test cases).</li>
+                        <li>Integrated Allure, ReportPortal, and Selenoid Grid.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Role 5 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="timeline-content">
+                    <h3>QA Automation / Associate QA</h3>
+                    <span class="company">Accenture</span>
+                    <span class="date">Jan 2017 – Mar 2020</span>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.2rem; line-height: 1.6;">
+                        <li>Automated 100+ healthcare web applications.</li>
+                        <li>Executed E2E, regression, smoke, UAT, and UI testing.</li>
+                        <li>Worked on US government projects with strict quality standards.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="section" style="animation-delay: 0.3s;">
+            <h2><i class="fas fa-tools"></i> Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-java"></i></div>
+                    <h4>Java</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-code"></i></div> <!-- Kotlin icon replacement -->
+                    <h4>Kotlin</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-js"></i></div>
+                    <h4>JavaScript</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-python"></i></div>
+                    <h4>Python</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-robot"></i></div>
+                    <h4>Playwright</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-check-square"></i></div>
+                    <h4>Selenium</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-check-double"></i></div>
+                    <h4>Cypress</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-server"></i></div>
+                    <h4>RestAssured</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <h4>K6</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-jenkins"></i></div>
+                    <h4>Jenkins</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-cube"></i></div>
+                    <h4>Testkube</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-cubes"></i></div>
+                    <h4>Kubernetes</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-aws"></i></div>
+                    <h4>AWS</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-microsoft"></i></div>
+                    <h4>Azure</h4>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-google"></i></div>
+                    <h4>GCP</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section id="education" class="section" style="animation-delay: 0.4s;">
+            <h2><i class="fas fa-graduation-cap"></i> Education & Certifications</h2>
+            <div class="card">
+                <h3 style="margin-bottom: 0.5rem;">B.Tech – Mechanical Engineering</h3>
+                <p class="company">JECRC (2012–2016)</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <strong>Certifications:</strong> Selenium Professional Certification – VSkills (2019)
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; color: var(--text-muted); margin-top: 4rem; padding-bottom: 2rem;">
+            <p>© 2024 Shubham Sharma. All Rights Reserved.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Active Navigation Styling
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mainContent = document.querySelector('.main-content');
+
+        mainContent.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (mainContent.scrollTop >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            })
+        });
+
+        // Simple Appear Animation Trigger
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(sec => observer.observe(sec));
+    </script>
+</body>
+
+</html>

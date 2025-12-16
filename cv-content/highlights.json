@@ -1,0 +1,45 @@
+{
+    "scope": [
+        "Owned quality strategy for enterprise SaaS platforms deployed across multiple regions (US, UK).",
+        "Enabled rapid enterprise growth by minimizing test effort through reusable automation platforms, avoiding linear QA scaling.",
+        "Drove org-wide shift-left adoption, reducing regression feedback cycles and late-stage defects.",
+        "Built shared QA platforms consumed by multiple teams and services.",
+        "Supported horizontal SaaS scaling without compromising release confidence or delivery speed.",
+        "Partnered with Engineering, DevOps, and Product leadership to align quality strategy with business goals."
+    ],
+    "architecture": [
+        "Designed scalable automation architectures spanning frontend, backend, contract, and performance testing.",
+        "Built code-aware test setups aligned with service internals, improving failure diagnosis and reducing flakiness.",
+        "Defined standards for test data management, environment isolation, and execution reliability.",
+        "Designed CI/CD quality gates aligned with service criticality and deployment risk.",
+        "Led in-cluster test execution models using Kubernetes and Testkube.",
+        "Optimized test depth vs execution cost to support SaaS growth efficiently.",
+        "Influenced platform-level decisions around observability, reporting, and failure diagnostics."
+    ],
+    "platforms": [
+        "Playwright MCP Server for rapid test generation, reducing test bootstrap time from days to minutes.",
+        "Backend E2E Test Generators covering near-complete API surfaces, reducing manual test creation by ~70–80%.",
+        "Auto-SDK Pipelines detecting Swagger changes and auto-updating Java, JavaScript, and Python SDKs.",
+        "Auto-Regression Analysis Tooling to monitor trends and improve release confidence.",
+        "Slack Automation Apps to resolve client and support workflows programmatically.",
+        "Cloud-agnostic Test Execution Frameworks using Crossplane across AWS, Azure, and GCP."
+    ],
+    "leadership": [
+        "Mentored QA engineers to become independent owners of automation platforms and tooling.",
+        "Actively debugged service-level issues to unblock QA and engineering teams.",
+        "Helped teams identify root causes across application logic, test setup, and infrastructure layers.",
+        "Reduced dependency on developers by improving debugging capability within QA teams.",
+        "Led technical reviews for automation architecture, pipelines, and test strategies."
+    ],
+    "collaboration": [
+        "Worked closely with backend engineers on Spring Boot and Node.js services to improve testability.",
+        "Participated in design discussions impacting observability, error handling, and resilience.",
+        "Reviewed service changes from quality and reliability perspectives before rollout.",
+        "Helped design APIs and workflows that scale well and are easier to test and operate."
+    ],
+    "careerFocus": [
+        "Staff / Principal / SDET or Quality Platform Engineer roles",
+        "Ownership of automation platforms and quality strategy at scale",
+        "Engineering-driven SaaS organizations with enterprise reach"
+    ]
+}
