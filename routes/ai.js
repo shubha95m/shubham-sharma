@@ -282,4 +282,90 @@ Return ONLY valid JSON, no explanations.`;
     }
 });
 
+// ATS Score Checker
+router.post('/ats-score', async (req, res) => {
+    console.log('[ATS SCORE] Request received');
+    
+    try {
+        const { resumeData, template } = req.body;
+
+        if (!process.env.ANTHROPIC_API_KEY) {
+            console.error('[ATS SCORE] Missing API Key');
+            return res.status(500).json({ error: 'Server missing API Key' });
+        }
+
+        const prompt = `You are an ATS (Applicant Tracking System) expert. Analyze this resume for ATS compatibility.
+
+RESUME DATA:
+Profile: ${JSON.stringify(resumeData.profile)}
+Summary: ${JSON.stringify(resumeData.summary)}
+Experience: ${JSON.stringify(resumeData.experience)}
+Skills: ${JSON.stringify(resumeData.skills)}
+Education: ${JSON.stringify(resumeData.education)}
+Highlights: ${JSON.stringify(resumeData.highlights)}
+Template: ${template}
+
+Analyze based on these criteria:
+1. Keywords & Skills (max 25 points): Industry keywords, technical skills relevance
+2. Formatting (max 20 points): Clean structure, proper headings, ATS-readable
+3. Contact Information (max 10 points): Email, phone, location clearly present
+4. Work Experience (max 20 points): Clear titles, companies, dates, quantifiable achievements
+5. Education (max 10 points): Degrees, institutions, years present
+6. Action Verbs (max 10 points): Strong action verbs in descriptions
+7. Resume Length (max 5 points): Optimal length (not too long/short)
+
+Provide a JSON response with this EXACT structure:
+{
+    "overallScore": 85,
+    "categoryScores": {
+        "keywords": 22,
+        "formatting": 18,
+        "contact": 10,
+        "experience": 18,
+        "education": 9,
+        "actionVerbs": 8,
+        "length": 5
+    },
+    "issues": [
+        "Issue 1",
+        "Issue 2"
+    ],
+    "recommendations": [
+        "Recommendation 1",
+        "Recommendation 2"
+    ],
+    "suggestedKeywords": ["Keyword1", "Keyword2"],
+    "strengths": [
+        "Strength 1",
+        "Strength 2"
+    ]
+}
+
+Return ONLY valid JSON, no explanations.`;
+
+        const response = await anthropic.messages.create({
+            model: process.env.MODEL_NAME || "claude-sonnet-4-5-20250929",
+            max_tokens: 2000,
+            messages: [{ role: 'user', content: prompt }]
+        });
+
+        let content = response.content[0].text;
+        content = content.replace(/```json\n?|\n?```/g, '');
+        const jsonMatch = content.match(/\{[\s\S]*\}/);
+
+        if (!jsonMatch) {
+            throw new Error('Failed to parse ATS score response');
+        }
+
+        const atsScore = JSON.parse(jsonMatch[0]);
+        
+        console.log('[ATS SCORE] Analysis complete:', atsScore.overallScore);
+        res.json(atsScore);
+
+    } catch (error) {
+        console.error('ATS Score Error:', error);
+        res.status(500).json({ error: 'ATS scoring failed: ' + error.message });
+    }
+});
+
 module.exports = router;

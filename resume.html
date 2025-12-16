@@ -18,6 +18,9 @@
     <script src="cv-template/clean.js"></script>
     <script src="cv-template/classic.js"></script>
 
+    <!-- PDF Export Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style id="dynamic-style"></style>
     <style>
         /* Control Panel Styles (Always visible) */
@@ -142,9 +145,13 @@
             style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); margin-bottom: 5px;">
             <i class="fas fa-arrow-left"></i> Change Profile
         </button>
-        <button class="pattern-btn" onclick="window.print()"
+        <button class="pattern-btn" onclick="downloadPDF()"
             style="background:var(--accent); border-color:var(--accent); font-weight:bold;">
             <i class="fas fa-download"></i> Download PDF
+        </button>
+        <button class="pattern-btn" onclick="checkATSScore()"
+            style="background:#10b981; border-color:#10b981; font-weight:bold;">
+            <i class="fas fa-chart-line"></i> Check ATS Score
         </button>
     </div>
 
@@ -205,6 +212,65 @@
         </div>
     </div>
 
+    <!-- ATS Score Modal -->
+    <div id="ats-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10000; justify-content:center; align-items:center; padding:2rem; overflow-y:auto;">
+        <div
+            style="background:#1e293b; border-radius:16px; max-width:700px; width:100%; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+            <div
+                style="padding:2rem; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; font-family:'Space Grotesk'; color:white;">ATS Compatibility Analysis</h3>
+                <button onclick="closeATSModal()"
+                    style="background:transparent; border:none; color:rgba(255,255,255,0.6); font-size:1.5rem; cursor:pointer; padding:0; width:30px; height:30px;">&times;</button>
+            </div>
+
+            <div style="padding:2rem;">
+                <!-- Score Display -->
+                <div style="text-align:center; margin-bottom:2rem;">
+                    <div id="ats-score-circle"
+                        style="width:150px; height:150px; border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:bold; color:white; position:relative;">
+                        <span id="ats-score-value">--</span>
+                    </div>
+                    <h4 id="ats-score-label" style="margin:0; color:#94a3b8; font-size:1.2rem;">Analyzing...</h4>
+                </div>
+
+                <!-- Category Breakdown -->
+                <div id="ats-categories" style="margin-bottom:2rem;">
+                    <h4 style="color:white; margin-bottom:1rem; font-family:'Space Grotesk';">Category Breakdown</h4>
+                    <!-- Categories will be inserted here -->
+                </div>
+
+                <!-- Strengths -->
+                <div id="ats-strengths" style="margin-bottom:2rem; display:none;">
+                    <h4 style="color:#10b981; margin-bottom:0.5rem; font-family:'Space Grotesk';"><i
+                            class="fas fa-check-circle"></i> Strengths</h4>
+                    <ul id="ats-strengths-list" style="color:#cbd5e1; padding-left:1.5rem;"></ul>
+                </div>
+
+                <!-- Issues -->
+                <div id="ats-issues" style="margin-bottom:2rem; display:none;">
+                    <h4 style="color:#f59e0b; margin-bottom:0.5rem; font-family:'Space Grotesk';"><i
+                            class="fas fa-exclamation-triangle"></i> Issues Found</h4>
+                    <ul id="ats-issues-list" style="color:#cbd5e1; padding-left:1.5rem;"></ul>
+                </div>
+
+                <!-- Recommendations -->
+                <div id="ats-recommendations" style="margin-bottom:2rem; display:none;">
+                    <h4 style="color:#38bdf8; margin-bottom:0.5rem; font-family:'Space Grotesk';"><i
+                            class="fas fa-lightbulb"></i> Recommendations</h4>
+                    <ul id="ats-recommendations-list" style="color:#cbd5e1; padding-left:1.5rem;"></ul>
+                </div>
+
+                <!-- Suggested Keywords -->
+                <div id="ats-keywords" style="margin-bottom:1rem; display:none;">
+                    <h4 style="color:#a78bfa; margin-bottom:0.5rem; font-family:'Space Grotesk';"><i
+                            class="fas fa-tags"></i> Suggested Keywords</h4>
+                    <div id="ats-keywords-list" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // State
         const DATA = {};
@@ -212,6 +278,7 @@
         const STYLE = document.getElementById('dynamic-style');
 
         let CURRENT_USER = 'shubham';
+        let currentPattern = 'split'; // Track current template
         let CURRENT_FILE = ''; // e.g., 'profile.json'
 
         // Fetch Data
@@ -252,6 +319,7 @@
 
         // --- RENDER CONTROLLER ---
         function startRender(pattern) {
+            currentPattern = pattern; // Track current template
             document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
             document.querySelector(`button[onclick="startRender('${pattern}')"]`)?.classList.add('active');
 
@@ -407,6 +475,186 @@
             } catch (e) {
                 status.innerText = "Network Error: " + e.message;
             }
+        }
+
+        // ATS Score Checker
+        async function checkATSScore() {
+            console.log('[ATS] Starting ATS score check...');
+
+            const modal = document.getElementById('ats-modal');
+            modal.style.display = 'flex';
+
+            // Reset UI
+            document.getElementById('ats-score-value').textContent = '--';
+            document.getElementById('ats-score-label').textContent = 'Analyzing...';
+            document.getElementById('ats-categories').innerHTML = '<h4 style="color:white; margin-bottom:1rem; font-family:\'Space Grotesk\';">Category Breakdown</h4><p style="color:#94a3b8;">Analyzing your resume...</p>';
+
+            try {
+                const resumeData = {
+                    profile: DATA.profile,
+                    summary: DATA.summary,
+                    experience: DATA.journey,
+                    skills: DATA.skills,
+                    education: DATA.education,
+                    highlights: DATA.highlights
+                };
+
+                const res = await fetch('/api/ai/ats-score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resumeData, template: currentPattern })
+                });
+
+                if (!res.ok) throw new Error('ATS analysis failed');
+
+                const atsData = await res.json();
+                console.log('[ATS] Analysis complete:', atsData);
+                displayATSResults(atsData);
+
+            } catch (error) {
+                console.error('[ATS] Error:', error);
+                document.getElementById('ats-score-label').textContent = 'Analysis Failed';
+                document.getElementById('ats-categories').innerHTML = '<p style="color:#ef4444;">Failed to analyze resume. Please try again.</p>';
+            }
+        }
+
+        function displayATSResults(data) {
+            // Score display
+            const score = data.overallScore;
+            const scoreCircle = document.getElementById('ats-score-circle');
+            const scoreValue = document.getElementById('ats-score-value');
+            const scoreLabel = document.getElementById('ats-score-label');
+
+            scoreValue.textContent = score;
+
+            // Color coding
+            let color, label;
+            if (score >= 90) {
+                color = '#10b981';
+                label = 'Excellent ATS Compatibility!';
+            } else if (score >= 70) {
+                color = '#f59e0b';
+                label = 'Good ATS Compatibility';
+            } else if (score >= 50) {
+                color = '#f97316';
+                label = 'Needs Improvement';
+            } else {
+                color = '#ef4444';
+                label = 'Poor ATS Compatibility';
+            }
+
+            scoreCircle.style.background = `conic-gradient(${color} ${score * 3.6}deg, rgba(255,255,255,0.1) 0deg)`;
+            scoreLabel.textContent = label;
+            scoreLabel.style.color = color;
+
+            // Category breakdown
+            const categories = {
+                'keywords': { label: 'Keywords & Skills', max: 25 },
+                'formatting': { label: 'Formatting', max: 20 },
+                'contact': { label: 'Contact Info', max: 10 },
+                'experience': { label: 'Work Experience', max: 20 },
+                'education': { label: 'Education', max: 10 },
+                'actionVerbs': { label: 'Action Verbs', max: 10 },
+                'length': { label: 'Resume Length', max: 5 }
+            };
+
+            let categoriesHTML = '<h4 style="color:white; margin-bottom:1rem; font-family:\'Space Grotesk\';">Category Breakdown</h4>';
+            for (const [key, info] of Object.entries(categories)) {
+                const value = data.categoryScores[key] || 0;
+                const percentage = (value / info.max) * 100;
+                categoriesHTML += `
+                    <div style="margin-bottom:1rem;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+                            <span style="color:#cbd5e1; font-size:0.9rem;">${info.label}</span>
+                            <span style="color:#94a3b8; font-size:0.9rem;">${value}/${info.max}</span>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.1); height:8px; border-radius:4px; overflow:hidden;">
+                            <div style="background:${color}; height:100%; width:${percentage}%; transition:width 0.5s;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('ats-categories').innerHTML = categoriesHTML;
+
+            // Strengths
+            if (data.strengths && data.strengths.length > 0) {
+                document.getElementById('ats-strengths').style.display = 'block';
+                document.getElementById('ats-strengths-list').innerHTML = data.strengths.map(s => `<li>${s}</li>`).join('');
+            }
+
+            // Issues
+            if (data.issues && data.issues.length > 0) {
+                document.getElementById('ats-issues').style.display = 'block';
+                document.getElementById('ats-issues-list').innerHTML = data.issues.map(i => `<li>${i}</li>`).join('');
+            }
+
+            // Recommendations
+            if (data.recommendations && data.recommendations.length > 0) {
+                document.getElementById('ats-recommendations').style.display = 'block';
+                document.getElementById('ats-recommendations-list').innerHTML = data.recommendations.map(r => `<li>${r}</li>`).join('');
+            }
+
+            // Suggested Keywords
+            if (data.suggestedKeywords && data.suggestedKeywords.length > 0) {
+                document.getElementById('ats-keywords').style.display = 'block';
+                document.getElementById('ats-keywords-list').innerHTML = data.suggestedKeywords.map(k =>
+                    `<span style="background:rgba(167,139,250,0.2); color:#a78bfa; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem; border:1px solid rgba(167,139,250,0.3);">${k}</span>`
+                ).join('');
+            }
+        }
+
+        function closeATSModal() {
+            document.getElementById('ats-modal').style.display = 'none';
+            // Reset sections
+            document.getElementById('ats-strengths').style.display = 'none';
+            document.getElementById('ats-issues').style.display = 'none';
+            document.getElementById('ats-recommendations').style.display = 'none';
+            document.getElementById('ats-keywords').style.display = 'none';
+        }
+
+        // PDF Download Function
+        function downloadPDF() {
+            console.log('[PDF] Starting PDF download...');
+
+            // Hide control panel and edit buttons temporarily
+            const controlPanel = document.getElementById('control-panel');
+            const editButtons = document.querySelectorAll('.edit-trigger');
+
+            controlPanel.style.display = 'none';
+            editButtons.forEach(btn => btn.style.display = 'none');
+
+            const element = document.getElementById('app-root');
+            const userName = DATA.profile?.name || 'Resume';
+
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: `${userName.replace(/\s+/g, '_')}_Resume.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: null
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                console.log('[PDF] Download complete');
+                // Restore control panel and edit buttons
+                controlPanel.style.display = 'flex';
+                editButtons.forEach(btn => btn.style.display = 'flex');
+            }).catch(err => {
+                console.error('[PDF] Error:', err);
+                alert('PDF generation failed. Please try again.');
+                // Restore UI even on error
+                controlPanel.style.display = 'flex';
+                editButtons.forEach(btn => btn.style.display = 'flex');
+            });
         }
 
         // Init
