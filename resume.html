@@ -1329,8 +1329,22 @@
                                 for (const [selector, file] of Object.entries(sections)) {
                                     const el = document.querySelector(selector);
                                     if (el) {
-                                        el.style.position = 'relative';
-                                        el.appendChild(createBtn(file, '0', '0'));
+                                        // Special handling for Split Theme Sidebar
+                                        if (currentPattern === 'split' && selector === '#profile') {
+                                            el.style.setProperty('position', 'fixed', 'important');
+                                            el.style.setProperty('top', '0', 'important');
+                                            el.style.setProperty('left', '0', 'important');
+                                            // Ensure edit button is positioned correctly
+                                            const btn = createBtn(file, '10px', '10px');
+                                            el.appendChild(btn);
+                                        } else {
+                                            // Default logic for other sections
+                                            const computedStyle = window.getComputedStyle(el);
+                                            if (computedStyle.position === 'static') {
+                                                el.style.position = 'relative';
+                                            }
+                                            el.appendChild(createBtn(file, '0', '0'));
+                                        }
                                     }
                                 }
                             }

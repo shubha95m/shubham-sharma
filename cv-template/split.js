@@ -9,7 +9,8 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             margin: 0 !important; font-family: 'Outfit', sans-serif; background: #ffffff; color: #020617; min-height: 100vh; display: block !important; 
             --sidebar-bg: #0f172a; --content-bg: #ffffff; --text-main: #020617; --text-muted: #1e293b; --accent: #2563eb; --sidebar-text: #ffffff; --border: #cbd5e1;
         }
-        .split-theme .sidebar { width: 320px !important; background: #0f172a; color: #ffffff; padding: 3rem 2rem; position: fixed !important; left: 0 !important; top: 0 !important; height: 100vh; overflow-y: auto; text-align: center; z-index: 10; box-sizing: border-box; }
+        .split-theme .sidebar { width: 320px !important; background: #0f172a; color: #ffffff; padding: 3rem 2rem; position: fixed !important; left: 0 !important; top: 0 !important; height: 100vh; overflow-y: auto; text-align: center; z-index: 10; box-sizing: border-box; -ms-overflow-style: none; scrollbar-width: none; }
+        .split-theme .sidebar::-webkit-scrollbar { display: none; }
         .split-theme .main-content { margin-left: 320px !important; padding: 2rem 5rem; min-height: 100vh; max-width: calc(100vw - 320px) !important; box-sizing: border-box; }
         .split-theme .sidebar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; margin: 0; color: #ffffff; }
         .split-theme .profile-img { width: 120px !important; height: 120px !important; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1); object-fit: cover; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto; }
@@ -98,8 +99,8 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             </section>
 
             <section id="skills" class="section">
-                <h2>Technical Skills</h2>
-                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                <h2>Skills</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
                     ${(() => {
             // Support both array and categorized object format
             if (Array.isArray(DATA.skills)) {
@@ -114,9 +115,9 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                     html += `
                                     <div style="width:100%; margin-bottom:1rem;">
                                         <h4 style="color:var(--accent); font-size:0.95rem; margin-bottom:0.5rem; font-weight:600;">Technical Skills</h4>
-                                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
                                             ${DATA.skills.technical.map(s => `
-                                                <span style="background: #e2e8f0; color: #0f172a; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.9rem; border: 1px solid #cbd5e1; font-weight: 500; margin: 0.3rem; display: inline-block;">${s}</span>
+                                                <span style="background: #e2e8f0; color: #0f172a; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.9rem; border: 1px solid #cbd5e1; font-weight: 500; margin: 0.15rem; display: inline-block;">${s}</span>
                                             `).join('')}
                                         </div>
                                     </div>
@@ -126,9 +127,9 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                     html += `
                                     <div style="width:100%;">
                                         <h4 style="color:var(--text-muted); font-size:0.95rem; margin-bottom:0.5rem; font-weight:600;">Process & Methodology</h4>
-                                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
                                             ${DATA.skills.process.map(s => `
-                                                <span style="background: #e2e8f0; color: #0f172a; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.9rem; border: 1px solid #cbd5e1; font-weight: 500; margin: 0.3rem; display: inline-block;">${s}</span>
+                                                <span style="background: #e2e8f0; color: #0f172a; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.9rem; border: 1px solid #cbd5e1; font-weight: 500; margin: 0.15rem; display: inline-block;">${s}</span>
                                             `).join('')}
                                         </div>
                                     </div>
