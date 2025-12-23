@@ -6,11 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Resume Builder | Shubham Sharma</title>
     <!-- Common Libs -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Intro.js for Onboarding -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
 
     <!-- Pattern Templates -->
     <script src="cv-template/split.js"></script>
@@ -24,49 +29,85 @@
     <style id="dynamic-style"></style>
     <style>
         /* Control Panel Styles (Always visible) */
+        /* Control Panel - Icon Bar */
         #control-panel {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.3);
             backdrop-filter: blur(10px);
-            padding: 15px;
+            padding: 0.75rem 0.5rem;
             border-radius: 12px;
             z-index: 9999;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            color: white;
-            font-family: sans-serif;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         #control-panel h4 {
-            margin: 0 0 5px 0;
-            font-size: 0.9rem;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: none;
+            /* Hide section titles */
         }
 
         .pattern-btn {
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 0.6rem;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
-        .pattern-btn:hover,
-        .pattern-btn.active {
-            background: #3b82f6;
-            border-color: #3b82f6;
-            transform: translateX(2px);
+        .pattern-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+            transform: translateX(-5px);
+        }
+
+        .pattern-btn:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 60px;
+            background: rgba(15, 23, 42, 0.98);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .icon-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0.25rem 0;
+        }
+
+        @media (max-width: 768px) {
+            #control-panel {
+                right: 10px;
+                padding: 0.75rem 0.5rem;
+            }
+
+            .pattern-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
         }
 
         #app-root {
@@ -85,8 +126,8 @@
 
         @media print {
             @page {
-                margin: 1.5cm 1cm;
-                /* Top/Bottom: 1.5cm for header/footer space, Left/Right: 1cm for side margins */
+                margin: 0.75cm 0.75cm;
+                /* Reduced margins for ATS optimization - more content per page */
             }
 
             body {
@@ -94,6 +135,7 @@
                 print-color-adjust: exact !important;
                 overflow: visible !important;
                 height: auto !important;
+                padding: 0 !important;
             }
 
             * {
@@ -106,6 +148,11 @@
             }
 
             .edit-trigger {
+                display: none !important;
+            }
+
+            /* Hide template carousel during print */
+            #template-carousel {
                 display: none !important;
             }
 
@@ -128,35 +175,321 @@
                 page-break-inside: avoid;
                 break-inside: avoid;
             }
+
+            /* ATS Optimization - Reduce spacing to fit more content */
+            .section {
+                margin-bottom: 1.5rem !important;
+            }
+
+            .job-card,
+            .classic-card,
+            .glass-card {
+                margin-bottom: 1rem !important;
+                padding: 1rem !important;
+            }
+
+            /* Optimize font sizes for ATS */
+            h1 {
+                font-size: 1.8rem !important;
+            }
+
+            h2 {
+                font-size: 1.3rem !important;
+            }
+
+            h3 {
+                font-size: 1.1rem !important;
+            }
+
+            p,
+            li,
+            span {
+                font-size: 0.9rem !important;
+                line-height: 1.4 !important;
+            }
+        }
+
+        /* Form Editor Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-label .required {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            transition: 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #64748b;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-section-title {
+            font-family: 'Space Grotesk';
+            font-size: 1.1rem;
+            color: white;
+            margin: 0;
+        }
+
+        .btn-add,
+        .btn-remove {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-remove {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-remove:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .skill-tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            min-height: 100px;
+        }
+
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 6px;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .skill-tag button {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0;
+            font-size: 1rem;
+            opacity: 0.7;
+            transition: 0.2s;
+        }
+
+        .skill-tag button:hover {
+            opacity: 1;
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+
+        /* Template Carousel Styles */
+        #carousel-content::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        #carousel-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        #carousel-content::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .template-card {
+            min-width: 90px;
+            max-width: 90px;
+            width: 90px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .template-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.3);
+            border-color: var(--accent);
+        }
+
+        .template-card.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+        }
+
+        .template-preview {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            transform: scale(0.08);
+            transform-origin: top left;
+            width: 1250%;
+            /* 100% / 0.08 */
+            height: 1250%;
+            pointer-events: none;
+        }
+
+        .template-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            color: white;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            text-align: center;
+            font-weight: 600;
         }
     </style>
 </head>
 
 <body>
-
+    <!-- ICON BAR (Right Side) -->
     <div id="control-panel">
-        <h4>Select Design</h4>
-        <button class="pattern-btn" onclick="startRender('split')">1. Split View</button>
-        <button class="pattern-btn" onclick="startRender('glass')">2. Glassmorphism</button>
-        <button class="pattern-btn" onclick="startRender('clean')">3. Modern Clean</button>
-        <button class="pattern-btn" onclick="startRender('classic')">4. Classic Dark</button>
-        <div style="height:1px; background:rgba(255,255,255,0.1); margin:10px 0;"></div>
-        <button class="pattern-btn" onclick="window.location.href='index.html'"
-            style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); margin-bottom: 5px;">
-            <i class="fas fa-arrow-left"></i> Change Profile
+        <!-- PDF Download -->
+        <button class="pattern-btn" onclick="window.print()" style="background:#10b981; border-color:#10b981;"
+            data-tooltip="Download PDF">
+            <i class="fas fa-download"></i>
         </button>
-        <button class="pattern-btn" onclick="downloadPDF()"
-            style="background:var(--accent); border-color:var(--accent); font-weight:bold;">
-            <i class="fas fa-download"></i> Download PDF
+
+        <!-- ATS Score -->
+        <button class="pattern-btn" onclick="checkATSScore()" style="background:#3b82f6; border-color:#3b82f6;"
+            data-tooltip="Check ATS Score">
+            <i class="fas fa-chart-line"></i>
         </button>
-        <button class="pattern-btn" onclick="checkATSScore()"
-            style="background:#10b981; border-color:#10b981; font-weight:bold;">
-            <i class="fas fa-chart-line"></i> Check ATS Score
+
+        <div class="icon-divider"></div>
+
+        <!-- Undo -->
+        <button id="undo-btn" class="pattern-btn" onclick="performUndo()" style="opacity:0.5; cursor:not-allowed;"
+            disabled data-tooltip="Undo (Ctrl+Z)">
+            <i class="fas fa-undo"></i>
+        </button>
+
+        <!-- Redo -->
+        <button id="redo-btn" class="pattern-btn" onclick="performRedo()" style="opacity:0.5; cursor:not-allowed;"
+            disabled data-tooltip="Redo (Ctrl+Y)">
+            <i class="fas fa-redo"></i>
+        </button>
+
+        <div class="icon-divider"></div>
+
+        <!-- Tour -->
+        <button id="tour-btn" class="pattern-btn" onclick="startOnboardingTour()"
+            style="background:#8b5cf6; border-color:#8b5cf6;" data-tooltip="Take Tour">
+            <i class="fas fa-question-circle"></i>
+        </button>
+
+        <!-- ATS Undo (hidden by default) -->
+        <button id="undo-ats-btn" class="pattern-btn" onclick="undoATSChanges()"
+            style="background:#f59e0b; border-color:#f59e0b; display:none;" data-tooltip="Undo ATS Changes">
+            <i class="fas fa-history"></i>
         </button>
     </div>
 
     <div id="app-root">
         <div class="loading">Loading Resume Engine...</div>
+    </div>
+
+    <!-- TEMPLATE CAROUSEL (Bottom Center) -->
+    <div id="template-carousel"
+        style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95)); backdrop-filter:blur(15px); border:1px solid rgba(255,255,255,0.15); padding:1rem 1.5rem; z-index:9000; box-shadow:0 8px 32px rgba(0,0,0,0.4); border-radius:16px; max-width:900px;">
+        <div style="text-align:center; margin-bottom:0.75rem;">
+            <h4 style="margin:0; color:white; font-family:'Space Grotesk'; font-size:0.85rem; font-weight:600;">
+                <i class="fas fa-palette"></i> Choose Your Template
+            </h4>
+        </div>
+        <div id="carousel-content" style="display:flex; gap:1rem; justify-content:center; align-items:center;">
+            <!-- Template previews will be inserted here -->
+        </div>
     </div>
 
     <!-- EDITOR MODAL -->
@@ -267,302 +600,946 @@
                             class="fas fa-tags"></i> Suggested Keywords</h4>
                     <div id="ats-keywords-list" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
                 </div>
+
+                <!-- Apply with AI Button -->
+                <div id="ats-apply-section" style="margin-top:2rem; display:none;">
+                    <button onclick="applyATSSuggestionsWithAI()"
+                        style="width:100%; background:linear-gradient(135deg, #a855f7, #ec4899); border:none; color:white; padding:1rem; border-radius:8px; font-weight:600; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; gap:0.5rem; transition:0.3s;">
+                        <i class="fas fa-magic"></i> Apply Suggestions with AI
+                    </button>
+                    <p style="color:#94a3b8; font-size:0.85rem; text-align:center; margin-top:0.5rem;">
+                        AI will smartly integrate these suggestions into your CV without disrupting existing content
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // State
-        const DATA = {};
-        const ROOT = document.getElementById('app-root');
-        const STYLE = document.getElementById('dynamic-style');
+    <!-- FORM-BASED EDITOR MODAL -->
+    <div id="form-editor-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; overflow-y:auto; padding:2rem;">
+        <div
+            style="background:#1e293b; color:white; padding:0; width:90%; max-width:900px; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.7); max-height:90vh; display:flex; flex-direction:column;">
+            <!-- Header -->
+            <div
+                style="padding:1.5rem 2rem; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; background:#0f172a; border-radius:16px 16px 0 0;">
+                <h3 style="margin:0; font-family:'Space Grotesk'; display:flex; align-items:center; gap:0.5rem;">
+                    <i class="fas fa-edit" style="color:var(--accent);"></i>
+                    <span id="form-editor-title">Edit Section</span>
+                </h3>
+                <button onclick="closeFormEditor()"
+                    style="background:none; border:none; color:rgba(255,255,255,0.6); font-size:1.5rem; cursor:pointer; padding:0; width:30px; height:30px; transition:0.2s;"
+                    onmouseover="this.style.color='white'"
+                    onmouseout="this.style.color='rgba(255,255,255,0.6)'">&times;</button>
+            </div>
+            <!-- Form Content -->
+            <div id="form-editor-content" style="padding:2rem; overflow-y:auto; flex:1;">
+                <!-- Dynamic form content will be inserted here -->
+            </div>
+            <!-- Footer -->
+            <div
+                style="padding:1.5rem 2rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; background:#0f172a; border-radius:0 0 16px 16px;">
+                <div style="color:#94a3b8; font-size:0.9rem;">
+                    <i class="fas fa-info-circle"></i> Changes are auto-saved
+                </div>
+                <div style="display:flex; gap:1rem;">
+                    <button onclick="closeFormEditor()"
+                        style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; padding:0.8rem 1.5rem; border-radius:8px; cursor:pointer; transition:0.2s;"
+                        onmouseover="this.style.borderColor='rgba(255,255,255,0.4)'"
+                        onmouseout="this.style.borderColor='rgba(255,255,255,0.2)'">Close</button>
+                    <button onclick="saveFormData()"
+                        style="background:linear-gradient(135deg, var(--accent), #0ea5e9); border:none; color:white; padding:0.8rem 2rem; border-radius:8px; font-weight:600; cursor:pointer; transition:0.3s; box-shadow:0 4px 12px rgba(14, 165, 233, 0.3);"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(14, 165, 233, 0.4)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(14, 165, 233, 0.3)'">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        let CURRENT_USER = 'shubham';
-        let currentPattern = 'split'; // Track current template
-        let CURRENT_FILE = ''; // e.g., 'profile.json'
+    <!-- ATS Preview Modal -->
+    <div id="ats-preview-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10001; justify-content:center; align-items:center; padding:2rem; overflow-y:auto;">
+        <div
+            style="background:#1e293b; border-radius:16px; max-width:900px; width:100%; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+            <div
+                style="padding:2rem; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; font-family:'Space Grotesk'; color:white;">Preview AI Changes</h3>
+                <button onclick="closeATSPreviewModal()"
+                    style="background:transparent; border:none; color:rgba(255,255,255,0.6); font-size:1.5rem; cursor:pointer; padding:0; width:30px; height:30px;">&times;</button>
+            </div>
 
-        // Fetch Data
-        async function loadContent() {
-            try {
-                const params = new URLSearchParams(window.location.search);
-                const userId = params.get('user') || 'shubham';
-                CURRENT_USER = userId;
+            <div style="padding:2rem;">
+                <!-- Summary -->
+                <div
+                    style="background:rgba(168,85,247,0.1); border-left:4px solid #a855f7; padding:1rem; border-radius:8px; margin-bottom:2rem;">
+                    <h4 style="margin:0 0 0.5rem 0; color:#a855f7; font-family:'Space Grotesk';">
+                        <i class="fas fa-info-circle"></i> Summary
+                    </h4>
+                    <p id="ats-preview-summary" style="margin:0; color:#cbd5e1; line-height:1.6;"></p>
+                </div>
 
-                console.log(`Loading profile for: ${userId}`);
+                <!-- Changes List -->
+                <div id="ats-preview-changes" style="margin-bottom:2rem;">
+                    <h4 style="color:white; margin-bottom:1rem; font-family:'Space Grotesk';">Proposed Changes</h4>
+                    <!-- Changes will be inserted here -->
+                </div>
 
-                const basePath = `cv-content/${userId}`;
+                <!-- Action Buttons -->
+                <div
+                    style="display:flex; gap:1rem; justify-content:flex-end; border-top:1px solid rgba(255,255,255,0.1); padding-top:1.5rem;">
+                    <button onclick="closeATSPreviewModal()"
+                        style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; padding:0.8rem 1.5rem; border-radius:6px; cursor:pointer;">
+                        Cancel
+                    </button>
+                    <button onclick="confirmApplyATSChanges()"
+                        style="background:#22c55e; border:none; color:white; padding:0.8rem 1.5rem; border-radius:6px; font-weight:600; cursor:pointer;">
+                        <i class="fas fa-check"></i> Apply Changes
+                        <script>
+                            // State
+                            const DATA = {};
+                            const ROOT = document.getElementById('app-root');
+                            const STYLE = document.getElementById('dynamic-style');
 
-                const [profile, summary, journey, skills, education, highlights] = await Promise.all([
-                    fetch(`${basePath}/profile.json`).then(r => { if (!r.ok) throw new Error('Profile not found'); return r.json() }),
-                    fetch(`${basePath}/summary.json`).then(r => r.json()),
-                    fetch(`${basePath}/journey.json`).then(r => r.json()),
-                    fetch(`${basePath}/skills.json`).then(r => r.json()),
-                    fetch(`${basePath}/education.json`).then(r => r.json()),
-                    fetch(`${basePath}/highlights.json`).then(r => r.json())
-                ]);
+                            let CURRENT_USER = 'shubham';
+                            let currentPattern = 'split'; // Track current template
+                            let CURRENT_FILE = ''; // e.g., 'profile.json'
 
-                DATA.profile = profile;
-                DATA.summary = summary;
-                DATA.journey = journey;
-                DATA.skills = skills;
-                DATA.education = education;
-                DATA.highlights = highlights;
+                            // Undo functionality
+                            let dataBackup = null; // Store backup before applying ATS changes
+                            let lastATSChanges = null; // Store the last applied changes for reference
 
-                // Load default
-                startRender('split');
-                renderEditButtons(); // Add edit buttons after render
-            } catch (e) {
-                console.error(e);
-                ROOT.innerHTML = `<div class='loading' style='color:red'>Error loading content: ${e.message} <br> <a href='home.html'>Back</a></div>`;
-            }
-        }
+                            // Universal History System
+                            let historyStack = []; // Array of DATA states
+                            let historyIndex = -1; // Current position in history
+                            const MAX_HISTORY = 20; // Maximum history states to keep
+                            let isUndoRedoAction = false; // Flag to prevent history recording during undo/redo
 
-        // --- RENDER CONTROLLER ---
-        function startRender(pattern) {
-            currentPattern = pattern; // Track current template
-            document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector(`button[onclick="startRender('${pattern}')"]`)?.classList.add('active');
+                            // Save current state to history
+                            function saveToHistory(actionName = 'Edit') {
+                                if (isUndoRedoAction) return; // Don't save during undo/redo
 
-            if (pattern === 'split' && window.renderSplit) window.renderSplit(DATA, ROOT, STYLE);
-            if (pattern === 'glass' && window.renderGlass) window.renderGlass(DATA, ROOT, STYLE);
-            if (pattern === 'clean' && window.renderClean) window.renderClean(DATA, ROOT, STYLE);
-            if (pattern === 'classic' && window.renderClassic) window.renderClassic(DATA, ROOT, STYLE);
+                                // Create deep copy of current DATA
+                                const state = {
+                                    data: {
+                                        profile: JSON.parse(JSON.stringify(DATA.profile)),
+                                        summary: JSON.parse(JSON.stringify(DATA.summary)),
+                                        journey: JSON.parse(JSON.stringify(DATA.journey)),
+                                        skills: JSON.parse(JSON.stringify(DATA.skills)),
+                                        education: JSON.parse(JSON.stringify(DATA.education)),
+                                        highlights: JSON.parse(JSON.stringify(DATA.highlights))
+                                    },
+                                    actionName: actionName,
+                                    timestamp: Date.now()
+                                };
 
-            setTimeout(renderEditButtons, 500); // Re-attach buttons after render
-        }
+                                // Remove any states after current index (when undoing then making new change)
+                                historyStack = historyStack.slice(0, historyIndex + 1);
 
-        // --- EDITING LOGIC ---
+                                // Add new state
+                                historyStack.push(state);
 
-        function renderEditButtons() {
-            // Remove existing edit buttons to avoid duplicates
-            document.querySelectorAll('.edit-trigger').forEach(e => e.remove());
+                                // Limit history size
+                                if (historyStack.length > MAX_HISTORY) {
+                                    historyStack.shift();
+                                } else {
+                                    historyIndex++;
+                                }
 
-            const createBtn = (file, top, right) => {
-                const btn = document.createElement('button');
-                btn.className = 'edit-trigger';
-                btn.innerHTML = '<i class="fas fa-pen"></i>';
-                btn.style.cssText = `position:absolute; top:${top}; right:${right}; z-index:1000; background:#3b82f6; color:white; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; opacity:0.7; transition:0.2s;`;
-                btn.onmouseenter = () => btn.style.opacity = '1';
-                btn.onmouseleave = () => btn.style.opacity = '0.7';
-                btn.onclick = () => openEditor(file);
-                return btn;
-            };
+                                updateHistoryButtons();
+                            }
 
-            // Heuristic placement of edit buttons
-            // REMOVED: Sidebar covered by #profile in sections map below
+                            // Perform undo
+                            function performUndo() {
+                                if (historyIndex <= 0) return; // No history to undo
 
-            // Main Content Sections
-            const sections = {
-                '#profile': 'profile.json',
-                '#about': 'summary.json',
-                '#experience': 'journey.json',
-                '#skills': 'skills.json',
-                '#education': 'education.json',
-                '#innovation': 'highlights.json',
-                '#exec-highlights': 'highlights.json'
-            };
+                                isUndoRedoAction = true;
+                                historyIndex--;
 
-            for (const [selector, file] of Object.entries(sections)) {
-                const el = document.querySelector(selector);
-                if (el) {
-                    el.style.position = 'relative';
-                    el.appendChild(createBtn(file, '0', '0'));
-                }
-            }
-        }
+                                const state = historyStack[historyIndex];
+                                restoreState(state.data);
 
-        function openEditor(filename) {
-            CURRENT_FILE = filename;
-            document.getElementById('editor-filename').innerText = filename;
-            document.getElementById('editor-modal').style.display = 'flex';
+                                showNotification(`Undone: ${state.actionName}`, 'info');
+                                isUndoRedoAction = false;
+                                updateHistoryButtons();
+                            }
 
-            // Map filename to DATA property
-            let content = {};
-            if (filename === 'profile.json') content = DATA.profile;
-            if (filename === 'summary.json') content = DATA.summary;
-            if (filename === 'journey.json') content = DATA.journey;
-            if (filename === 'skills.json') content = DATA.skills;
-            if (filename === 'education.json') content = DATA.education;
-            if (filename === 'highlights.json') content = DATA.highlights;
+                            // Perform redo
+                            function performRedo() {
+                                if (historyIndex >= historyStack.length - 1) return; // No history to redo
 
-            document.getElementById('editor-content').value = JSON.stringify(content, null, 2);
-        }
+                                isUndoRedoAction = true;
+                                historyIndex++;
 
-        function closeEditor() {
-            document.getElementById('editor-modal').style.display = 'none';
-        }
+                                const state = historyStack[historyIndex];
+                                restoreState(state.data);
 
-        async function saveContent() {
-            try {
-                const content = document.getElementById('editor-content').value;
-                // Validate JSON
-                const parsed = JSON.parse(content);
+                                showNotification(`Redone: ${state.actionName}`, 'info');
+                                isUndoRedoAction = false;
+                                updateHistoryButtons();
+                            }
 
-                // Optimistic UI Update
-                if (CURRENT_FILE === 'profile.json') DATA.profile = parsed;
-                if (CURRENT_FILE === 'summary.json') DATA.summary = parsed;
-                if (CURRENT_FILE === 'journey.json') DATA.journey = parsed;
-                if (CURRENT_FILE === 'skills.json') DATA.skills = parsed;
-                if (CURRENT_FILE === 'education.json') DATA.education = parsed;
-                if (CURRENT_FILE === 'highlights.json') DATA.highlights = parsed;
+                            // Restore state from history
+                            function restoreState(data) {
+                                DATA.profile = data.profile;
+                                DATA.summary = data.summary;
+                                DATA.journey = data.journey;
+                                DATA.skills = data.skills;
+                                DATA.education = data.education;
+                                DATA.highlights = data.highlights;
 
-                // Re-render
-                const currentPattern = document.querySelector('.pattern-btn.active')?.innerText.includes('1') ? 'split' :
-                    document.querySelector('.pattern-btn.active')?.innerText.includes('2') ? 'glass' :
-                        document.querySelector('.pattern-btn.active')?.innerText.includes('3') ? 'clean' : 'classic';
-                startRender(currentPattern);
-                closeEditor();
+                                startRender(currentPattern);
+                            }
 
-                // Backend Save
-                const res = await fetch(`http://localhost:3000/api/save/${CURRENT_USER}/${CURRENT_FILE}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: content
-                });
+                            // Update undo/redo button states
+                            function updateHistoryButtons() {
+                                const undoBtn = document.getElementById('undo-btn');
+                                const redoBtn = document.getElementById('redo-btn');
 
-                if (!res.ok) alert('Failed to save to server!');
+                                // Update undo button
+                                if (historyIndex > 0) {
+                                    undoBtn.disabled = false;
+                                    undoBtn.style.opacity = '1';
+                                    undoBtn.style.cursor = 'pointer';
+                                    undoBtn.style.background = '#64748b';
+                                    const prevAction = historyStack[historyIndex - 1]?.actionName || 'previous change';
+                                    undoBtn.title = `Undo: ${prevAction} (Ctrl+Z)`;
+                                } else {
+                                    undoBtn.disabled = true;
+                                    undoBtn.style.opacity = '0.5';
+                                    undoBtn.style.cursor = 'not-allowed';
+                                    undoBtn.title = 'Nothing to undo';
+                                }
 
-            } catch (e) {
-                alert('Invalid JSON! Please check syntax.');
-            }
-        }
+                                // Update redo button
+                                if (historyIndex < historyStack.length - 1) {
+                                    redoBtn.disabled = false;
+                                    redoBtn.style.opacity = '1';
+                                    redoBtn.style.cursor = 'pointer';
+                                    redoBtn.style.background = '#64748b';
+                                    const nextAction = historyStack[historyIndex + 1]?.actionName || 'next change';
+                                    redoBtn.title = `Redo: ${nextAction} (Ctrl+Y)`;
+                                } else {
+                                    redoBtn.disabled = true;
+                                    redoBtn.style.opacity = '0.5';
+                                    redoBtn.style.cursor = 'not-allowed';
+                                    redoBtn.title = 'Nothing to redo';
+                                }
+                            }
 
-        // --- AI LOGIC ---
-        async function runAIOptimization() {
-            const status = document.getElementById('ai-status');
-            const editor = document.getElementById('editor-content');
-            const instruction = document.getElementById('ai-instruction').value;
+                            // Keyboard shortcuts
+                            document.addEventListener('keydown', (e) => {
+                                // Ctrl+Z or Cmd+Z for undo
+                                if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    performUndo();
+                                }
+                                // Ctrl+Y or Cmd+Shift+Z for redo
+                                if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+                                    e.preventDefault();
+                                    performRedo();
+                                }
+                            });
 
-            if (!instruction) {
-                alert('Please enter an instruction for the AI.');
-                return;
-            }
+                            // Form Editor State
+                            let currentEditingSection = null;
+                            let currentEditingData = null;
 
-            // Get selected text or full text
-            const start = editor.selectionStart;
-            const end = editor.selectionEnd;
-            const selectedText = editor.value.substring(start, end);
-            const contextText = selectedText || editor.value;
+                            // Open Form Editor
+                            function openFormEditor(section) {
+                                currentEditingSection = section;
+                                const modal = document.getElementById('form-editor-modal');
+                                const title = document.getElementById('form-editor-title');
+                                const content = document.getElementById('form-editor-content');
 
-            status.innerText = "Processing with Claude 4.5 Sonnet...";
+                                const titles = {
+                                    'profile': 'Edit Profile Information',
+                                    'summary': 'Edit Professional Summary',
+                                    'journey': 'Edit Work Experience',
+                                    'skills': 'Edit Skills',
+                                    'education': 'Edit Education',
+                                    'highlights': 'Edit Highlights'
+                                };
+                                title.textContent = titles[section] || 'Edit Section';
 
-            try {
-                const res = await fetch('http://localhost:3000/api/ai/optimize', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        text: contextText,
-                        context: CURRENT_FILE,
-                        instruction: instruction
-                    })
-                });
+                                currentEditingData = JSON.parse(JSON.stringify(DATA[section]));
+                                content.innerHTML = generateFormHTML(section, currentEditingData);
+                                modal.style.display = 'flex';
+                            }
 
-                const data = await res.json();
+                            // Close Form Editor
+                            function closeFormEditor() {
+                                document.getElementById('form-editor-modal').style.display = 'none';
+                                currentEditingSection = null;
+                                currentEditingData = null;
+                            }
 
-                if (data.refinedText) {
-                    if (selectedText) {
-                        editor.setRangeText(data.refinedText);
-                    } else {
-                        // If it's full JSON, we might be careful, but here we just replace
-                        // Note: AI might return plain text instead of JSON if not prompted carefully.
-                        // For this V1, let's just append or replace
-                        editor.value = data.refinedText;
-                    }
-                    status.innerText = "Done!";
-                } else {
-                    status.innerText = "Error: " + (data.error || "Unknown");
-                }
-            } catch (e) {
-                status.innerText = "Network Error: " + e.message;
-            }
-        }
+                            // Generate Form HTML
+                            function generateFormHTML(section, data) {
+                                switch (section) {
+                                    case 'profile': return generateProfileForm(data);
+                                    case 'summary': return generateSummaryForm(data);
+                                    case 'journey': return generateJourneyForm(data);
+                                    case 'skills': return generateSkillsForm(data);
+                                    case 'education': return generateEducationForm(data);
+                                    case 'highlights': return generateHighlightsForm(data);
+                                    default: return '<p>Form not available</p>';
+                                }
+                            }
 
-        // ATS Score Checker
-        async function checkATSScore() {
-            console.log('[ATS] Starting ATS score check...');
+                            // Profile Form Generator
+                            function generateProfileForm(data) {
+                                return `
+                                    <div class="form-group">
+                                        <label class="form-label">Profile Picture</label>
+                                        <div style="display:flex; gap:1rem; align-items:center;">
+                                            <div id="profile-pic-preview" style="width:100px; height:100px; border-radius:50%; overflow:hidden; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.1);">
+                                                ${data.profilePic ? `<img src="${data.profilePic}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="font-size:2rem; color:#64748b;"></i>'}
+                                            </div>
+                                            <div style="flex:1;">
+                                                <input type="file" id="profile-pic-input" accept="image/*" onchange="handleProfilePicture(event)" style="display:none;">
+                                                <button type="button" class="btn-add" onclick="document.getElementById('profile-pic-input').click()" style="margin-bottom:0.5rem;">
+                                                    <i class="fas fa-upload"></i> Upload Picture
+                                                </button>
+                                                ${data.profilePic ? '<button type="button" class="btn-remove" onclick="removeProfilePicture()"><i class="fas fa-trash"></i> Remove</button>' : ''}
+                                                <p class="help-text" style="margin:0.5rem 0 0 0;">Recommended: Square image, at least 200x200px</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label">Full Name <span class="required">*</span></label>
+                                        <input type="text" class="form-input" id="profile-name" value="${data.name || ''}" placeholder="John Doe">
+                                    </div>
+                                    <div class="form-section">
+                                        <h4 class="form-section-title">Contact Information</h4>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-input" id="profile-email" value="${data.contact?.email || ''}" placeholder="john@example.com">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Phone</label>
+                                                <input type="tel" class="form-input" id="profile-phone" value="${data.contact?.phone || ''}" placeholder="+1 234 567 8900">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Location</label>
+                                            <input type="text" class="form-input" id="profile-location" value="${data.contact?.location || ''}" placeholder="City, Country">
+                                        </div>
+                                    </div>
+                                `;
+                            }
 
-            const modal = document.getElementById('ats-modal');
-            modal.style.display = 'flex';
+                            // Handle profile picture upload
+                            function handleProfilePicture(event) {
+                                const file = event.target.files[0];
+                                if (!file) return;
 
-            // Reset UI
-            document.getElementById('ats-score-value').textContent = '--';
-            document.getElementById('ats-score-label').textContent = 'Analyzing...';
-            document.getElementById('ats-categories').innerHTML = '<h4 style="color:white; margin-bottom:1rem; font-family:\'Space Grotesk\';">Category Breakdown</h4><p style="color:#94a3b8;">Analyzing your resume...</p>';
+                                // Validate file type
+                                if (!file.type.startsWith('image/')) {
+                                    showNotification('Please select an image file', 'error');
+                                    return;
+                                }
 
-            try {
-                const resumeData = {
-                    profile: DATA.profile,
-                    summary: DATA.summary,
-                    experience: DATA.journey,
-                    skills: DATA.skills,
-                    education: DATA.education,
-                    highlights: DATA.highlights
-                };
+                                // Validate file size (max 2MB)
+                                if (file.size > 2 * 1024 * 1024) {
+                                    showNotification('Image size should be less than 2MB', 'error');
+                                    return;
+                                }
 
-                const res = await fetch('/api/ai/ats-score', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ resumeData, template: currentPattern })
-                });
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    currentEditingData.profilePic = e.target.result;
+                                    // Refresh form to show preview
+                                    openFormEditor('profile');
+                                    showNotification('Picture uploaded! Click Save to apply', 'success');
+                                };
+                                reader.readAsDataURL(file);
+                            }
 
-                if (!res.ok) throw new Error('ATS analysis failed');
+                            // Remove profile picture
+                            function removeProfilePicture() {
+                                if (confirm('Remove profile picture?')) {
+                                    currentEditingData.profilePic = '';
+                                    openFormEditor('profile');
+                                    showNotification('Picture removed', 'info');
+                                }
+                            }
 
-                const atsData = await res.json();
-                console.log('[ATS] Analysis complete:', atsData);
-                displayATSResults(atsData);
+                            // Skills Form Generator
+                            function generateSkillsForm(data) {
+                                const isCategorized = !Array.isArray(data);
+                                if (isCategorized) {
+                                    return `
+                                        <div class="form-section">
+                                            <h4 class="form-section-title">Technical Skills</h4>
+                                            <div class="skill-tag-input" id="technical-skills">
+                                                ${(data.technical || []).map(skill => `
+                                                    <div class="skill-tag">${skill}<button onclick="removeSkill('technical', '${skill}')"><i class="fas fa-times"></i></button></div>
+                                                `).join('')}
+                                                <input type="text" id="technical-skill-input" placeholder="Type and press Enter" style="border:none; background:none; color:white; outline:none; flex:1; min-width:150px;" onkeypress="handleSkillInput(event, 'technical')">
+                                            </div>
+                                        </div>
+                                        <div class="form-section">
+                                            <h4 class="form-section-title">Process & Methodology</h4>
+                                            <div class="skill-tag-input" id="process-skills">
+                                                ${(data.process || []).map(skill => `
+                                                    <div class="skill-tag">${skill}<button onclick="removeSkill('process', '${skill}')"><i class="fas fa-times"></i></button></div>
+                                                `).join('')}
+                                                <input type="text" id="process-skill-input" placeholder="Type and press Enter" style="border:none; background:none; color:white; outline:none; flex:1; min-width:150px;" onkeypress="handleSkillInput(event, 'process')">
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                                return '<p>Skills form for array format not yet implemented</p>';
+                            }
 
-            } catch (error) {
-                console.error('[ATS] Error:', error);
-                document.getElementById('ats-score-label').textContent = 'Analysis Failed';
-                document.getElementById('ats-categories').innerHTML = '<p style="color:#ef4444;">Failed to analyze resume. Please try again.</p>';
-            }
-        }
+                            // Journey Form Generator (simplified)
+                            function generateJourneyForm(data) {
+                                return '<p style="color:#94a3b8;">Experience editing coming soon. Use JSON editor for now.</p>';
+                            }
 
-        function displayATSResults(data) {
-            // Score display
-            const score = data.overallScore;
-            const scoreCircle = document.getElementById('ats-score-circle');
-            const scoreValue = document.getElementById('ats-score-value');
-            const scoreLabel = document.getElementById('ats-score-label');
+                            // Summary, Education, Highlights Forms (simplified)
+                            function generateSummaryForm(data) {
+                                return '<p style="color:#94a3b8;">Summary editing coming soon. Use JSON editor for now.</p>';
+                            }
+                            function generateEducationForm(data) {
+                                return '<p style="color:#94a3b8;">Education editing coming soon. Use JSON editor for now.</p>';
+                            }
+                            function generateHighlightsForm(data) {
+                                return '<p style="color:#94a3b8;">Highlights editing coming soon. Use JSON editor for now.</p>';
+                            }
 
-            scoreValue.textContent = score;
+                            // Skill Input Handler
+                            function handleSkillInput(event, category) {
+                                if (event.key === 'Enter') {
+                                    event.preventDefault();
+                                    const skill = event.target.value.trim();
+                                    if (skill) {
+                                        if (!currentEditingData[category]) currentEditingData[category] = [];
+                                        currentEditingData[category].push(skill);
+                                        event.target.value = '';
+                                        openFormEditor('skills'); // Refresh
+                                    }
+                                }
+                            }
 
-            // Color coding
-            let color, label;
-            if (score >= 90) {
-                color = '#10b981';
-                label = 'Excellent ATS Compatibility!';
-            } else if (score >= 70) {
-                color = '#f59e0b';
-                label = 'Good ATS Compatibility';
-            } else if (score >= 50) {
-                color = '#f97316';
-                label = 'Needs Improvement';
-            } else {
-                color = '#ef4444';
-                label = 'Poor ATS Compatibility';
-            }
+                            // Remove Skill
+                            function removeSkill(category, skill) {
+                                const index = currentEditingData[category].indexOf(skill);
+                                if (index > -1) currentEditingData[category].splice(index, 1);
+                                openFormEditor('skills'); // Refresh
+                            }
 
-            scoreCircle.style.background = `conic-gradient(${color} ${score * 3.6}deg, rgba(255,255,255,0.1) 0deg)`;
-            scoreLabel.textContent = label;
-            scoreLabel.style.color = color;
+                            // Save Form Data
+                            function saveFormData() {
+                                if (!currentEditingSection) return;
 
-            // Category breakdown
-            const categories = {
-                'keywords': { label: 'Keywords & Skills', max: 25 },
-                'formatting': { label: 'Formatting', max: 20 },
-                'contact': { label: 'Contact Info', max: 10 },
-                'experience': { label: 'Work Experience', max: 20 },
-                'education': { label: 'Education', max: 10 },
-                'actionVerbs': { label: 'Action Verbs', max: 10 },
-                'length': { label: 'Resume Length', max: 5 }
-            };
+                                if (currentEditingSection === 'profile') {
+                                    currentEditingData.name = document.getElementById('profile-name').value;
+                                    if (!currentEditingData.contact) currentEditingData.contact = {};
+                                    currentEditingData.contact.email = document.getElementById('profile-email').value;
+                                    currentEditingData.contact.phone = document.getElementById('profile-phone').value;
+                                    currentEditingData.contact.location = document.getElementById('profile-location').value;
+                                }
 
-            let categoriesHTML = '<h4 style="color:white; margin-bottom:1rem; font-family:\'Space Grotesk\';">Category Breakdown</h4>';
-            for (const [key, info] of Object.entries(categories)) {
-                const value = data.categoryScores[key] || 0;
-                const percentage = (value / info.max) * 100;
-                categoriesHTML += `
+                                // Save to history before applying changes
+                                saveToHistory(`Edit ${currentEditingSection}`);
+
+                                DATA[currentEditingSection] = currentEditingData;
+                                startRender(currentPattern);
+                                saveToBackend(currentEditingSection);
+                                closeFormEditor();
+                                showNotification('Changes saved successfully!', 'success');
+                            }
+
+                            // Save to Backend
+                            async function saveToBackend(section) {
+                                const fileMap = {
+                                    'profile': 'profile.json',
+                                    'summary': 'summary.json',
+                                    'journey': 'journey.json',
+                                    'skills': 'skills.json',
+                                    'education': 'education.json',
+                                    'highlights': 'highlights.json'
+                                };
+
+                                const filename = fileMap[section];
+                                if (!filename) return;
+
+                                try {
+                                    await fetch(`/api/save/${CURRENT_USER}/${filename}`, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(DATA[section])
+                                    });
+                                } catch (error) {
+                                    console.error('Save error:', error);
+                                }
+                            }
+
+                            // Show Notification
+                            function showNotification(message, type = 'info') {
+                                const notification = document.createElement('div');
+                                notification.style.cssText = `
+                                    position: fixed; top: 2rem; right: 2rem;
+                                    background: ${type === 'success' ? '#10b981' : '#3b82f6'};
+                                    color: white; padding: 1rem 1.5rem; border-radius: 8px;
+                                    box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 20000;
+                                `;
+                                notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+                                document.body.appendChild(notification);
+                                setTimeout(() => notification.remove(), 3000);
+                            }
+
+                            // Fetch Data
+                            async function loadContent() {
+                                try {
+                                    const params = new URLSearchParams(window.location.search);
+                                    const userId = params.get('user') || 'shubham';
+                                    CURRENT_USER = userId;
+
+                                    console.log(`Loading profile for: ${userId}`);
+
+                                    const basePath = `cv-content/${userId}`;
+
+                                    const [profile, summary, journey, skills, education, highlights] = await Promise.all([
+                                        fetch(`${basePath}/profile.json`).then(r => { if (!r.ok) throw new Error('Profile not found'); return r.json() }),
+                                        fetch(`${basePath}/summary.json`).then(r => r.json()),
+                                        fetch(`${basePath}/journey.json`).then(r => r.json()),
+                                        fetch(`${basePath}/skills.json`).then(r => r.json()),
+                                        fetch(`${basePath}/education.json`).then(r => r.json()),
+                                        fetch(`${basePath}/highlights.json`).then(r => r.json())
+                                    ]);
+
+                                    DATA.profile = profile;
+                                    DATA.summary = summary;
+                                    DATA.journey = journey;
+                                    DATA.skills = skills;
+                                    DATA.education = education;
+                                    DATA.highlights = highlights;
+
+                                    // Load default
+                                    startRender('split');
+                                    renderEditButtons(); // Add edit buttons after render
+
+                                    // Initialize template carousel
+                                    initializeCarousel();
+
+                                    // Save initial state to history
+                                    saveToHistory('Initial Load');
+                                } catch (e) {
+                                    console.error(e);
+                                    ROOT.innerHTML = `<div class='loading' style='color:red'>Error loading content: ${e.message} <br> <a href='home.html'>Back</a></div>`;
+                                }
+                            }
+
+                            // --- RENDER CONTROLLER ---
+                            function startRender(pattern) {
+                                currentPattern = pattern; // Track current template
+                                document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
+                                document.querySelector(`button[onclick="startRender('${pattern}')"]`)?.classList.add('active');
+
+                                // Update carousel active state
+                                document.querySelectorAll('.template-card').forEach(card => card.classList.remove('active'));
+                                document.querySelector(`.template-card[data-template="${pattern}"]`)?.classList.add('active');
+
+                                const templates = {
+                                    split: window.renderSplit,
+                                    glass: window.renderGlass,
+                                    clean: window.renderClean,
+                                    classic: window.renderClassic
+                                };
+
+                                const renderFn = templates[pattern];
+                                if (!renderFn) {
+                                    console.error(`Template "${pattern}" not found`);
+                                    return;
+                                }
+
+                                renderFn(DATA, ROOT, STYLE);
+
+                                // Re-attach edit buttons after render
+                                setTimeout(() => {
+                                    renderEditButtons(); // Re-attach buttons after render
+
+                                    // Preserve undo button visibility if there's a backup
+                                    if (dataBackup) {
+                                        document.getElementById('undo-ats-btn').style.display = 'block';
+                                    }
+                                }, 500);
+                            }
+
+                            // Template Carousel Functions
+                            function initializeCarousel() {
+                                const container = document.getElementById('carousel-content');
+                                const templates = [
+                                    { id: 'split', name: 'Split View', icon: 'fa-columns' },
+                                    { id: 'glass', name: 'Glassmorphism', icon: 'fa-gem' },
+                                    { id: 'clean', name: 'Clean Modern', icon: 'fa-file-alt' },
+                                    { id: 'classic', name: 'Classic Dark', icon: 'fa-briefcase' }
+                                ];
+
+                                templates.forEach(template => {
+                                    const card = document.createElement('div');
+                                    card.className = 'template-card';
+                                    card.dataset.template = template.id;
+                                    if (template.id === currentPattern) {
+                                        card.classList.add('active');
+                                    }
+
+                                    card.onclick = () => {
+                                        startRender(template.id);
+                                        showNotification(`Switched to ${template.name}`, 'info');
+                                    };
+
+                                    const preview = document.createElement('div');
+                                    preview.className = 'template-preview';
+                                    preview.id = `preview-${template.id}`;
+
+                                    const label = document.createElement('div');
+                                    label.className = 'template-label';
+                                    label.innerHTML = `<i class="fas ${template.icon}"></i> ${template.name}`;
+
+                                    card.appendChild(preview);
+                                    card.appendChild(label);
+                                    container.appendChild(card);
+                                });
+
+                                // Render previews after DOM elements are created
+                                setTimeout(() => {
+                                    templates.forEach(template => {
+                                        renderTemplatePreview(template.id);
+                                    });
+                                }, 100);
+                            }
+
+                            function renderTemplatePreview(templateId) {
+                                const previewContainer = document.getElementById(`preview-${templateId}`);
+                                if (!previewContainer) {
+                                    console.warn(`Preview container for ${templateId} not found`);
+                                    return;
+                                }
+
+                                // Clear previous content
+                                previewContainer.innerHTML = '';
+
+                                // Create isolated wrapper
+                                const wrapper = document.createElement('div');
+                                wrapper.className = `preview-content-${templateId} ${templateId}-theme`;
+
+                                // Create scoped style element
+                                const styleEl = document.createElement('style');
+
+                                const templates = {
+                                    split: window.renderSplit,
+                                    glass: window.renderGlass,
+                                    clean: window.renderClean,
+                                    classic: window.renderClassic
+                                };
+
+                                const renderFn = templates[templateId];
+                                if (renderFn && DATA.profile) {
+                                    try {
+                                        // Render template
+                                        renderFn(DATA, wrapper, styleEl);
+
+                                        // Scope CSS to prevent conflicts between previews
+                                        if (styleEl.innerHTML) {
+                                            let scopedCSS = styleEl.innerHTML;
+
+                                            // Replace body.theme-class selectors with the preview wrapper selector
+                                            // matches: body.split-theme, body.glass-theme, etc.
+                                            const wrapperSelector = `#preview-${templateId} .preview-content-${templateId}`;
+
+                                            // 1. Replace specific body classes
+                                            const bodyClassRegex = new RegExp(`body\\.${templateId}-theme`, 'g');
+                                            scopedCSS = scopedCSS.replace(bodyClassRegex, wrapperSelector);
+
+                                            // 2. Replace generic body selectors (fallback)
+                                            scopedCSS = scopedCSS.replace(/body\s*{/g, `${wrapperSelector} {`);
+
+                                            // 3. Prevent fixed positioning in previews causing overflow/overlay issues
+                                            scopedCSS = scopedCSS.replace(/position:\s*fixed/g, 'position: absolute');
+                                            scopedCSS = scopedCSS.replace(/height:\s*100vh/g, 'height: 100%');
+                                            scopedCSS = scopedCSS.replace(/min-height:\s*100vh/g, 'min-height: 100%');
+
+                                            // Remove print media queries from previews
+                                            scopedCSS = scopedCSS.replace(/@media\s+print\s*{[\s\S]*?}\s*}/g, '');
+
+                                            styleEl.innerHTML = scopedCSS;
+                                        }
+
+                                        // Add to preview
+                                        previewContainer.appendChild(styleEl);
+                                        previewContainer.appendChild(wrapper);
+
+                                    } catch (error) {
+                                        console.error(`Error rendering ${templateId} preview:`, error);
+                                    }
+                                }
+                            }
+
+                            function toggleCarousel() {
+                                const content = document.getElementById('carousel-content');
+                                const icon = document.getElementById('carousel-toggle-icon');
+
+                                if (content.style.display === 'none') {
+                                    content.style.display = 'flex';
+                                    icon.className = 'fas fa-chevron-down';
+                                } else {
+                                    content.style.display = 'none';
+                                    icon.className = 'fas fa-chevron-up';
+                                }
+                            }
+
+                            // --- EDITING LOGIC ---
+
+                            function renderEditButtons() {
+                                // Remove existing edit buttons to avoid duplicates
+                                document.querySelectorAll('.edit-trigger').forEach(e => e.remove());
+
+                                const createBtn = (file, top, right) => {
+                                    const btn = document.createElement('button');
+                                    btn.className = 'edit-trigger';
+                                    btn.innerHTML = '<i class="fas fa-pen"></i>';
+                                    btn.style.cssText = `position:absolute; top:${top}; right:${right}; z-index:1000; background:#3b82f6; color:white; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; opacity:0.7; transition:0.2s;`;
+                                    btn.onmouseenter = () => btn.style.opacity = '1';
+                                    btn.onmouseleave = () => btn.style.opacity = '0.7';
+                                    btn.onclick = () => openEditor(file);
+                                    return btn;
+                                };
+
+                                // Heuristic placement of edit buttons
+                                // REMOVED: Sidebar covered by #profile in sections map below
+
+                                // Main Content Sections
+                                const sections = {
+                                    '#profile': 'profile.json',
+                                    '#about': 'summary.json',
+                                    '#experience': 'journey.json',
+                                    '#skills': 'skills.json',
+                                    '#education': 'education.json',
+                                    '#innovation': 'highlights.json',
+                                    '#exec-highlights': 'highlights.json'
+                                };
+
+                                for (const [selector, file] of Object.entries(sections)) {
+                                    const el = document.querySelector(selector);
+                                    if (el) {
+                                        el.style.position = 'relative';
+                                        el.appendChild(createBtn(file, '0', '0'));
+                                    }
+                                }
+                            }
+
+                            function openEditor(filename) {
+                                CURRENT_FILE = filename;
+
+                                // Route to form editor for supported sections
+                                const section = filename.replace('.json', '');
+                                const formSupportedSections = ['profile', 'skills'];
+                                if (formSupportedSections.includes(section)) {
+                                    openFormEditor(section);
+                                    return;
+                                }
+
+                                // Continue with JSON editor for other sections
+                                document.getElementById('editor-filename').innerText = filename;
+                                document.getElementById('editor-modal').style.display = 'flex';
+
+                                // Map filename to DATA property
+                                let content = {};
+                                if (filename === 'profile.json') content = DATA.profile;
+                                if (filename === 'summary.json') content = DATA.summary;
+                                if (filename === 'journey.json') content = DATA.journey;
+                                if (filename === 'skills.json') content = DATA.skills;
+                                if (filename === 'education.json') content = DATA.education;
+                                if (filename === 'highlights.json') content = DATA.highlights;
+
+                                document.getElementById('editor-content').value = JSON.stringify(content, null, 2);
+                            }
+
+                            function closeEditor() {
+                                document.getElementById('editor-modal').style.display = 'none';
+                            }
+
+                            async function saveContent() {
+                                try {
+                                    const content = document.getElementById('editor-content').value;
+                                    // Validate JSON
+                                    const parsed = JSON.parse(content);
+
+                                    // Save to history before applying changes
+                                    const sectionName = CURRENT_FILE.replace('.json', '');
+                                    saveToHistory(`Edit ${sectionName} (JSON)`);
+
+                                    // Optimistic UI Update
+                                    if (CURRENT_FILE === 'profile.json') DATA.profile = parsed;
+                                    if (CURRENT_FILE === 'summary.json') DATA.summary = parsed;
+                                    if (CURRENT_FILE === 'journey.json') DATA.journey = parsed;
+                                    if (CURRENT_FILE === 'skills.json') DATA.skills = parsed;
+                                    if (CURRENT_FILE === 'education.json') DATA.education = parsed;
+                                    if (CURRENT_FILE === 'highlights.json') DATA.highlights = parsed;
+
+                                    // Re-render
+                                    startRender(currentPattern);
+
+                                    // Backend Save
+                                    const res = await fetch(`/api/save/${CURRENT_USER}/${CURRENT_FILE}`, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(parsed)
+                                    });
+
+                                    if (!res.ok) throw new Error('Failed to save');
+
+                                    showNotification('Changes saved successfully!', 'success');
+                                    closeEditor();
+                                } catch (err) {
+                                    console.error('Save error:', err);
+                                    alert('Error saving content: ' + err.message);
+                                }
+                            }
+
+                            // --- AI LOGIC ---
+                            async function runAIOptimization() {
+                                const status = document.getElementById('ai-status');
+                                const editor = document.getElementById('editor-content');
+                                const instruction = document.getElementById('ai-instruction').value;
+
+                                if (!instruction) {
+                                    alert('Please enter an instruction for the AI.');
+                                    return;
+                                }
+
+                                // Get selected text or full text
+                                const start = editor.selectionStart;
+                                const end = editor.selectionEnd;
+                                const selectedText = editor.value.substring(start, end);
+                                const contextText = selectedText || editor.value;
+
+                                status.innerText = "Processing with Claude 4.5 Sonnet...";
+
+                                try {
+                                    const res = await fetch('http://localhost:3000/api/ai/optimize', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            text: contextText,
+                                            context: CURRENT_FILE,
+                                            instruction: instruction
+                                        })
+                                    });
+
+                                    const data = await res.json();
+
+                                    if (data.refinedText) {
+                                        if (selectedText) {
+                                            editor.setRangeText(data.refinedText);
+                                        } else {
+                                            // If it's full JSON, we might be careful, but here we just replace
+                                            // Note: AI might return plain text instead of JSON if not prompted carefully.
+                                            // For this V1, let's just append or replace
+                                            editor.value = data.refinedText;
+                                        }
+                                        status.innerText = "Done!";
+                                    } else {
+                                        status.innerText = "Error: " + (data.error || "Unknown");
+                                    }
+                                } catch (e) {
+                                    status.innerText = "Network Error: " + e.message;
+                                }
+                            }
+
+                            // ATS Score Checker
+                            async function checkATSScore() {
+                                console.log('[ATS] Starting ATS score check...');
+
+                                const modal = document.getElementById('ats-modal');
+                                modal.style.display = 'flex';
+
+                                // Reset UI
+                                document.getElementById('ats-score-value').textContent = '--';
+                                document.getElementById('ats-score-label').textContent = 'Analyzing...';
+                                document.getElementById('ats-categories').innerHTML = '<h4 style="color:white; margin-bottom:1rem; font-family:\'Space Grotesk\';">Category Breakdown</h4><p style="color:#94a3b8;">Analyzing your resume...</p>';
+
+                                try {
+                                    const resumeData = {
+                                        profile: DATA.profile,
+                                        summary: DATA.summary,
+                                        experience: DATA.journey,
+                                        skills: DATA.skills,
+                                        education: DATA.education,
+                                        highlights: DATA.highlights
+                                    };
+
+                                    const res = await fetch('/api/ai/ats-score', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ resumeData, template: currentPattern })
+                                    });
+
+                                    if (!res.ok) throw new Error('ATS analysis failed');
+
+                                    const atsData = await res.json();
+                                    console.log('[ATS] Analysis complete:', atsData);
+                                    displayATSResults(atsData);
+
+                                } catch (error) {
+                                    console.error('[ATS] Error:', error);
+                                    document.getElementById('ats-score-label').textContent = 'Analysis Failed';
+                                    document.getElementById('ats-categories').innerHTML = '<p style="color:#ef4444;">Failed to analyze resume. Please try again.</p>';
+                                }
+                            }
+
+                            function displayATSResults(data) {
+                                // Score display
+                                const score = data.overallScore;
+                                const scoreCircle = document.getElementById('ats-score-circle');
+                                const scoreValue = document.getElementById('ats-score-value');
+                                const scoreLabel = document.getElementById('ats-score-label');
+
+                                scoreValue.textContent = score;
+
+                                // Color coding
+                                let color, label;
+                                if (score >= 90) {
+                                    color = '#10b981';
+                                    label = 'Excellent ATS Compatibility!';
+                                } else if (score >= 70) {
+                                    color = '#f59e0b';
+                                    label = 'Good ATS Compatibility';
+                                } else if (score >= 50) {
+                                    color = '#f97316';
+                                    label = 'Needs Improvement';
+                                } else {
+                                    color = '#ef4444';
+                                    label = 'Poor ATS Compatibility';
+                                }
+
+                                scoreCircle.style.background = `conic-gradient(${color} ${score * 3.6}deg, rgba(255,255,255,0.1) 0deg)`;
+                                scoreLabel.textContent = label;
+                                scoreLabel.style.color = color;
+
+                                // Category breakdown
+                                const categories = {
+                                    'keywords': { label: 'Keywords & Skills', max: 25 },
+                                    'formatting': { label: 'Formatting', max: 20 },
+                                    'contact': { label: 'Contact Info', max: 10 },
+                                    'experience': { label: 'Work Experience', max: 20 },
+                                    'education': { label: 'Education', max: 10 },
+                                    'actionVerbs': { label: 'Action Verbs', max: 10 },
+                                    'length': { label: 'Resume Length', max: 5 }
+                                };
+
+                                let categoriesHTML = '<h4 style="color:white; margin-bottom:1rem; font-family:\'Space Grotesk\';">Category Breakdown</h4>';
+                                for (const [key, info] of Object.entries(categories)) {
+                                    const value = data.categoryScores[key] || 0;
+                                    const percentage = (value / info.max) * 100;
+                                    categoriesHTML += `
                     <div style="margin-bottom:1rem;">
                         <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
                             <span style="color:#cbd5e1; font-size:0.9rem;">${info.label}</span>
@@ -573,93 +1550,437 @@
                         </div>
                     </div>
                 `;
-            }
-            document.getElementById('ats-categories').innerHTML = categoriesHTML;
+                                }
+                                document.getElementById('ats-categories').innerHTML = categoriesHTML;
 
-            // Strengths
-            if (data.strengths && data.strengths.length > 0) {
-                document.getElementById('ats-strengths').style.display = 'block';
-                document.getElementById('ats-strengths-list').innerHTML = data.strengths.map(s => `<li>${s}</li>`).join('');
-            }
+                                // Strengths
+                                if (data.strengths && data.strengths.length > 0) {
+                                    document.getElementById('ats-strengths').style.display = 'block';
+                                    document.getElementById('ats-strengths-list').innerHTML = data.strengths.map(s => `<li>${s}</li>`).join('');
+                                }
 
-            // Issues
-            if (data.issues && data.issues.length > 0) {
-                document.getElementById('ats-issues').style.display = 'block';
-                document.getElementById('ats-issues-list').innerHTML = data.issues.map(i => `<li>${i}</li>`).join('');
-            }
+                                // Issues
+                                if (data.issues && data.issues.length > 0) {
+                                    document.getElementById('ats-issues').style.display = 'block';
+                                    document.getElementById('ats-issues-list').innerHTML = data.issues.map(i => `<li>${i}</li>`).join('');
+                                }
 
-            // Recommendations
-            if (data.recommendations && data.recommendations.length > 0) {
-                document.getElementById('ats-recommendations').style.display = 'block';
-                document.getElementById('ats-recommendations-list').innerHTML = data.recommendations.map(r => `<li>${r}</li>`).join('');
-            }
+                                // Recommendations
+                                if (data.recommendations && data.recommendations.length > 0) {
+                                    document.getElementById('ats-recommendations').style.display = 'block';
+                                    document.getElementById('ats-recommendations-list').innerHTML = data.recommendations.map(r => `<li>${r}</li>`).join('');
+                                }
 
-            // Suggested Keywords
-            if (data.suggestedKeywords && data.suggestedKeywords.length > 0) {
-                document.getElementById('ats-keywords').style.display = 'block';
-                document.getElementById('ats-keywords-list').innerHTML = data.suggestedKeywords.map(k =>
-                    `<span style="background:rgba(167,139,250,0.2); color:#a78bfa; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem; border:1px solid rgba(167,139,250,0.3);">${k}</span>`
-                ).join('');
-            }
-        }
+                                // Suggested Keywords
+                                if (data.suggestedKeywords && data.suggestedKeywords.length > 0) {
+                                    document.getElementById('ats-keywords').style.display = 'block';
+                                    document.getElementById('ats-keywords-list').innerHTML = data.suggestedKeywords.map(k =>
+                                        `<span style="background:rgba(167,139,250,0.2); color:#a78bfa; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem; border:1px solid rgba(167,139,250,0.3);">${k}</span>`
+                                    ).join('');
+                                }
 
-        function closeATSModal() {
-            document.getElementById('ats-modal').style.display = 'none';
-            // Reset sections
-            document.getElementById('ats-strengths').style.display = 'none';
-            document.getElementById('ats-issues').style.display = 'none';
-            document.getElementById('ats-recommendations').style.display = 'none';
-            document.getElementById('ats-keywords').style.display = 'none';
-        }
+                                // Show Apply with AI button if there are recommendations
+                                if (data.recommendations && data.recommendations.length > 0) {
+                                    document.getElementById('ats-apply-section').style.display = 'block';
+                                    // Store ATS data for later use
+                                    window.currentATSAnalysis = data;
+                                }
+                            }
 
-        // PDF Download Function
-        function downloadPDF() {
-            console.log('[PDF] Starting PDF download...');
+                            let pendingATSChanges = null; // Store pending changes for preview
 
-            // Hide control panel and edit buttons temporarily
-            const controlPanel = document.getElementById('control-panel');
-            const editButtons = document.querySelectorAll('.edit-trigger');
+                            async function applyATSSuggestionsWithAI() {
+                                console.log('[ATS] Applying suggestions with AI...');
 
-            controlPanel.style.display = 'none';
-            editButtons.forEach(btn => btn.style.display = 'none');
+                                const applyButton = document.querySelector('#ats-apply-section button');
+                                const originalText = applyButton.innerHTML;
+                                applyButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing with AI...';
+                                applyButton.disabled = true;
 
-            const element = document.getElementById('app-root');
-            const userName = DATA.profile?.name || 'Resume';
+                                try {
+                                    const resumeData = {
+                                        profile: DATA.profile,
+                                        summary: DATA.summary,
+                                        journey: DATA.journey,
+                                        skills: DATA.skills,
+                                        education: DATA.education,
+                                        highlights: DATA.highlights
+                                    };
 
-            const opt = {
-                margin: [10, 10, 10, 10],
-                filename: `${userName.replace(/\s+/g, '_')}_Resume.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    backgroundColor: null
-                },
-                jsPDF: {
-                    unit: 'mm',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            };
+                                    const res = await fetch('/api/ai/apply-ats-suggestions', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            resumeData,
+                                            atsAnalysis: window.currentATSAnalysis
+                                        })
+                                    });
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                console.log('[PDF] Download complete');
-                // Restore control panel and edit buttons
-                controlPanel.style.display = 'flex';
-                editButtons.forEach(btn => btn.style.display = 'flex');
-            }).catch(err => {
-                console.error('[PDF] Error:', err);
-                alert('PDF generation failed. Please try again.');
-                // Restore UI even on error
-                controlPanel.style.display = 'flex';
-                editButtons.forEach(btn => btn.style.display = 'flex');
-            });
-        }
+                                    if (!res.ok) throw new Error('Failed to apply ATS suggestions');
 
-        // Init
-        loadContent();
-    </script>
+                                    const result = await res.json();
+                                    console.log('[ATS] Integration result:', result);
+
+                                    // Store pending changes
+                                    pendingATSChanges = result;
+
+                                    // Show preview modal
+                                    showATSPreviewModal(result);
+
+                                } catch (error) {
+                                    console.error('[ATS] Error:', error);
+                                    alert('Failed to apply ATS suggestions. Please try again.');
+                                } finally {
+                                    applyButton.innerHTML = originalText;
+                                    applyButton.disabled = false;
+                                }
+                            }
+
+                            function showATSPreviewModal(result) {
+                                const modal = document.getElementById('ats-preview-modal');
+                                modal.style.display = 'flex';
+
+                                // Store the result for later use
+                                window.pendingATSResult = result;
+
+                                // Create visual comparison
+                                const container = document.getElementById('ats-preview-changes');
+
+                                container.innerHTML = `
+                                    <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(14,165,233,0.1); border-radius:8px; border-left:3px solid var(--accent);">
+                                        <h4 style="margin:0 0 0.5rem 0; color:var(--accent); font-family:'Space Grotesk';">
+                                            <i class="fas fa-info-circle"></i> ATS Optimization Preview
+                                        </h4>
+                                        <p style="margin:0; color:#cbd5e1; font-size:0.95rem;">${result.summary}</p>
+                                    </div>
+
+                                    <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+                                        <button id="view-current-btn" onclick="switchATSView('current')" style="flex:1; padding:0.75rem; background:var(--accent); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.2s;">
+                                            <i class="fas fa-file-alt"></i> Current CV
+                                        </button>
+                                        <button id="view-optimized-btn" onclick="switchATSView('optimized')" style="flex:1; padding:0.75rem; background:rgba(255,255,255,0.1); color:white; border:1px solid rgba(255,255,255,0.2); border-radius:8px; cursor:pointer; font-weight:600; transition:0.2s;">
+                                            <i class="fas fa-star"></i> ATS Optimized
+                                        </button>
+                                    </div>
+
+                                    <div id="cv-preview-container" style="background:#0f172a; border-radius:12px; padding:2rem; min-height:500px; max-height:600px; overflow-y:auto; border:1px solid rgba(255,255,255,0.1);">
+                                        <div id="cv-preview-current" style="display:block;">
+                                            <!-- Current CV will be rendered here -->
+                                        </div>
+                                        <div id="cv-preview-optimized" style="display:none;">
+                                            <!-- Optimized CV will be rendered here -->
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top:1rem; padding:1rem; background:rgba(16,185,129,0.1); border-radius:8px; border-left:3px solid #10b981;">
+                                        <h5 style="margin:0 0 0.5rem 0; color:#10b981; font-size:0.9rem;">
+                                            <i class="fas fa-lightbulb"></i> Key Improvements
+                                        </h5>
+                                        <ul style="margin:0; padding-left:1.5rem; color:#cbd5e1; font-size:0.85rem;">
+                                            ${result.changes.slice(0, 5).map(change => `
+                                                <li style="margin-bottom:0.25rem;">${change.section}: ${change.description}</li>
+                                            `).join('')}
+                                        </ul>
+                                    </div>
+                                `;
+
+                                // Render both CV versions
+                                renderCVPreview('current', DATA);
+                                renderCVPreview('optimized', result.updatedResumeData);
+                            }
+
+                            // Switch between current and optimized views
+                            function switchATSView(view) {
+                                const currentBtn = document.getElementById('view-current-btn');
+                                const optimizedBtn = document.getElementById('view-optimized-btn');
+                                const currentPreview = document.getElementById('cv-preview-current');
+                                const optimizedPreview = document.getElementById('cv-preview-optimized');
+
+                                if (view === 'current') {
+                                    currentBtn.style.background = 'var(--accent)';
+                                    currentBtn.style.border = 'none';
+                                    optimizedBtn.style.background = 'rgba(255,255,255,0.1)';
+                                    optimizedBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+                                    currentPreview.style.display = 'block';
+                                    optimizedPreview.style.display = 'none';
+                                } else {
+                                    optimizedBtn.style.background = 'var(--accent)';
+                                    optimizedBtn.style.border = 'none';
+                                    currentBtn.style.background = 'rgba(255,255,255,0.1)';
+                                    currentBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+                                    currentPreview.style.display = 'none';
+                                    optimizedPreview.style.display = 'block';
+                                }
+                            }
+
+                            // Render CV preview
+                            function renderCVPreview(viewType, data) {
+                                const container = document.getElementById(`cv-preview-${viewType}`);
+
+                                // Create a temporary container for rendering
+                                const tempContainer = document.createElement('div');
+                                tempContainer.style.cssText = 'transform:scale(0.7); transform-origin:top left; width:142.857%;'; // Scale down to fit
+
+                                // Render using current template
+                                if (currentPattern === 'split' && window.renderSplit) {
+                                    window.renderSplit(data, tempContainer, null);
+                                } else if (currentPattern === 'glass' && window.renderGlass) {
+                                    window.renderGlass(data, tempContainer, null);
+                                } else if (currentPattern === 'clean' && window.renderClean) {
+                                    window.renderClean(data, tempContainer, null);
+                                } else if (currentPattern === 'classic' && window.renderClassic) {
+                                    window.renderClassic(data, tempContainer, null);
+                                }
+
+                                container.innerHTML = '';
+                                container.appendChild(tempContainer);
+                            }
+
+                            function closeATSPreviewModal() {
+                                document.getElementById('ats-preview-modal').style.display = 'none';
+                            }
+
+                            function confirmApplyATSChanges() {
+                                if (!window.pendingATSResult) return;
+
+                                // Create backup before applying changes
+                                dataBackup = {
+                                    profile: JSON.parse(JSON.stringify(DATA.profile)),
+                                    summary: JSON.parse(JSON.stringify(DATA.summary)),
+                                    journey: JSON.parse(JSON.stringify(DATA.journey)),
+                                    skills: JSON.parse(JSON.stringify(DATA.skills)),
+                                    education: JSON.parse(JSON.stringify(DATA.education)),
+                                    highlights: JSON.parse(JSON.stringify(DATA.highlights))
+                                };
+                                lastATSChanges = window.pendingATSResult;
+
+                                // Save to history before applying changes
+                                saveToHistory('Apply ATS Suggestions');
+
+                                // Apply changes to DATA
+                                DATA.profile = window.pendingATSResult.updatedResumeData.profile;
+                                DATA.summary = window.pendingATSResult.updatedResumeData.summary;
+                                DATA.journey = window.pendingATSResult.updatedResumeData.journey;
+                                DATA.skills = window.pendingATSResult.updatedResumeData.skills;
+                                DATA.education = window.pendingATSResult.updatedResumeData.education;
+                                DATA.highlights = window.pendingATSResult.updatedResumeData.highlights;
+
+                                // Re-render current template
+                                startRender(currentPattern);
+
+                                // Close modals
+                                closeATSPreviewModal();
+                                closeATSModal();
+
+                                // Show undo button
+                                document.getElementById('undo-ats-btn').style.display = 'block';
+
+                                // Show success message
+                                showNotification('ATS suggestions applied successfully! You can undo anytime.', 'success');
+
+                                // Save to backend
+                                saveAllDataToBackend();
+                            }
+
+                            function undoATSChanges() {
+                                if (!dataBackup) {
+                                    alert('No ATS changes to undo.');
+                                    return;
+                                }
+
+                                if (!confirm('Are you sure you want to undo the ATS changes? This will restore your CV to its previous state.')) {
+                                    return;
+                                }
+
+                                // Restore from backup
+                                DATA.profile = dataBackup.profile;
+                                DATA.summary = dataBackup.summary;
+                                DATA.journey = dataBackup.journey;
+                                DATA.skills = dataBackup.skills;
+                                DATA.education = dataBackup.education;
+                                DATA.highlights = dataBackup.highlights;
+
+                                // Re-render current template
+                                startRender(currentPattern);
+
+                                // Hide undo button
+                                document.getElementById('undo-ats-btn').style.display = 'none';
+
+                                // Clear backup
+                                dataBackup = null;
+                                lastATSChanges = null;
+
+                                // Show success message
+                                alert('✅ ATS changes have been undone. Your CV has been restored.');
+
+                                // Save to backend
+                                saveAllDataToBackend();
+                            }
+
+                            async function saveAllDataToBackend() {
+                                try {
+                                    const files = {
+                                        'profile.json': DATA.profile,
+                                        'summary.json': DATA.summary,
+                                        'journey.json': DATA.journey,
+                                        'skills.json': DATA.skills,
+                                        'education.json': DATA.education,
+                                        'highlights.json': DATA.highlights
+                                    };
+
+                                    for (const [filename, content] of Object.entries(files)) {
+                                        await fetch(`http://localhost:3000/api/save/${CURRENT_USER}/${filename}`, {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify(content)
+                                        });
+                                    }
+                                    console.log('[SAVE] All changes saved to backend');
+                                } catch (error) {
+                                    console.error('[SAVE] Error saving to backend:', error);
+                                }
+                            }
+                            function closeATSModal() {
+                                document.getElementById('ats-modal').style.display = 'none';
+                                // Reset sections
+                                document.getElementById('ats-strengths').style.display = 'none';
+                                document.getElementById('ats-issues').style.display = 'none';
+                                document.getElementById('ats-recommendations').style.display = 'none';
+                                document.getElementById('ats-keywords').style.display = 'none';
+                            }
+
+                            // PDF Download Function
+                            function downloadPDF() {
+                                console.log('[PDF] Starting PDF download...');
+
+                                // Hide control panel and edit buttons temporarily
+                                const controlPanel = document.getElementById('control-panel');
+                                const editButtons = document.querySelectorAll('.edit-trigger');
+
+                                controlPanel.style.display = 'none';
+                                editButtons.forEach(btn => btn.style.display = 'none');
+
+                                const element = document.getElementById('app-root');
+                                const userName = DATA.profile?.name || 'Resume';
+
+                                const opt = {
+                                    margin: [10, 10, 10, 10],
+                                    filename: `${userName.replace(/\s+/g, '_')}_Resume.pdf`,
+                                    image: { type: 'jpeg', quality: 0.98 },
+                                    html2canvas: {
+                                        scale: 2,
+                                        useCORS: true,
+                                        logging: false,
+                                        backgroundColor: null
+                                    },
+                                    jsPDF: {
+                                        unit: 'mm',
+                                        format: 'a4',
+                                        orientation: 'portrait'
+                                    }
+                                };
+
+                                html2pdf().set(opt).from(element).save().then(() => {
+                                    console.log('[PDF] Download complete');
+                                    // Restore control panel and edit buttons
+                                    controlPanel.style.display = 'flex';
+                                    editButtons.forEach(btn => btn.style.display = 'flex');
+                                }).catch(err => {
+                                    console.error('[PDF] Error:', err);
+                                    alert('PDF generation failed. Please try again.');
+                                    // Restore UI even on error
+                                    controlPanel.style.display = 'flex';
+                                    editButtons.forEach(btn => btn.style.display = 'flex');
+                                });
+                            }
+
+                            // Init
+                            loadContent();
+
+                            // Onboarding Tour
+                            function startOnboardingTour() {
+                                // Check if required elements exist
+                                const editBtn = document.querySelector('.edit-btn');
+                                const checkATSBtn = document.querySelector('[onclick*="checkATSScore"]');
+
+                                if (!editBtn || !checkATSBtn) {
+                                    console.warn('Tour elements not ready, delaying tour');
+                                    setTimeout(startOnboardingTour, 1000);
+                                    return;
+                                }
+
+                                introJs().setOptions({
+                                    steps: [
+                                        {
+                                            intro: "👋 Welcome to the Resume Builder! Let's take a quick tour of the key features."
+                                        },
+                                        {
+                                            element: '#control-panel',
+                                            intro: "🎨 Use this control panel to select templates, download PDF, and check ATS score.",
+                                            position: 'left'
+                                        },
+                                        {
+                                            element: editBtn,
+                                            intro: "✏️ Click any Edit button to modify your CV content using friendly forms (no JSON!)",
+                                            position: 'bottom'
+                                        },
+                                        {
+                                            element: '#undo-btn',
+                                            intro: "↩️ Made a mistake? Use Undo/Redo anytime! Keyboard shortcuts: Ctrl+Z / Ctrl+Y",
+                                            position: 'left'
+                                        },
+                                        {
+                                            element: '#template-carousel',
+                                            intro: "🎭 Browse and switch between templates using this carousel at the bottom.",
+                                            position: 'top'
+                                        },
+                                        {
+                                            element: checkATSBtn,
+                                            intro: "📊 Check your ATS compatibility score and get AI-powered suggestions to improve it.",
+                                            position: 'left'
+                                        },
+                                        {
+                                            intro: "🎉 That's it! You're ready to create an amazing resume. Happy building!"
+                                        }
+                                    ],
+                                    showProgress: true,
+                                    showBullets: false,
+                                    exitOnOverlayClick: false,
+                                    doneLabel: 'Get Started!',
+                                    nextLabel: 'Next →',
+                                    prevLabel: '← Back'
+                                }).oncomplete(() => {
+                                    localStorage.setItem('resumeBuilderTourCompleted', 'true');
+                                    showNotification('Tour complete! Start editing your resume', 'success');
+                                }).onexit(() => {
+                                    localStorage.setItem('resumeBuilderTourCompleted', 'true');
+                                }).start();
+                            }
+
+                            // Check if first visit and start tour
+                            setTimeout(() => {
+                                if (!localStorage.getItem('resumeBuilderTourCompleted')) {
+                                    startOnboardingTour();
+                                }
+                            }, 3000); // Wait 3 seconds for page to fully load
+
+                            // Add "Start Tour" button to control panel
+                            function addTourButton() {
+                                const controlPanel = document.getElementById('control-panel');
+                                if (controlPanel && !document.getElementById('tour-btn')) {
+                                    const tourBtn = document.createElement('button');
+                                    tourBtn.id = 'tour-btn';
+                                    tourBtn.className = 'pattern-btn';
+                                    tourBtn.onclick = startOnboardingTour;
+                                    tourBtn.style.cssText = 'background:rgba(139,92,246,0.2); border-color:#8b5cf6; margin-top:1rem;';
+                                    tourBtn.innerHTML = '<i class="fas fa-question-circle"></i> Take Tour';
+                                    controlPanel.appendChild(tourBtn);
+                                }
+                            }
+
+                            // Add tour button after carousel initializes
+                            setTimeout(addTourButton, 1500);
+                        </script>
 </body>
 
 </html>

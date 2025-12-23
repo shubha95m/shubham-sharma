@@ -1,23 +1,33 @@
 window.renderClassic = (DATA, ROOT, STYLE) => {
+    // Robust Scoping: specific body class (ONLY for main app)
+    if (ROOT.id === 'app-root') {
+        document.body.className = 'classic-theme';
+    }
+
     STYLE.innerHTML = `
-        :root { --accent: #38bdf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
-        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; padding: 0; margin: 0; line-height: 1.6; }
-        .hero-sec { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle, rgba(56, 189, 248, .1), transparent 50%); }
-        .hero-sec h1 { font-family: 'Space Grotesk'; font-size: 2.5rem; margin: 0; text-transparent: linear-gradient(135deg, white, var(--accent)); background-clip: text; -webkit-background-clip: text; color: transparent; background-image: linear-gradient(135deg, white, var(--accent)); }
-        .container { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
-        .classic-card { background: var(--card); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.05); }
-        .sec-title { text-align: center; font-family: 'Space Grotesk'; font-size: 1.6rem; margin-bottom: 1.5rem; color: var(--accent); }
-        .timeline-entry { position: relative; border-left: 2px solid #334155; padding-left: 2rem; margin-bottom: 2rem; }
-        .timeline-entry::before { content:''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
-        .skill-tag { color: var(--accent); border: 1px solid var(--accent); padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; margin: 5px; display: inline-block; }
+        body.classic-theme { 
+            background: #0f172a; color: #f1f5f9; font-family: 'Outfit', sans-serif; padding: 0; margin: 0; line-height: 1.6; 
+            --accent: #38bdf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9;
+        }
+        .classic-theme .hero-sec { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle, rgba(56, 189, 248, .1), transparent 50%); }
+        .classic-theme .hero-sec h1 { font-family: 'Space Grotesk'; font-size: 2.5rem; margin: 0; text-transparent: linear-gradient(135deg, white, #38bdf8); background-clip: text; -webkit-background-clip: text; color: transparent; background-image: linear-gradient(135deg, white, #38bdf8); }
+        .classic-theme .container { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+        .classic-theme .classic-card { background: #1e293b; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.05); }
+        .classic-theme .sec-title { text-align: center; font-family: 'Space Grotesk'; font-size: 1.6rem; margin-bottom: 1.5rem; color: #38bdf8; }
+        .classic-theme .timeline-entry { position: relative; border-left: 2px solid #334155; padding-left: 2rem; margin-bottom: 2rem; }
+        .classic-theme .timeline-entry::before { content:''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: #38bdf8; border-radius: 50%; }
+        .classic-theme .skill-tag { color: #38bdf8; border: 1px solid #38bdf8; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; margin: 5px; display: inline-block; }
+        
+        /* Explicitly force bright colors for this dark theme */
+        .classic-theme p, .classic-theme span, .classic-theme div, .classic-theme li, .classic-theme ul, .classic-theme ol, .classic-theme h2, .classic-theme h3, .classic-theme h4, .classic-theme h5, .classic-theme h6 { color: #f1f5f9; }
         
         @media print {
-            body {
+            body.classic-theme {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
             
-            .hero-sec, .classic-card, body {
+            .classic-theme .hero-sec, .classic-theme .classic-card, body.classic-theme {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -56,7 +66,7 @@ window.renderClassic = (DATA, ROOT, STYLE) => {
             <div id="about">
                 <h2 class="sec-title">Description</h2>
                 <div class="classic-card">
-                    ${DATA.summary.summary.map(s => `<p style="margin-bottom:1rem;color:#cbd5e1;">${s}</p>`).join('')}
+                    ${DATA.summary.summary.map(s => `<p style="margin-bottom:1rem;color:var(--text);">${s}</p>`).join('')}
                 </div>
             </div>
 
@@ -64,13 +74,13 @@ window.renderClassic = (DATA, ROOT, STYLE) => {
                 <h2 class="sec-title">Highlights</h2>
                 <div class="classic-card">
                      <h3 style="color:var(--accent); font-family: 'Space Grotesk';">Scope & Architecture</h3>
-                     <ul style="color:#cbd5e1; padding-left:1.2rem; margin-bottom:2rem;">
+                     <ul style="color:var(--text); padding-left:1.2rem; margin-bottom:2rem;">
                         ${DATA.highlights.scope.slice(0, 3).map(s => `<li>${s}</li>`).join('')}
                         ${DATA.highlights.architecture.slice(0, 3).map(s => `<li>${s}</li>`).join('')}
                      </ul>
     
                      <h3 style="color:var(--accent); font-family: 'Space Grotesk';">Key Innovation</h3>
-                     <ul style="padding-left: 1.5rem; line-height: 1.8; columns: 2; column-gap: 2rem; color: #cbd5e1;">
+                     <ul style="padding-left: 1.5rem; line-height: 1.8; columns: 2; column-gap: 2rem; color: var(--text);">
                         ${DATA.highlights.platforms.map(p => `<li style="margin-bottom: 0.5rem; break-inside: avoid;">${p}</li>`).join('')}
                      </ul>
                 </div>
@@ -79,7 +89,20 @@ window.renderClassic = (DATA, ROOT, STYLE) => {
             <div id="skills">
                 <h2 class="sec-title">Skills</h2>
                 <div style="text-align:center;">
-                    ${DATA.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+                    ${(() => {
+            if (Array.isArray(DATA.skills)) {
+                return DATA.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+            } else {
+                let html = '';
+                if (DATA.skills.technical && DATA.skills.technical.length > 0) {
+                    html += `<div style="margin-bottom:1.5rem;"><h4 style="color:var(--accent); margin-bottom:0.8rem;">Technical Skills</h4><div>${DATA.skills.technical.map(s => `<span class="skill-tag">${s}</span>`).join('')}</div></div>`;
+                }
+                if (DATA.skills.process && DATA.skills.process.length > 0) {
+                    html += `<div><h4 style="color:#94a3b8; margin-bottom:0.8rem;">Process & Methodology</h4><div>${DATA.skills.process.map(s => `<span class="skill-tag" style="border-color:#94a3b8; color:#94a3b8;">${s}</span>`).join('')}</div></div>`;
+                }
+                return html;
+            }
+        })()}
                 </div>
             </div>
 
@@ -91,7 +114,7 @@ window.renderClassic = (DATA, ROOT, STYLE) => {
                             <h3 style="margin:0; font-family:'Space Grotesk'; font-size:1.2rem;">${j.role}</h3>
                             <div style="color:var(--accent); margin-bottom:0.5rem;">${j.company} · ${j.date}</div>
                             <div class="classic-card" style="padding:1.5rem;">
-                                <ul style="padding-left:1.2rem; color:#cbd5e1;">${j.details.map(d => `<li>${d}</li>`).join('')}</ul>
+                                <ul style="padding-left:1.2rem; color:var(--text);">${j.details.map(d => `<li>${d}</li>`).join('')}</ul>
                             </div>
                         </div>
                     `).join('')}
@@ -110,7 +133,7 @@ window.renderClassic = (DATA, ROOT, STYLE) => {
                     ${DATA.education.certifications && DATA.education.certifications.length > 0 ? `
                     <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
                         <strong style="color: var(--accent); font-size: 0.95rem;">Certifications:</strong>
-                        <div style="color: #cbd5e1; margin-top: 0.5rem; font-size: 0.9rem;">
+                        <div style="color: var(--text); margin-top: 0.5rem; font-size: 0.9rem;">
                             ${DATA.education.certifications.map(c => `${c.name} (${c.issuer}, ${c.year})`).join(' • ')}
                         </div>
                     </div>

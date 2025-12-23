@@ -1,5 +1,6 @@
 const express = require('express');
 const { Anthropic } = require('@anthropic-ai/sdk');
+const { jsonrepair } = require('jsonrepair');
 
 const router = express.Router();
 
@@ -109,7 +110,7 @@ router.post('/build-cv', async (req, res) => {
         // Build conversation messages for Claude
         const messages = [];
 
-        // Add conversation history
+        // Add conversation history 
         if (conversationHistory && conversationHistory.length > 0) {
             conversationHistory.forEach(msg => {
                 messages.push({
@@ -285,7 +286,7 @@ Return ONLY valid JSON, no explanations.`;
 // ATS Score Checker
 router.post('/ats-score', async (req, res) => {
     console.log('[ATS SCORE] Request received');
-    
+
     try {
         const { resumeData, template } = req.body;
 
@@ -358,13 +359,128 @@ Return ONLY valid JSON, no explanations.`;
         }
 
         const atsScore = JSON.parse(jsonMatch[0]);
-        
+
         console.log('[ATS SCORE] Analysis complete:', atsScore.overallScore);
         res.json(atsScore);
 
     } catch (error) {
         console.error('ATS Score Error:', error);
         res.status(500).json({ error: 'ATS scoring failed: ' + error.message });
+    }
+});
+
+// Smart ATS Integration - Apply suggestions intelligently
+router.post('/apply-ats-suggestions', async (req, res) => {
+    console.log('[ATS INTEGRATION] Request received');
+
+    try {
+        const { resumeData, atsAnalysis } = req.body;
+
+        if (!process.env.ANTHROPIC_API_KEY) {
+            console.error('[ATS INTEGRATION] Missing API Key');
+            return res.status(500).json({ error: 'Server missing API Key' });
+        }
+
+        const prompt = `You are an expert resume writer and ATS optimization specialist. Your task is to intelligently integrate ATS recommendations into an existing resume WITHOUT disrupting its structure or removing any existing content.
+
+CURRENT RESUME DATA:
+${JSON.stringify(resumeData, null, 2)}
+
+ATS ANALYSIS RESULTS:
+- Overall Score: ${atsAnalysis.overallScore}/100
+- Issues: ${JSON.stringify(atsAnalysis.issues)}
+- Recommendations: ${JSON.stringify(atsAnalysis.recommendations)}
+- Suggested Keywords: ${JSON.stringify(atsAnalysis.suggestedKeywords)}
+
+YOUR TASK:
+1. **PRESERVE EXISTING STRUCTURE**: Do NOT remove or replace any existing content
+2. **SMART ENHANCEMENT**: Only add, refine, or enhance content based on recommendations
+3. **KEYWORD INTEGRATION**: Naturally integrate suggested keywords where they fit contextually
+4. **ISSUE RESOLUTION**: Address identified issues by improving existing sections
+5. **MAINTAIN AUTHENTICITY**: Keep the professional tone and style consistent
+
+SPECIFIC ACTIONS:
+- If recommendations suggest adding keywords, integrate them naturally into existing bullet points or summary
+- If formatting issues are mentioned, suggest structural improvements
+- If missing information is noted, add it to appropriate sections
+- For skills, add missing relevant keywords to the skills array or object
+- For experience, enhance existing bullet points with quantifiable metrics if recommended
+- For summary, refine language to be more ATS-friendly while keeping the essence
+
+CRITICAL: You MUST return ONLY a valid JSON object with this EXACT structure. Do not include any explanatory text before or after the JSON:
+
+{
+    "updatedResumeData": {
+        "profile": {...},
+        "summary": {...},
+        "journey": [...],
+        "skills": [...] or {...},
+        "education": {...},
+        "highlights": {...}
+    },
+    "changes": [
+        {
+            "section": "skills",
+            "type": "added",
+            "description": "Added 5 relevant technical keywords",
+            "items": ["Keyword1", "Keyword2"]
+        }
+    ],
+    "summary": "Brief summary of all changes made"
+}
+
+IMPORTANT: 
+- Ensure all JSON is properly formatted with correct commas
+- All arrays must have commas between elements
+- No trailing commas before closing brackets
+- All strings must be properly quoted
+- Return ONLY the JSON object, nothing else`;
+
+        const response = await anthropic.messages.create({
+            model: process.env.MODEL_NAME || "claude-sonnet-4-5-20250929",
+            max_tokens: 4000,
+            messages: [{ role: 'user', content: prompt }]
+        });
+
+        let content = response.content[0].text;
+
+        // Clean up the response - remove markdown code blocks and extra whitespace
+        content = content.replace(/```json\n?|\n?```/g, '').trim();
+
+        // Try to extract JSON object
+        let jsonMatch = content.match(/\{[\s\S]*\}/);
+
+        if (!jsonMatch) {
+            console.error('[ATS INTEGRATION] No JSON found in response:', content.substring(0, 500));
+            throw new Error('Failed to parse ATS integration response - no JSON object found');
+        }
+
+        let integrationResult;
+        try {
+            integrationResult = JSON.parse(jsonMatch[0]);
+        } catch (parseError) {
+            console.error('[ATS INTEGRATION] JSON parse error:', parseError.message);
+            console.error('[ATS INTEGRATION] Problematic JSON:', jsonMatch[0].substring(0, 1000));
+            console.error('[ATS INTEGRATION] Attempting to repair JSON with jsonrepair...');
+
+            // Use jsonrepair library to fix malformed JSON
+            try {
+                const { jsonrepair } = require('jsonrepair'); // Assuming jsonrepair is installed and imported
+                const repairedJson = jsonrepair(jsonMatch[0]);
+                integrationResult = JSON.parse(repairedJson);
+                console.log('[ATS INTEGRATION] Successfully repaired and parsed JSON');
+            } catch (repairError) {
+                console.error('[ATS INTEGRATION] Failed to repair JSON:', repairError.message);
+                throw new Error('Failed to parse ATS integration response: ' + repairError.message);
+            }
+        }
+
+        console.log('[ATS INTEGRATION] Integration complete:', integrationResult.summary);
+        res.json(integrationResult);
+
+    } catch (error) {
+        console.error('ATS Integration Error:', error);
+        res.status(500).json({ error: 'ATS integration failed: ' + error.message });
     }
 });
 
