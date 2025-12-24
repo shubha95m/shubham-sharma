@@ -15,6 +15,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(express.static(__dirname));
+// Serve temp-pdfs directory for direct PDF access
+app.use('/temp-pdfs', express.static(__dirname + '/temp-pdfs'));
 
 // ========================================
 // ROUTES
@@ -22,10 +24,12 @@ app.use(express.static(__dirname));
 const cvDataRoutes = require('./routes/cvData');
 const aiRoutes = require('./routes/ai');
 const importRoutes = require('./routes/import');
+const pdfRoutes = require('./routes/pdf');
 
 app.use('/api', cvDataRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api', importRoutes);
+app.use('/api/pdf', pdfRoutes);
 
 // ========================================
 // START SERVER

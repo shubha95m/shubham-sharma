@@ -17,13 +17,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css">
     <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
 
-    <!-- Pattern Templates -->
-    <script src="cv-template/split.js"></script>
-    <script src="cv-template/glass.js"></script>
-    <script src="cv-template/clean.js"></script>
-    <script src="cv-template/classic.js"></script>
+    </script>
 
-    <!-- PDF Export Library -->
+    <!-- Pattern Templates -->
+    <script src="cv-template/split.js?v=5"></script>
+    <script src="cv-template/glass.js?v=5"></script>
+    <script src="cv-template/clean.js?v=5"></script>
+    <script src="cv-template/classic.js?v=5"></script>
+
+    <!-- PDF Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style id="dynamic-style"></style>
@@ -126,8 +130,8 @@
 
         @media print {
             @page {
-                margin: 0.75cm 0.75cm;
-                /* Reduced margins for ATS optimization - more content per page */
+                margin: 0;
+                size: A4 landscape;
             }
 
             body {
@@ -136,6 +140,7 @@
                 overflow: visible !important;
                 height: auto !important;
                 padding: 0 !important;
+                margin: 0 !important;
             }
 
             * {
@@ -159,6 +164,24 @@
             #app-root {
                 height: auto !important;
                 overflow: visible !important;
+            }
+
+            /* Fixed sidebar for split template */
+            .sidebar {
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 280px !important;
+                height: 100vh !important;
+                overflow: hidden !important;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .main-content {
+                margin-left: 280px !important;
+                width: calc(100% - 280px) !important;
+                height: auto !important;
             }
 
             /* Prevent awkward page breaks */
@@ -207,6 +230,69 @@
                 font-size: 0.9rem !important;
                 line-height: 1.4 !important;
             }
+        }
+
+        /* PDF Export Mode - Clean Export Strategy */
+        body.pdf-export-mode {
+            background: white !important;
+        }
+
+        /* PDF Export Mode - Split Template Specific */
+        body.split-theme.pdf-export-mode #app-root {
+            position: relative !important;
+            height: auto !important;
+            overflow: visible !important;
+        }
+
+        body.split-theme.pdf-export-mode .sidebar {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            height: 100% !important;
+            width: 320px !important;
+            display: block !important;
+            overflow: visible !important;
+            background: #0f172a !important;
+        }
+
+        body.split-theme.pdf-export-mode .main-content {
+            margin-left: 320px !important;
+            height: auto !important;
+            overflow: visible !important;
+            padding: 2rem 3rem !important;
+        }
+
+        /* PDF Export Mode - Other Templates */
+        body.pdf-export-mode:not(.split-theme) .sidebar,
+        body.pdf-export-mode:not(.split-theme) #profile {
+            display: none !important;
+        }
+
+        body.pdf-export-mode:not(.split-theme) .main-content {
+            margin: 0 !important;
+            padding: 40px !important;
+            width: 794px !important;
+            max-width: 794px !important;
+            background: white !important;
+            position: relative !important;
+        }
+
+        /* Hide all UI controls */
+        body.pdf-export-mode #control-panel,
+        body.pdf-export-mode #template-carousel,
+        body.pdf-export-mode .edit-trigger {
+            display: none !important;
+        }
+
+        /* Ensure sections don't break awkwardly */
+        body.pdf-export-mode .section {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        body.pdf-export-mode .timeline-item {
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
 
         /* Form Editor Styles */
@@ -432,10 +518,31 @@
 </head>
 
 <body>
+    <!-- Control Panel Toggle Button (Collapsed State) -->
+    <button id="control-panel-toggle" onclick="toggleControlPanel()"
+        style="position:fixed; top:50%; right:10px; transform:translateY(-50%); background:rgba(15,23,42,0.9); backdrop-filter:blur(10px); padding:0.5rem; border-radius:8px 0 0 8px; z-index:9998; box-shadow:0 4px 20px rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); border-right:none; cursor:pointer; color:white; font-size:1.2rem; display:none; transition:all 0.3s ease;"
+        data-tooltip="Show Controls">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
     <!-- ICON BAR (Right Side) -->
     <div id="control-panel">
+        <!-- Collapse Button -->
+        <button class="pattern-btn" onclick="toggleControlPanel()"
+            style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);" data-tooltip="Hide Controls">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <div class="icon-divider"></div>
+
+        <!-- Preview for Print -->
+        <button class="pattern-btn" onclick="openPrintPreview()" style="background:#8b5cf6; border-color:#8b5cf6;"
+            data-tooltip="Preview (for Print to PDF)">
+            <i class="fas fa-eye"></i>
+        </button>
+
         <!-- PDF Download -->
-        <button class="pattern-btn" onclick="window.print()" style="background:#10b981; border-color:#10b981;"
+        <button class="pattern-btn" onclick="downloadPDF()" style="background:#10b981; border-color:#10b981;"
             data-tooltip="Download PDF">
             <i class="fas fa-download"></i>
         </button>
@@ -481,13 +588,18 @@
 
     <!-- TEMPLATE CAROUSEL (Bottom Center) -->
     <div id="template-carousel"
-        style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95)); backdrop-filter:blur(15px); border:1px solid rgba(255,255,255,0.15); padding:1rem 1.5rem; z-index:9000; box-shadow:0 8px 32px rgba(0,0,0,0.4); border-radius:16px; max-width:900px;">
-        <div style="text-align:center; margin-bottom:0.75rem;">
+        style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95)); backdrop-filter:blur(15px); border:1px solid rgba(255,255,255,0.15); padding:1rem 1.5rem; z-index:9000; box-shadow:0 8px 32px rgba(0,0,0,0.4); border-radius:16px; max-width:900px; transition:all 0.3s ease;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
             <h4 style="margin:0; color:white; font-family:'Space Grotesk'; font-size:0.85rem; font-weight:600;">
                 <i class="fas fa-palette"></i> Choose Your Template
             </h4>
+            <button onclick="toggleCarousel()"
+                style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:0.4rem 0.6rem; border-radius:6px; cursor:pointer; font-size:0.75rem; transition:0.2s;">
+                <i id="carousel-toggle-icon" class="fas fa-chevron-down"></i>
+            </button>
         </div>
-        <div id="carousel-content" style="display:flex; gap:1rem; justify-content:center; align-items:center;">
+        <div id="carousel-content"
+            style="display:flex; gap:1rem; justify-content:center; align-items:center; transition:all 0.3s ease;">
             <!-- Template previews will be inserted here -->
         </div>
     </div>
@@ -1863,53 +1975,224 @@
                                 document.getElementById('ats-keywords').style.display = 'none';
                             }
 
-                            // PDF Download Function
-                            function downloadPDF() {
-                                console.log('[PDF] Starting PDF download...');
+                            // Toggle Control Panel
+                            function toggleControlPanel() {
+                                const panel = document.getElementById('control-panel');
+                                const toggle = document.getElementById('control-panel-toggle');
 
-                                // Hide control panel and edit buttons temporarily
-                                const controlPanel = document.getElementById('control-panel');
-                                const editButtons = document.querySelectorAll('.edit-trigger');
+                                if (panel.style.display === 'none') {
+                                    // Show panel
+                                    panel.style.display = 'flex';
+                                    toggle.style.display = 'none';
+                                } else {
+                                    // Hide panel
+                                    panel.style.display = 'none';
+                                    toggle.style.display = 'flex';
+                                }
+                            }
 
-                                controlPanel.style.display = 'none';
-                                editButtons.forEach(btn => btn.style.display = 'none');
+                            // Toggle Template Carousel
+                            function toggleCarousel() {
+                                const content = document.getElementById('carousel-content');
+                                const icon = document.getElementById('carousel-toggle-icon');
+                                const carousel = document.getElementById('template-carousel');
 
-                                const element = document.getElementById('app-root');
+                                if (content.style.display === 'none') {
+                                    // Expand
+                                    content.style.display = 'flex';
+                                    icon.className = 'fas fa-chevron-down';
+                                    carousel.style.padding = '1rem 1.5rem';
+                                } else {
+                                    // Collapse
+                                    content.style.display = 'none';
+                                    icon.className = 'fas fa-chevron-up';
+                                    carousel.style.padding = '0.75rem 1.5rem';
+                                }
+                            }
+
+                            // Open Print Preview - Clean view without controls
+                            function openPrintPreview() {
+                                // Build the clean preview URL
+                                const previewUrl = `${window.location.origin}/resume.html?user=${CURRENT_USER}&preview=true`;
+
+                                // Open in new window
+                                window.open(previewUrl, '_blank');
+                            }
+
+                            // PDF Download Function - Using Puppeteer via Backend
+                            async function downloadPDF() {
+                                console.log('[PDF] Starting Puppeteer PDF generation...');
+
                                 const userName = DATA.profile?.name || 'Resume';
+                                const filename = `${userName.replace(/\s+/g, '_')}_Resume.pdf`;
 
-                                const opt = {
-                                    margin: [10, 10, 10, 10],
-                                    filename: `${userName.replace(/\s+/g, '_')}_Resume.pdf`,
-                                    image: { type: 'jpeg', quality: 0.98 },
-                                    html2canvas: {
-                                        scale: 2,
-                                        useCORS: true,
-                                        logging: false,
-                                        backgroundColor: null
-                                    },
-                                    jsPDF: {
-                                        unit: 'mm',
-                                        format: 'a4',
-                                        orientation: 'portrait'
+                                // Show loading notification
+                                const notification = document.createElement('div');
+                                notification.style.cssText = `
+                                    position: fixed;
+                                    top: 20px;
+                                    right: 20px;
+                                    background: #3b82f6;
+                                    color: white;
+                                    padding: 1.5rem;
+                                    border-radius: 12px;
+                                    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                                    z-index: 10000;
+                                    max-width: 400px;
+                                    font-family: 'Inter', sans-serif;
+                                `;
+                                notification.innerHTML = `
+                                    <div style="font-weight: 600; margin-bottom: 0.5rem;">⏳ Generating PDF...</div>
+                                    <div style="font-size: 0.9rem;">
+                                        Please wait, capturing your resume with high quality...
+                                    </div>
+                                `;
+                                document.body.appendChild(notification);
+
+                                try {
+                                    // Call backend API to generate PDF
+                                    const response = await fetch(`/api/pdf/generate?user=${CURRENT_USER}`);
+
+                                    if (!response.ok) {
+                                        const error = await response.text();
+                                        throw new Error(`Failed to generate PDF: ${error}`);
                                     }
-                                };
 
-                                html2pdf().set(opt).from(element).save().then(() => {
-                                    console.log('[PDF] Download complete');
-                                    // Restore control panel and edit buttons
-                                    controlPanel.style.display = 'flex';
-                                    editButtons.forEach(btn => btn.style.display = 'flex');
-                                }).catch(err => {
+                                    // Get the response with URLs
+                                    const data = await response.json();
+                                    console.log('[PDF] PDF generated:', data);
+
+                                    if (!data.success) {
+                                        throw new Error('PDF generation failed');
+                                    }
+
+                                    // Create direct file URL (most reliable)
+                                    const directFileUrl = `/temp-pdfs/${data.filename}`;
+
+                                    // Store PDF URLs
+                                    window.currentPDF = {
+                                        pdfId: data.pdfId,
+                                        filename: data.filename,
+                                        downloadUrl: data.downloadUrl,
+                                        viewUrl: directFileUrl, // Use direct file path
+                                        directUrl: directFileUrl,
+                                        view: () => window.open(directFileUrl, '_blank'),
+                                        download: () => {
+                                            const a = document.createElement('a');
+                                            a.href = data.downloadUrl;
+                                            a.download = data.filename;
+                                            document.body.appendChild(a);
+                                            a.click();
+                                            setTimeout(() => document.body.removeChild(a), 100);
+                                        }
+                                    };
+
+                                    // Try automatic download
+                                    window.currentPDF.download();
+
+                                    console.log('[PDF] PDF available at:', directFileUrl);
+                                    console.log('[PDF] Download triggered via:', data.downloadUrl);
+
+                                    // Update notification to success with View button
+                                    notification.style.background = '#10b981';
+                                    notification.innerHTML = `
+                                        <div style="font-weight: 600; margin-bottom: 0.5rem;">✓ PDF Generated!</div>
+                                        <div style="font-size: 0.9rem; margin-bottom: 1rem;">
+                                            File: <strong>${filename}</strong><br/>
+                                            <small>Check Downloads folder or view below</small>
+                                        </div>
+                                        <div style="display: flex; gap: 0.5rem; flex-direction: column;">
+                                            <button onclick="window.currentPDF.view()" style="
+                                                background: white;
+                                                color: #10b981;
+                                                border: none;
+                                                padding: 0.75rem 1rem;
+                                                border-radius: 6px;
+                                                cursor: pointer;
+                                                font-weight: 600;
+                                                font-size: 1rem;
+                                            ">👁️ View PDF (then Cmd+S to save)</button>
+                                            <button onclick="this.parentElement.parentElement.remove();" style="
+                                                background: rgba(255,255,255,0.2);
+                                                color: white;
+                                                border: none;
+                                                padding: 0.5rem 1rem;
+                                                border-radius: 6px;
+                                                cursor: pointer;
+                                            ">Close</button>
+                                        </div>
+                                    `;
+
+                                    // Auto-remove notification after 60 seconds (keep blob URL alive)
+                                    setTimeout(() => {
+                                        if (notification.parentElement) {
+                                            notification.remove();
+                                        }
+                                    }, 60000);
+
+                                } catch (err) {
                                     console.error('[PDF] Error:', err);
-                                    alert('PDF generation failed. Please try again.');
-                                    // Restore UI even on error
-                                    controlPanel.style.display = 'flex';
-                                    editButtons.forEach(btn => btn.style.display = 'flex');
-                                });
+
+                                    // Update notification to error
+                                    notification.style.background = '#ef4444';
+                                    notification.innerHTML = `
+                                        <div style="font-weight: 600; margin-bottom: 0.5rem;">❌ PDF Generation Failed</div>
+                                        <div style="font-size: 0.9rem; margin-bottom: 1rem;">
+                                            ${err.message}
+                                        </div>
+                                        <button onclick="this.parentElement.remove()" style="
+                                            background: rgba(255,255,255,0.2);
+                                            color: white;
+                                            border: none;
+                                            padding: 0.5rem 1rem;
+                                            border-radius: 6px;
+                                            cursor: pointer;
+                                        ">Close</button>
+                                    `;
+                                }
                             }
 
                             // Init
                             loadContent();
+
+                            // Check if preview mode and hide controls
+                            const urlParams = new URLSearchParams(window.location.search);
+                            if (urlParams.get('preview') === 'true') {
+                                // Hide control panel and carousel
+                                const controlPanel = document.getElementById('control-panel');
+                                const carousel = document.getElementById('template-carousel');
+
+                                if (controlPanel) controlPanel.style.display = 'none';
+                                if (carousel) carousel.style.display = 'none';
+
+                                // Hide all edit buttons immediately and after content loads
+                                const hideEditButtons = () => {
+                                    const editButtons = document.querySelectorAll('.edit-trigger');
+                                    editButtons.forEach(btn => btn.style.display = 'none');
+                                };
+
+                                // Hide now
+                                hideEditButtons();
+
+                                // Hide after DOM loads
+                                document.addEventListener('DOMContentLoaded', hideEditButtons);
+
+                                // Hide after a delay (in case content loads dynamically)
+                                setTimeout(hideEditButtons, 500);
+                                setTimeout(hideEditButtons, 1000);
+                                setTimeout(hideEditButtons, 2000);
+
+                                // Add CSS to permanently hide edit buttons
+                                const style = document.createElement('style');
+                                style.textContent = `
+                                    .edit-trigger {
+                                        display: none !important;
+                                    }
+                                `;
+                                document.head.appendChild(style);
+
+                                console.log('[Preview Mode] Controls hidden for clean print view');
+                            }
 
                             // Onboarding Tour
                             function startOnboardingTour() {
