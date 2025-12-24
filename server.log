@@ -1,10 +1,12 @@
 Server running at http://localhost:3000
 🚀 Generating PDF for user: Shubham
-📄 Loading: http://localhost:3000/resume.html?user=Shubham
-📸 Taking screenshot of full page...
-Page dimensions: 1400x3142.203125
-📄 Converting screenshot to PDF...
-✅ PDF generated successfully! Size: 1765417 bytes
+📄 Loading: http://localhost:3000/resume.html?user=Shubham&preview=true
+📸 Generating multi-page PDF with fixed sidebar...
+Sidebar height: 921px, Content height: 3142px
+Generating 3 pages...
+Page 1/3 added
+Page 2/3 added
+Page 3/3 added
+✅ PDF generated successfully! Size: 1968470 bytes
 💾 PDF saved to temp: /Users/shubham.sharma/shubham-sharma/temp-pdfs/Shubham_Resume.pdf
-✅ PDF copied to Downloads: /Users/shubham.sharma/Downloads/Shubham_Resume.pdf
 📥 Downloading PDF: Shubham_Resume.pdf

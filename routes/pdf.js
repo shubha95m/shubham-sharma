@@ -26,15 +26,15 @@ router.get('/generate', async (req, res) => {
 
         const page = await browser.newPage();
 
-        // Set viewport to match your webpage width (wider than A4)
+        // Set viewport with higher DPI for better quality
         await page.setViewport({
-            width: 1400,  // Wider to match your split view
-            height: 2000,
-            deviceScaleFactor: 2
+            width: 1400,
+            height: 900,
+            deviceScaleFactor: 2 // Increased for sharper text
         });
 
-        // Navigate to resume page
-        const url = `http://localhost:3000/resume.html?user=${user}`;
+        // Navigate to preview URL (hides controls automatically)
+        const url = `http://localhost:3000/resume.html?user=${user}&preview=true`;
         console.log(`📄 Loading: ${url}`);
 
         await page.goto(url, {
@@ -42,94 +42,97 @@ router.get('/generate', async (req, res) => {
             timeout: 30000
         });
 
-        // Wait for content to render and fonts to load
+        // Wait for content to render
         await page.evaluate(() => document.fonts.ready);
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // Hide UI controls and setup PDF-friendly layout
-        await page.evaluate(() => {
-            const controlPanel = document.getElementById('control-panel');
-            const carousel = document.getElementById('template-carousel');
-            const editButtons = document.querySelectorAll('.edit-trigger');
+        console.log('📸 Generating multi-page PDF with fixed sidebar...');
 
-            if (controlPanel) controlPanel.style.display = 'none';
-            if (carousel) carousel.style.display = 'none';
-            editButtons.forEach(btn => btn.style.display = 'none');
-
-            // Add CSS for PDF generation - make sidebar appear on every page
-            const style = document.createElement('style');
-            style.textContent = `
-                @page {
-                    size: 1400px 2000px;
-                    margin: 0;
-                }
-
-                body {
-                    margin: 0;
-                    padding: 0;
-                }
-
-                .sidebar {
-                    position: fixed !important;
-                    left: 0 !important;
-                    top: 0 !important;
-                    width: 280px !important;
-                    height: 2000px !important;
-                    overflow: visible !important;
-                }
-
-                .main-content {
-                    margin-left: 280px !important;
-                    position: relative !important;
-                }
-            `;
-            document.head.appendChild(style);
+        // Get heights for both sidebar and content
+        const dimensions = await page.evaluate(() => {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            return {
+                sidebarHeight: sidebar ? sidebar.scrollHeight : 0,
+                contentHeight: mainContent ? mainContent.scrollHeight : 0
+            };
         });
 
-        console.log('📸 Taking screenshot of full page...');
+        console.log(`Sidebar height: ${dimensions.sidebarHeight}px, Content height: ${dimensions.contentHeight}px`);
 
-        // Get full page height
-        const bodyHandle = await page.$('body');
-        const { width, height } = await bodyHandle.boundingBox();
-        await bodyHandle.dispose();
-
-        console.log(`Page dimensions: ${width}x${height}`);
-
-        // Take full page screenshot
-        const screenshot = await page.screenshot({
-            fullPage: true,
-            type: 'png'
-        });
-
-        await browser.close();
-
-        console.log('📄 Converting screenshot to PDF...');
-
-        // Convert screenshot to PDF using PDFKit
         const PDFDocument = require('pdfkit');
-        const stream = require('stream');
 
-        // Create PDF document with custom page size
-        const doc = new PDFDocument({
-            size: [width, height],
-            margins: { top: 0, bottom: 0, left: 0, right: 0 }
+        // Fixed sidebar width and better page height
+        const sidebarWidth = 320;
+        const pageWidth = 1400;
+        const pageHeight = 1500; // Further reduced to avoid stretching
+
+        const pdfDoc = new PDFDocument({
+            size: [pageWidth, pageHeight],
+            margin: 0
         });
 
-        // Collect PDF buffer
-        const buffers = [];
-        const pdfStream = new stream.PassThrough();
+        const chunks = [];
+        pdfDoc.on('data', chunk => chunks.push(chunk));
+        pdfDoc.on('end', () => {});
 
-        pdfStream.on('data', (chunk) => buffers.push(chunk));
-        doc.pipe(pdfStream);
+        // Calculate number of pages needed based on content height
+        const numPages = Math.ceil(dimensions.contentHeight / pageHeight);
+        console.log(`Generating ${numPages} pages...`);
 
-        // Add screenshot as image to PDF
-        doc.image(screenshot, 0, 0, { width: width, height: height });
-        doc.end();
+        for (let pageNum = 0; pageNum < numPages; pageNum++) {
+            if (pageNum > 0) {
+                pdfDoc.addPage();
+            }
+
+            // Capture sidebar (full height, always from top) at 2x scale
+            const sidebarScreenshot = await page.screenshot({
+                clip: {
+                    x: 0,
+                    y: 0,
+                    width: sidebarWidth,
+                    height: Math.min(pageHeight, dimensions.sidebarHeight)
+                },
+                omitBackground: false
+            });
+
+            // Capture content portion for this page at 2x scale
+            const contentScreenshot = await page.screenshot({
+                clip: {
+                    x: sidebarWidth,
+                    y: pageNum * pageHeight,
+                    width: pageWidth - sidebarWidth,
+                    height: Math.min(pageHeight, dimensions.contentHeight - (pageNum * pageHeight))
+                },
+                omitBackground: false
+            });
+
+            // Place sidebar on left
+            pdfDoc.image(sidebarScreenshot, 0, 0, {
+                width: sidebarWidth,
+                height: pageHeight
+            });
+
+            // Place content on right (no stretching - use actual height)
+            const contentHeightForPage = Math.min(pageHeight, dimensions.contentHeight - (pageNum * pageHeight));
+            pdfDoc.image(contentScreenshot, sidebarWidth, 0, {
+                width: pageWidth - sidebarWidth,
+                height: contentHeightForPage
+            });
+
+            console.log(`Page ${pageNum + 1}/${numPages} added`);
+        }
+
+        pdfDoc.end();
 
         // Wait for PDF to be generated
         const pdfBuffer = await new Promise((resolve) => {
-            pdfStream.on('end', () => resolve(Buffer.concat(buffers)));
+            pdfDoc.on('end', () => {
+                resolve(Buffer.concat(chunks));
+            });
         });
+
+        await browser.close();
 
         console.log('✅ PDF generated successfully! Size:', pdfBuffer.length, 'bytes');
 
@@ -148,13 +151,6 @@ router.get('/generate', async (req, res) => {
         await fs.writeFile(tempFilePath, pdfBuffer);
 
         console.log('💾 PDF saved to temp:', tempFilePath);
-
-        // Also save to Downloads folder
-        const os = require('os');
-        const downloadsPath = path.join(os.homedir(), 'Downloads', filename);
-        await fs.writeFile(downloadsPath, pdfBuffer);
-
-        console.log('✅ PDF copied to Downloads:', downloadsPath);
 
         // Store in cache with timestamp
         const pdfId = Date.now().toString();
