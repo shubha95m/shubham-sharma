@@ -1240,8 +1240,11 @@
                                     DATA.education = education;
                                     DATA.highlights = highlights;
 
-                                    // Load default
-                                    startRender('split');
+                                    // Load default or requested view
+                                    const requestedView = params.get('view');
+                                    const validViews = ['split', 'glass', 'clean', 'classic'];
+                                    const initialView = validViews.includes(requestedView) ? requestedView : 'split';
+                                    startRender(initialView);
                                     renderEditButtons(); // Add edit buttons after render
 
                                     // Initialize template carousel
@@ -1258,6 +1261,12 @@
                             // --- RENDER CONTROLLER ---
                             function startRender(pattern) {
                                 currentPattern = pattern; // Track current template
+                                
+                                // Update URL without reloading page
+                                const url = new URL(window.location);
+                                url.searchParams.set('view', pattern);
+                                window.history.replaceState({}, '', url);
+                                
                                 document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
                                 document.querySelector(`button[onclick="startRender('${pattern}')"]`)?.classList.add('active');
 
@@ -2019,8 +2028,8 @@
 
                             // Open Print Preview - Clean view without controls
                             function openPrintPreview() {
-                                // Build the clean preview URL
-                                const previewUrl = `${window.location.origin}/resume.html?user=${CURRENT_USER}&preview=true`;
+                                // Build the clean preview URL using relative path to preserve base directory
+                                const previewUrl = `resume.html?user=${CURRENT_USER}&view=${currentPattern}&preview=true`;
 
                                 // Open in new window
                                 window.open(previewUrl, '_blank');
