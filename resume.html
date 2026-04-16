@@ -280,7 +280,11 @@
         /* Hide all UI controls */
         body.pdf-export-mode #control-panel,
         body.pdf-export-mode #template-carousel,
-        body.pdf-export-mode .edit-trigger {
+        body.pdf-export-mode .edit-trigger,
+        body.preview-mode #control-panel,
+        body.preview-mode #control-panel-toggle,
+        body.preview-mode #template-carousel,
+        body.preview-mode .edit-trigger {
             display: none !important;
         }
 
@@ -1210,6 +1214,9 @@
                             async function loadContent() {
                                 try {
                                     const params = new URLSearchParams(window.location.search);
+                                    if (params.get('preview') === 'true') {
+                                        document.body.classList.add('preview-mode');
+                                    }
                                     const userId = params.get('user') || 'shubham';
                                     CURRENT_USER = userId;
 
