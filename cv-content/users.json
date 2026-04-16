@@ -1,20 +1,14 @@
 [
-    {
-        "id": "Shubham",
-        "name": "Shubham Sharma",
-        "title": "Staff SDET / QA Architect",
-        "avatar": "profile_pic.jpg"
-    },
-    {
-        "id": "Bhashkar",
-        "name": "Bhashkar Gaur",
-        "title": "Staff SDET / QA Architect",
-        "avatar": "Bhashkar.jpg"
-    },
-    {
-        "id": "akshita358",
-        "name": "Akshita Gandotra",
-        "title": "QA Manager & Automation Lead",
-        "avatar": "Akshita.jpg"
-    }
+  {
+    "id": "shubham",
+    "name": "Shubham Sharma",
+    "title": "Staff SDET / QA Architect",
+    "avatar": "profile_pic.jpg"
+  },
+  {
+    "id": "akshita358",
+    "name": "Akshita Gandotra",
+    "title": "QA Manager & Automation Lead",
+    "avatar": "Akshita.jpg"
+  }
 ]
