@@ -3,6 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
+    <script>
+        // Instantly redirect to the resume view for user 'shubham'
+        // If you ever need to view this select profile page, add '?edit=true' to the URL
+        if (window.location.search.indexOf('edit=true') === -1) {
+            window.location.replace('resume.html?user=shubham');
+        }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Builder | Select Profile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
