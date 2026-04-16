@@ -6,7 +6,7 @@
     "details": [
       "Designed and rolled out a custom Playwright MCP Server used org-wide to generate base automation scripts in minutes, reducing test bootstrap time by 90%.",
       "Built backend E2E generators covering full API surfaces with contract testing and API testing capabilities, reducing manual test effort by 70-80%.",
-      "Developed auto-regression analysis tooling to track failures and release trends, improving release management confidence by 40%.",
+      "Developed auto-regression analysis tooling leveraging AI to analyze 4K+ test scenarios daily, tracking failures and release trends, improving release management overall.",
       "Designed auto-SDK pipelines detecting Swagger changes and automatically updating multi-language SDKs, reducing SDK maintenance overhead by 85%.",
       "Launched Slack automation apps to reduce manual intervention in support and operational workflows by 60%.",
       "Regularly debugged Spring Boot and Node.js services to distinguish test vs product issues and unblock releases, improving time-to-market by 25%.",

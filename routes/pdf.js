@@ -26,15 +26,15 @@ router.get('/generate', async (req, res) => {
 
         const page = await browser.newPage();
 
-        // Set viewport to match your webpage width (wider than A4)
+        // Set viewport for proper rendering (A4 landscape proportions)
         await page.setViewport({
-            width: 1400,  // Wider to match your split view
-            height: 2000,
-            deviceScaleFactor: 2
+            width: 1400,   // Wide viewport for split layout
+            height: 990,   // A4 landscape proportions
+            deviceScaleFactor: 1
         });
 
-        // Navigate to resume page
-        const url = `http://localhost:3000/resume.html?user=${user}`;
+        // Navigate to resume page with PDF export mode
+        const url = `http://localhost:3000/resume.html?user=${user}&export=pdf`;
         console.log(`📄 Loading: ${url}`);
 
         await page.goto(url, {
@@ -46,7 +46,7 @@ router.get('/generate', async (req, res) => {
         await page.evaluate(() => document.fonts.ready);
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // Hide UI controls and setup PDF-friendly layout
+        // Hide UI controls
         await page.evaluate(() => {
             const controlPanel = document.getElementById('control-panel');
             const carousel = document.getElementById('template-carousel');
@@ -55,83 +55,31 @@ router.get('/generate', async (req, res) => {
             if (controlPanel) controlPanel.style.display = 'none';
             if (carousel) carousel.style.display = 'none';
             editButtons.forEach(btn => btn.style.display = 'none');
-
-            // Add CSS for PDF generation - make sidebar appear on every page
-            const style = document.createElement('style');
-            style.textContent = `
-                @page {
-                    size: 1400px 2000px;
-                    margin: 0;
-                }
-
-                body {
-                    margin: 0;
-                    padding: 0;
-                }
-
-                .sidebar {
-                    position: fixed !important;
-                    left: 0 !important;
-                    top: 0 !important;
-                    width: 280px !important;
-                    height: 2000px !important;
-                    overflow: visible !important;
-                }
-
-                .main-content {
-                    margin-left: 280px !important;
-                    position: relative !important;
-                }
-            `;
-            document.head.appendChild(style);
         });
 
-        console.log('📸 Taking screenshot of full page...');
+        console.log('📸 Generating PDF with native rendering...');
 
-        // Get full page height
-        const bodyHandle = await page.$('body');
-        const { width, height } = await bodyHandle.boundingBox();
-        await bodyHandle.dispose();
-
-        console.log(`Page dimensions: ${width}x${height}`);
-
-        // Take full page screenshot
-        const screenshot = await page.screenshot({
-            fullPage: true,
-            type: 'png'
+        // Generate PDF directly using Puppeteer (much smaller file size)
+        const pdfBuffer = await page.pdf({
+            format: 'A4',
+            landscape: true,
+            printBackground: true,
+            preferCSSPageSize: false,
+            margin: {
+                top: '0px',
+                bottom: '0px',
+                left: '0px',
+                right: '0px'
+            },
+            displayHeaderFooter: false,
+            scale: 0.72,  // Adjusted scale to fit all content
+            tagged: false,
+            omitBackground: false
         });
 
         await browser.close();
 
-        console.log('📄 Converting screenshot to PDF...');
-
-        // Convert screenshot to PDF using PDFKit
-        const PDFDocument = require('pdfkit');
-        const stream = require('stream');
-
-        // Create PDF document with custom page size
-        const doc = new PDFDocument({
-            size: [width, height],
-            margins: { top: 0, bottom: 0, left: 0, right: 0 }
-        });
-
-        // Collect PDF buffer
-        const buffers = [];
-        const pdfStream = new stream.PassThrough();
-
-        pdfStream.on('data', (chunk) => buffers.push(chunk));
-        doc.pipe(pdfStream);
-
-        // Add screenshot as image to PDF
-        doc.image(screenshot, 0, 0, { width: width, height: height });
-        doc.end();
-
-        // Wait for PDF to be generated
-        const pdfBuffer = await new Promise((resolve) => {
-            pdfStream.on('end', () => resolve(Buffer.concat(buffers)));
-        });
-
-        console.log('✅ PDF generated successfully! Size:', pdfBuffer.length, 'bytes');
+        console.log('✅ PDF generated successfully! Size:', pdfBuffer.length, 'bytes', `(${(pdfBuffer.length / 1024 / 1024).toFixed(2)} MB)`);
 
         // Save to temp file AND Downloads folder
         const filename = `${user.replace(/\s+/g, '_')}_Resume.pdf`;

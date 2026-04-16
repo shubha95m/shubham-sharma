@@ -1,6 +1,8 @@
 {
   "scope": [
     "Owned quality strategy and continuous testing practices for enterprise SaaS platforms deployed across multiple regions (US, UK).",
+    "Built robust AI-powered regression analysis solution processing 4,000+ test cases, automatically diagnosing failures, querying Grafana logs via MCP, creating Linear tickets, analyzing GitLab commits to trace defect origins, and identifying genuine issues with 85% accuracy.",
+    "Created extensive test generation toolkit using Cursor and Claude AI across polyglot microservices (Java, Node.js, Python, Go), integrated into deployment pipelines and reducing test authoring time by 80%.",
     "Enabled rapid enterprise growth by minimizing test effort through reusable automation platforms, avoiding linear QA scaling and reducing test creation effort by 70%.",
     "Drove org-wide shift-left adoption, reducing regression feedback cycles by 45% and late-stage defects by 40%.",
     "Built shared QA platforms consumed by multiple teams and services with 99.5% uptime and reliability.",
@@ -17,6 +19,8 @@
     "Influenced platform-level decisions around observability, reporting, failure diagnostics, and site reliability engineering practices."
   ],
   "platforms": [
+    "AI-Driven Regression Intelligence Platform analyzing 4,000+ test cases with integrated MCP tooling (Grafana for logs, Linear for ticketing, GitLab for code analysis), automatically correlating failures to specific commits, identifying root causes, and distinguishing genuine defects from environmental issues with 85% precision.",
+    "AI-Assisted Test Generation Framework leveraging Cursor and Claude across multi-language microservices (Spring Boot, Node.js, Python, Go), embedded in deployment pipelines to auto-generate service-specific tests and reducing manual effort by 80%.",
     "Playwright MCP Server for rapid test generation, reducing test bootstrap time from days to minutes (90% improvement).",
     "Backend E2E Test Generators covering near-complete API surfaces with contract testing, reducing manual test creation by 70-80%.",
     "Auto-SDK Pipelines detecting Swagger changes and auto-updating Java, JavaScript, and Python SDKs with 85% reduction in maintenance overhead.",

@@ -2155,8 +2155,36 @@
                             // Init
                             loadContent();
 
-                            // Check if preview mode and hide controls
+                            // Check URL params for special modes
                             const urlParams = new URLSearchParams(window.location.search);
+
+                            // Check if PDF export mode - add special class for PDF styling
+                            if (urlParams.get('export') === 'pdf') {
+                                console.log('[PDF Export Mode] Applying PDF export styles...');
+
+                                // Add PDF export mode class after a delay to ensure template is loaded
+                                const applyPdfMode = () => {
+                                    document.body.classList.add('pdf-export-mode');
+
+                                    // Hide controls
+                                    const controlPanel = document.getElementById('control-panel');
+                                    const carousel = document.getElementById('template-carousel');
+                                    const editButtons = document.querySelectorAll('.edit-trigger');
+
+                                    if (controlPanel) controlPanel.style.display = 'none';
+                                    if (carousel) carousel.style.display = 'none';
+                                    editButtons.forEach(btn => btn.style.display = 'none');
+                                };
+
+                                // Apply immediately
+                                applyPdfMode();
+
+                                // Also apply after short delays to catch dynamic content
+                                setTimeout(applyPdfMode, 100);
+                                setTimeout(applyPdfMode, 500);
+                                setTimeout(applyPdfMode, 1000);
+                            }
+
                             if (urlParams.get('preview') === 'true') {
                                 // Hide control panel and carousel
                                 const controlPanel = document.getElementById('control-panel');

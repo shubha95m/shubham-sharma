@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love ❤️</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            html,
+            body {
+                overflow: auto;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a0510 0%, #2d0a1a 25%, #1a0510 50%, #2d0515 75%, #1a0510 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Sparkling stars background */
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        .star.large {
+            width: 3px;
+            height: 3px;
+            box-shadow: 0 0 6px 2px rgba(255, 200, 220, 0.6);
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        /* Floating hearts */
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 100, 150, 0.5);
+            animation: floatHeart 10s infinite ease-in-out;
+            text-shadow: 0 0 15px rgba(255, 100, 150, 0.7);
+        }
+
+        @keyframes floatHeart {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(10deg);
+                opacity: 0.9;
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 96vw;
+            max-width: 1400px;
+            height: 94vh;
+            padding: 12px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #ff8fab;
+            text-shadow: 0 0 30px rgba(255, 143, 171, 0.8), 0 0 60px rgba(255, 143, 171, 0.4);
+        }
+
+        .header .heart-divider {
+            font-size: 1rem;
+            margin: 2px 0;
+            color: #ff6b8a;
+            animation: pulse 1.5s infinite;
+            text-shadow: 0 0 15px rgba(255, 107, 138, 0.8);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.3);
+            }
+        }
+
+        /* Content wrapper */
+        .content-wrapper {
+            display: flex;
+            gap: 18px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Message grid - left side */
+        .message-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .message-section {
+            padding: 10px 12px;
+            background: rgba(30, 10, 20, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 138, 0.35);
+            box-shadow:
+                0 0 25px rgba(255, 107, 138, 0.15),
+                inset 0 0 20px rgba(255, 107, 138, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-section h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.25rem;
+            color: #ff8fab;
+            margin-bottom: 4px;
+            text-shadow: 0 0 10px rgba(255, 143, 171, 0.6);
+        }
+
+        .text-content {
+            flex-shrink: 0;
+        }
+
+        .message-section p {
+            color: #d8c0c5;
+            line-height: 1.4;
+            font-size: 0.72rem;
+            font-weight: 300;
+        }
+
+        .highlight {
+            color: #ffb3c6;
+            font-weight: 500;
+        }
+
+        /* Image container in sections */
+        .section-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70px;
+        }
+
+        .section-image img {
+            max-height: 85px;
+            max-width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 138, 0.5));
+            animation: floatImg 3s infinite ease-in-out;
+        }
+
+        @keyframes floatImg {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* Action buttons */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 18px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #ffb3c6;
+            background: rgba(255, 107, 138, 0.08);
+            border: 2px solid rgba(255, 107, 138, 0.5);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 6px;
+            align-self: center;
+            box-shadow:
+                0 0 20px rgba(255, 107, 138, 0.25),
+                inset 0 0 15px rgba(255, 107, 138, 0.1);
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 107, 138, 0.2);
+            box-shadow:
+                0 0 35px rgba(255, 107, 138, 0.5),
+                inset 0 0 20px rgba(255, 107, 138, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* Right side - proposal */
+        .proposal-side {
+            width: 220px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 35px;
+            padding: 12px;
+        }
+
+        .proposal-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.35rem;
+            color: #ff8fab;
+            text-align: center;
+            padding: 15px 18px;
+            background: rgba(30, 10, 20, 0.75);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 138, 0.35);
+            animation: glowBox 2s infinite alternate;
+            text-shadow: 0 0 15px rgba(255, 143, 171, 0.6);
+            line-height: 1.3;
+            flex-shrink: 0;
+        }
+
+        @keyframes glowBox {
+            0% {
+                box-shadow: 0 0 20px rgba(255, 107, 138, 0.25);
+            }
+
+            100% {
+                box-shadow: 0 0 40px rgba(255, 107, 138, 0.45);
+            }
+        }
+
+        /* Heart YES button */
+        .yes-btn {
+            position: relative;
+            width: 100px;
+            height: 92px;
+            background: linear-gradient(135deg, #ff4d6d, #ff6b8a, #ff8fab);
+            transform: rotate(-45deg);
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 0 40px rgba(255, 77, 109, 0.6),
+                0 0 80px rgba(255, 77, 109, 0.3);
+            animation: heartbeat 1.2s infinite;
+            margin-bottom: 10px;
+        }
+
+        .yes-btn::before,
+        .yes-btn::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 92px;
+            background: linear-gradient(135deg, #ff4d6d, #ff6b8a, #ff8fab);
+            border-radius: 50%;
+        }
+
+        .yes-btn::before {
+            top: -46px;
+            left: 0;
+        }
+
+        .yes-btn::after {
+            left: 46px;
+            top: 0;
+        }
+
+        .yes-btn span {
+            position: absolute;
+            z-index: 10;
+            transform: rotate(45deg);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+            top: 20px;
+            left: 20px;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: rotate(-45deg) scale(1);
+            }
+
+            25% {
+                transform: rotate(-45deg) scale(1.1);
+            }
+
+            40% {
+                transform: rotate(-45deg) scale(1);
+            }
+
+            60% {
+                transform: rotate(-45deg) scale(1.05);
+            }
+        }
+
+        .yes-btn:hover {
+            transform: rotate(-45deg) scale(1.15);
+            box-shadow:
+                0 0 60px rgba(255, 77, 109, 0.7),
+                0 0 100px rgba(255, 77, 109, 0.4);
+        }
+
+        /* No button */
+        .no-btn {
+            padding: 8px 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #b3ff00;
+            background: rgba(157, 176, 51, 0.954);
+            border: 1px solid rgba(150, 120, 130, 0.4);
+            border-radius: 25px;
+            cursor: not-allowed;
+            transition: all 0.1s ease;
+            user-select: none;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* Celebration container */
+        .celebration-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .celebration-item {
+            position: absolute;
+            animation: flyUp 4s ease-out forwards;
+            font-size: 2.5rem;
+        }
+
+        @keyframes flyUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateY(80vh) rotate(20deg) scale(1);
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        /* Thank you section */
+        .thank-you-section {
+            display: none;
+            animation: fadeInUp 1s ease forwards;
+            text-align: center;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .thank-you-section.show {
+            display: flex;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .thank-you-section h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #ff8fab;
+            text-shadow: 0 0 30px rgba(255, 143, 171, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .thank-you-section p {
+            color: #e8d0d5;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-section .forever-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #ff8fab;
+        }
+
+        .couple-image {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 107, 138, 0.5);
+            box-shadow: 0 0 30px rgba(255, 107, 138, 0.4), 0 0 60px rgba(255, 107, 138, 0.3);
+            margin: 15px 0;
+        }
+
+        .final-hearts {
+            font-size: 2rem;
+            margin-top: 10px;
+            animation: pulse 1.5s infinite;
+            color: #ff8fab;
+            text-shadow: 0 0 20px rgba(255, 143, 171, 0.8), 0 0 40px rgba(255, 143, 171, 0.5);
+            font-weight: 500;
+        }
+
+        /* Flying emoji animation */
+        .fly-emoji {
+            position: fixed;
+            font-size: 2.5rem;
+            pointer-events: none;
+            z-index: 2000;
+            animation: flyToHeart 1.5s ease-in-out forwards;
+        }
+
+        @keyframes flyToHeart {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.8);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translateY(-100px);
+            }
+        }
+
+        /* Tablet and smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                height: auto;
+                min-height: 96vh;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+                gap: 15px;
+                flex: none;
+            }
+
+            .message-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 10px;
+                flex: none;
+            }
+
+            .message-section {
+                padding: 12px;
+            }
+
+            .message-section h3 {
+                font-size: 1.1rem;
+            }
+
+            .message-section p {
+                font-size: 0.75rem;
+            }
+
+            .section-image img {
+                max-height: 70px;
+            }
+
+            .action-btn {
+                font-size: 0.75rem;
+                padding: 5px 15px;
+            }
+
+            .proposal-side {
+                width: 100%;
+                gap: 30px;
+                padding: 15px 10px 30px;
+            }
+
+            .proposal-text {
+                font-size: 1.2rem;
+                padding: 12px 15px;
+            }
+
+            .yes-btn {
+                width: 90px;
+                height: 82px;
+                margin-bottom: 15px;
+            }
+
+            .yes-btn::before,
+            .yes-btn::after {
+                width: 90px;
+                height: 82px;
+            }
+
+            .yes-btn::before {
+                top: -41px;
+            }
+
+            .yes-btn::after {
+                left: 41px;
+            }
+
+            .yes-btn span {
+                font-size: 1.3rem;
+                top: 18px;
+                left: 18px;
+            }
+
+            .no-btn {
+                font-size: 0.8rem;
+                padding: 7px 22px;
+                margin-top: 20px;
+                margin-bottom: 25px;
+            }
+
+            .thank-you-section h1 {
+                font-size: 2.2rem;
+            }
+
+            .thank-you-section p {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+
+            .thank-you-section .forever-text {
+                font-size: 1.4rem;
+            }
+
+            .couple-image {
+                width: 180px;
+                height: 180px;
+            }
+        }
+
+        /* Mobile phones */
+        @media (max-width: 480px) {
+            .container {
+                padding: 8px 8px 20px;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header .heart-divider {
+                font-size: 0.9rem;
+            }
+
+            .content-wrapper {
+                gap: 12px;
+            }
+
+            .message-grid {
+                gap: 8px;
+            }
+
+            .message-section {
+                padding: 10px;
+            }
+
+            .message-section h3 {
+                font-size: 1rem;
+                margin-bottom: 3px;
+            }
+
+            .message-section p {
+                font-size: 0.7rem;
+                line-height: 1.3;
+            }
+
+            .section-image {
+                min-height: 50px;
+            }
+
+            .section-image img {
+                max-height: 55px;
+            }
+
+            .action-btn {
+                font-size: 0.7rem;
+                padding: 4px 12px;
+                margin-top: 4px;
+            }
+
+            .proposal-side {
+                gap: 25px;
+                padding: 10px 10px 30px;
+            }
+
+            .proposal-text {
+                font-size: 1.1rem;
+                padding: 10px 12px;
+                line-height: 1.4;
+            }
+
+            .yes-btn {
+                width: 80px;
+                height: 72px;
+                margin-bottom: 15px;
+            }
+
+            .yes-btn::before,
+            .yes-btn::after {
+                width: 80px;
+                height: 72px;
+            }
+
+            .yes-btn::before {
+                top: -36px;
+            }
+
+            .yes-btn::after {
+                left: 36px;
+            }
+
+            .yes-btn span {
+                font-size: 1.2rem;
+                top: 15px;
+                left: 15px;
+            }
+
+            .no-btn {
+                font-size: 0.75rem;
+                padding: 6px 20px;
+                margin-top: 25px;
+                margin-bottom: 30px;
+            }
+
+            .thank-you-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .thank-you-section p {
+                font-size: 0.9rem;
+                padding: 0 10px;
+            }
+
+            .thank-you-section .forever-text {
+                font-size: 1.2rem;
+            }
+
+            .couple-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .final-hearts {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .message-section h3 {
+                font-size: 0.95rem;
+            }
+
+            .message-section p {
+                font-size: 0.65rem;
+            }
+
+            .section-image img {
+                max-height: 45px;
+            }
+
+            .proposal-text {
+                font-size: 1rem;
+            }
+
+            .yes-btn {
+                width: 70px;
+                height: 64px;
+                margin-bottom: 15px;
+            }
+
+            .yes-btn::before,
+            .yes-btn::after {
+                width: 70px;
+                height: 64px;
+            }
+
+            .yes-btn::before {
+                top: -32px;
+            }
+
+            .yes-btn::after {
+                left: 32px;
+            }
+
+            .yes-btn span {
+                font-size: 1.1rem;
+                top: 13px;
+                left: 13px;
+            }
+
+            .no-btn {
+                margin-top: 25px;
+                margin-bottom: 30px;
+            }
+
+            .couple-image {
+                width: 130px;
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Stars background -->
+    <div class="stars-bg" id="starsBg"></div>
+
+    <!-- Celebration container -->
+    <div class="celebration-container" id="celebrationContainer"></div>
+
+    <!-- Main content -->
+    <div class="container" id="mainContainer">
+        <!-- Initial proposal content -->
+        <div id="proposalContent" style="display: flex; flex-direction: column; height: 100%;">
+            <div class="header">
+                <h1>✨ My Dearest Ashi ✨</h1>
+                <div class="heart-divider">💕</div>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="message-grid">
+                    <!-- Thank You Section -->
+                    <div class="message-section">
+                        <h3>Thank You... 🙏</h3>
+                        <div class="text-content">
+                            <p>
+                                Thank you so much for coming into my life. You've filled every moment with meaning.
+                                <span class="highlight">Thank you for making my life complete.</span>
+                                Thank you for taking care of my family even more than I do.
+                                Thank you for everything you are and do.
+                            </p>
+                        </div>
+                        <div class="section-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3069/3069172.png" alt="Kiss">
+                        </div>
+                        <button class="action-btn" onclick="sendEmoji('😘', this)">Send Kiss 😘</button>
+                    </div>
+
+                    <!-- I'm Sorry Section -->
+                    <div class="message-section">
+                        <h3>I'm Sorry... 💫</h3>
+                        <div class="text-content">
+                            <p>
+                                Sorry that I might not speak much, sorry I can't always express my feelings.
+                                Sorry for not remembering all the things you've said, sorry for sometimes taking you for
+                                granted.
+                                <span class="highlight">Sorry for everything whenever I've hurt you.</span>
+                            </p>
+                        </div>
+                        <div class="section-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3940/3940403.png" alt="Teddy">
+                        </div>
+                        <button class="action-btn" onclick="sendEmoji('🤗', this)">Send Hug 🤗</button>
+                    </div>
+
+                    <!-- You Mean Everything Section -->
+                    <div class="message-section">
+                        <h3>You Mean Everything... 💖</h3>
+                        <div class="text-content">
+                            <p>
+                                I might not speak much, but believe me, <span class="highlight">I love you so
+                                    much</span>.
+                                When I wake up and see you, a smile naturally appears on my face.
+                                My day starts from seeing you, and ends while saying
+                                <span class="highlight">"Soyi Soyi Ashu"</span>.
+                            </p>
+                        </div>
+                        <div class="section-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Heart">
+                        </div>
+                        <button class="action-btn" onclick="sendEmoji('❤️', this)">Send Heart ❤️</button>
+                    </div>
+
+                    <!-- Forever Together Section -->
+                    <div class="message-section">
+                        <h3>Forever Together... 💞</h3>
+                        <div class="text-content">
+                            <p>
+                                Just seeing your face makes all my stress disappear.
+                                <span class="highlight">You are the gem of my life.</span>
+                                I want to spend my whole life with you — this life and many, many future lives too,
+                                in the upcoming decades and centuries.
+                            </p>
+                        </div>
+                        <div class="section-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3940/3940414.png" alt="Teddy Couple">
+                        </div>
+                        <button class="action-btn" onclick="sendEmoji('🥰', this)">Let's Hug Forever 🥰</button>
+                    </div>
+                </div>
+
+                <div class="proposal-side">
+                    <div class="proposal-text">
+                        ✨ Will you be my ✨<br>Valentine forever?
+                    </div>
+
+                    <button class="yes-btn" id="yesBtn" onclick="sayYes()">
+                        <span>YES!</span>
+                    </button>
+
+                    <button class="no-btn" id="noBtn">No</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thank you section (hidden initially) -->
+        <div class="thank-you-section" id="thankYouSection">
+            <h1>Thank You So Much! 💕</h1>
+            <p>
+                Thank you for being my Valentine forever.<br>
+                <span class="forever-text">
+                    Let's live together to the fortune,<br>
+                    to the end of this universe and beyond...
+                </span>
+            </p>
+            <img src="/Akshita.jpg" alt="My Love" class="couple-image" id="coupleImage">
+            <div class="final-hearts">
+                💖 Forever Yours 💖
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create sparkling stars background
+        function createStars() {
+            const container = document.getElementById('starsBg');
+
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = Math.random() > 0.8 ? 'star large' : 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                container.appendChild(star);
+            }
+
+            const hearts = ['❤️', '💕', '💖', '💗', '💘'];
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 10 + 's';
+                heart.style.fontSize = (Math.random() * 1.2 + 0.8) + 'rem';
+                container.appendChild(heart);
+            }
+        }
+
+        // Send emoji animation
+        function sendEmoji(emoji, btn) {
+            const rect = btn.getBoundingClientRect();
+            const flyEmoji = document.createElement('div');
+            flyEmoji.className = 'fly-emoji';
+            flyEmoji.textContent = emoji;
+            flyEmoji.style.left = (rect.left + rect.width / 2 - 20) + 'px';
+            flyEmoji.style.top = (rect.top - 10) + 'px';
+            document.body.appendChild(flyEmoji);
+            setTimeout(() => flyEmoji.remove(), 1500);
+        }
+
+        // Make No button run away
+        const noBtn = document.getElementById('noBtn');
+        let isNoButtonFloating = false;
+
+        function moveNoButton(e) {
+            if (e.type === 'touchstart') {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            if (!isNoButtonFloating) {
+                // First time - make it fixed position to prevent page reflow
+                isNoButtonFloating = true;
+                const btnRect = noBtn.getBoundingClientRect();
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = btnRect.left + 'px';
+                noBtn.style.top = btnRect.top + 'px';
+                noBtn.style.margin = '0';
+                noBtn.style.zIndex = '9999';
+                noBtn.style.transition = 'all 0.3s ease';
+            }
+
+            // Move to random position immediately
+            const btnRect = noBtn.getBoundingClientRect();
+            const maxX = window.innerWidth - btnRect.width - 20;
+            const maxY = window.innerHeight - btnRect.height - 20;
+            noBtn.style.left = Math.random() * maxX + 'px';
+            noBtn.style.top = Math.random() * maxY + 'px';
+        }
+
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+
+        // Say Yes function
+        function sayYes() {
+            const proposalContent = document.getElementById('proposalContent');
+            const thankYouSection = document.getElementById('thankYouSection');
+            const celebrationContainer = document.getElementById('celebrationContainer');
+
+            noBtn.style.display = 'none';
+            proposalContent.style.transition = 'opacity 0.5s ease';
+            proposalContent.style.opacity = '0';
+
+            setTimeout(() => {
+                proposalContent.style.display = 'none';
+                startCelebration(celebrationContainer);
+                setTimeout(() => thankYouSection.classList.add('show'), 2500);
+            }, 500);
+        }
+
+        function startCelebration(container) {
+            const hearts = ['❤️', '💕', '💖', '💗', '💘', '💝', '♥️', '💓', '💞'];
+            const balloons = ['🎈', '🎈', '🎈', '🎈', '🎉', '🎊'];
+            const emojis = ['🥰', '😍', '💋', '🌹', '💐', '✨', '⭐', '🌟', '💫'];
+
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => createCelebrationItem(container, hearts[Math.floor(Math.random() * hearts.length)]), i * 100);
+            }
+            setTimeout(() => {
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => createCelebrationItem(container, balloons[Math.floor(Math.random() * balloons.length)]), i * 150);
+                }
+            }, 1000);
+            setTimeout(() => {
+                for (let i = 0; i < 25; i++) {
+                    setTimeout(() => createCelebrationItem(container, emojis[Math.floor(Math.random() * emojis.length)]), i * 120);
+                }
+            }, 2000);
+        }
+
+        function createCelebrationItem(container, emoji) {
+            const item = document.createElement('div');
+            item.className = 'celebration-item';
+            item.textContent = emoji;
+            item.style.left = Math.random() * 100 + '%';
+            item.style.fontSize = (Math.random() * 2 + 2) + 'rem';
+            item.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            container.appendChild(item);
+            setTimeout(() => item.remove(), 5000);
+        }
+
+        createStars();
+    </script>
+</body>
+
+</html>
