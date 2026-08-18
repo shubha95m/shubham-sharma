@@ -10,7 +10,10 @@
       "Designed auto-SDK pipelines detecting Swagger changes and automatically updating multi-language SDKs, reducing SDK maintenance overhead by 85%.",
       "Launched Slack automation apps to reduce manual intervention in support and operational workflows by 60%.",
       "Regularly debugged Spring Boot and Node.js services to distinguish test vs product issues and unblock releases, improving time-to-market by 25%.",
-      "Acted as a quality architect influencing automation standards, test strategy, and continuous testing practices across teams."
+      "Acted as a quality architect influencing automation standards, test strategy, and continuous testing practices across teams.",
+      "Implemented a CI-based self-review process for automation test cases, enforcing standardized, logic-based approaches to maintain high code quality.",
+      "Developed a QA-specific MCP (Model Context Protocol) to heavily lift the QA platform team, accelerating feature support, issue triaging, incident response, and root cause analysis.",
+      "Architected a self-healing, CI-based testing approach utilizing Playwright and an agentic MCP setup, dynamically adapting to changes and reducing test maintenance."
     ]
   },
   {
