@@ -9,13 +9,14 @@ const pdfCache = new Map();
 
 // GET /api/pdf/generate?user=Shubham
 router.get('/generate', async (req, res) => {
-    const { user } = req.query;
+    const { user, view } = req.query;
 
     if (!user) {
         return res.status(400).json({ error: 'User parameter is required' });
     }
 
-    console.log(`🚀 Generating PDF for user: ${user}`);
+    const templateView = view || 'single';
+    console.log(`🚀 Generating PDF for user: ${user}, view: ${templateView}`);
 
     let browser;
     try {
@@ -26,15 +27,17 @@ router.get('/generate', async (req, res) => {
 
         const page = await browser.newPage();
 
-        // Set viewport for proper rendering (A4 landscape proportions)
+        const isLandscape = templateView === 'split';
+
+        // Set viewport for proper rendering
         await page.setViewport({
-            width: 1400,   // Wide viewport for split layout
-            height: 990,   // A4 landscape proportions
+            width: isLandscape ? 1400 : 794,
+            height: isLandscape ? 990 : 1123,
             deviceScaleFactor: 1
         });
 
         // Navigate to resume page with PDF export mode
-        const url = `http://localhost:3000/resume.html?user=${user}&export=pdf`;
+        const url = `http://localhost:3000/resume.html?user=${user}&view=${templateView}&export=pdf`;
         console.log(`📄 Loading: ${url}`);
 
         await page.goto(url, {
@@ -46,7 +49,7 @@ router.get('/generate', async (req, res) => {
         await page.evaluate(() => document.fonts.ready);
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // Hide UI controls
+        // Clean layout for PDF export
         await page.evaluate(() => {
             const controlPanel = document.getElementById('control-panel');
             const carousel = document.getElementById('template-carousel');
@@ -55,16 +58,24 @@ router.get('/generate', async (req, res) => {
             if (controlPanel) controlPanel.style.display = 'none';
             if (carousel) carousel.style.display = 'none';
             editButtons.forEach(btn => btn.style.display = 'none');
+
+            document.body.style.padding = '0';
+            document.body.style.margin = '0';
+            const appRoot = document.getElementById('app-root');
+            if (appRoot) {
+                appRoot.style.minHeight = '0';
+                appRoot.style.height = 'auto';
+            }
         });
 
         console.log('📸 Generating PDF with native rendering...');
 
-        // Generate PDF directly using Puppeteer (much smaller file size)
-        const pdfBuffer = await page.pdf({
+        // Generate PDF directly using Puppeteer
+        const pdfBuffer = Buffer.from(await page.pdf({
             format: 'A4',
-            landscape: true,
+            landscape: isLandscape,
             printBackground: true,
-            preferCSSPageSize: false,
+            preferCSSPageSize: true,
             margin: {
                 top: '0px',
                 bottom: '0px',
@@ -72,14 +83,15 @@ router.get('/generate', async (req, res) => {
                 right: '0px'
             },
             displayHeaderFooter: false,
-            scale: 0.72,  // Adjusted scale to fit all content
+            scale: isLandscape ? 0.72 : 1,
             tagged: false,
             omitBackground: false
-        });
+        }));
 
         await browser.close();
 
         console.log('✅ PDF generated successfully! Size:', pdfBuffer.length, 'bytes', `(${(pdfBuffer.length / 1024 / 1024).toFixed(2)} MB)`);
+        console.log('🔍 PDF header check:', pdfBuffer.slice(0, 4).toString('ascii')); // Should print %PDF
 
         // Save to temp file AND Downloads folder
         const filename = `${user.replace(/\s+/g, '_')}_Resume.pdf`;
@@ -149,7 +161,8 @@ router.get('/download/:id', (req, res) => {
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="${pdfData.filename}"`);
-    res.send(pdfData.buffer);
+    res.setHeader('Content-Length', pdfData.buffer.length);
+    res.end(pdfData.buffer);  // .end() sends raw Buffer bytes, never JSON-serializes
 });
 
 // GET /api/pdf/view/:id - View PDF in browser
@@ -165,7 +178,8 @@ router.get('/view/:id', (req, res) => {
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `inline; filename="${pdfData.filename}"`);
-    res.send(pdfData.buffer);
+    res.setHeader('Content-Length', pdfData.buffer.length);
+    res.end(pdfData.buffer);  // .end() sends raw Buffer bytes, never JSON-serializes
 });
 
 module.exports = router;

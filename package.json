@@ -1,6 +1,7 @@
 {
     "name": "resume-builder-backend",
     "version": "1.0.0",
+    "packageManager": "pnpm@10.9.0",
     "description": "Backend server for Dynamic Resume Builder with AI capabilities",
     "main": "server.js",
     "scripts": {

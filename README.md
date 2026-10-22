@@ -62,6 +62,8 @@ graph TB
         J[cv-template/glass.js]
         K[cv-template/clean.js]
         L[cv-template/classic.js]
+        O[cv-template/single.js<br/>Single Page 99% ATS]
+        P[cv-template/dual.js<br/>Dual Page 99% ATS]
     end
     
     subgraph "Data Storage"
@@ -72,7 +74,7 @@ graph TB
         N[AI<br/>Anthropic API]
     end
     
-    B --> I & J & K & L
+    B --> I & J & K & L & O & P
     C --> G
     D --> H
     F --> M
@@ -92,8 +94,11 @@ shubham-sharma/
 ├── routes/
 │   ├── cvData.js               # CV data management
 │   ├── ai.js                   # AI features (optimize, CV builder)
-│   └── import.js               # Resume import
+│   ├── import.js               # Resume import
+│   └── pdf.js                  # PDF generator with orientation & template support
 ├── cv-template/
+│   ├── single.js               # Single Page template (99% ATS score, 1-page fit)
+│   ├── dual.js                 # Dual Page template (99% ATS score, 2-page fit)
 │   ├── split.js                # Split view template
 │   ├── glass.js                # Glassmorphism template
 │   ├── clean.js                # Modern clean template

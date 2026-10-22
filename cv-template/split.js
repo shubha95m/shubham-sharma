@@ -36,6 +36,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         @media (max-width: 900px) { body.split-theme { flex-direction: column; } .split-theme .sidebar { width: 100%; position: relative; height: auto; } .split-theme .main-content { margin-left: 0; padding: 2rem; } }
         
         @media print {
+            @page { size: A4 landscape; margin: 0; }
             body.split-theme { display: block; height: auto; overflow: visible; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             /* Force side-by-side layout in print */
             .split-theme .sidebar { 

@@ -4,7 +4,11 @@
     "company": "AlphaSense",
     "date": "March 2025 – Present",
     "details": [
-      "Designed and rolled out a custom Playwright MCP Server used org-wide to generate base automation scripts in minutes, reducing test bootstrap time by 90%.",
+      "Architected enterprise QA Platform MCP consolidating daily-driver MCP servers (GitLab, Linear, Slack, Allure, Testkube), exposing 350+ tools and 150+ skills to autonomously execute end-to-end QA actions and AI assistance.",
+      "Engineered an autonomous Self-Healing pipeline running on automated schedules to continuously detect persistent test failures, auto-heal broken tests, raise GitLab MRs, and request Slack peer reviews for 100% robust test coverage.",
+      "Built an AI-powered Auto-Review bot with agentic skills that automatically inspects raised MRs, validates code quality, identifies logical gaps and bugs, and enforces engineering best practices for seamless peer review.",
+      "Developed an intelligent CI/CD Troubleshooting Agent for hard-gated pipeline failures, correlating test history, MR diffs, and integration service health to provide instant diagnostic verdicts and trigger self-healing remediation.",
+      "Designed and rolled out a custom Playwright agentic capabiliies used org-wide to generate base automation scripts in minutes, reducing test bootstrap time by 90%.",
       "Built backend E2E generators covering full API surfaces with contract testing and API testing capabilities, reducing manual test effort by 70-80%.",
       "Developed auto-regression analysis tooling leveraging AI to analyze 4K+ test scenarios daily, tracking failures and release trends, improving release management overall.",
       "Designed auto-SDK pipelines detecting Swagger changes and automatically updating multi-language SDKs, reducing SDK maintenance overhead by 85%.",
