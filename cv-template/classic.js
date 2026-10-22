@@ -130,8 +130,16 @@ window.renderClassic = (DATA, ROOT, STYLE) => {
                             <span style="color: #94a3b8; font-size: 0.9rem;"> | ${d.school} | ${d.year} | ${d.grade}</span>
                         </div>
                     `).join('')}
-                    ${DATA.education.certifications && DATA.education.certifications.length > 0 ? `
+                    ${DATA.education.awards && DATA.education.awards.length > 0 ? `
                     <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <strong style="color: #fbbf24; font-size: 0.95rem;"><i class="fas fa-trophy" style="color: #fbbf24;"></i> Honors & Awards:</strong>
+                        <div style="color: var(--text); margin-top: 0.3rem; font-size: 0.9rem;">
+                            ${DATA.education.awards.map(a => `<span style="font-weight: 600;">${a.name}</span> (${a.issuer}) — ${a.description}`).join(' • ')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    ${DATA.education.certifications && DATA.education.certifications.length > 0 ? `
+                    <div style="margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1);">
                         <strong style="color: var(--accent); font-size: 0.95rem;">Certifications:</strong>
                         <div style="color: var(--text); margin-top: 0.3rem; font-size: 0.9rem;">
                             ${DATA.education.certifications.map(c => `${c.name} (${c.issuer}, ${c.year})`).join(' • ')}

@@ -139,10 +139,18 @@ window.renderGlass = (DATA, ROOT, STYLE) => {
                         </div>
                     `).join('')}
                     
+                    ${DATA.education.awards && DATA.education.awards.length > 0 ? `
+                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.4rem; margin-top: 0.2rem;">
+                        <h3 style="color:#fbbf24; margin-bottom:0.2rem; font-size: 0.95rem;"><i class="fas fa-trophy"></i> Honors & Awards</h3>
+                        <ul style="margin: 0; padding-left: 1.2rem;">
+                            ${DATA.education.awards.map(a => `<li style="margin-bottom: 0.1rem; font-size: 0.8rem;"><strong style="color:white;">${a.name}</strong> (${a.issuer}) — <span style="color:var(--text-muted);">${a.description}</span></li>`).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
                     <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.4rem; margin-top: 0.2rem;">
                         <h3 style="color:white; margin-bottom:0.2rem; font-size: 0.95rem;">Certifications</h3>
                         <ul style="margin: 0; padding-left: 1.2rem;">
-                            ${DATA.education.certifications.map(c => `<li style="margin-bottom: 0.1rem; font-size: 0.8rem;">${c.name} (${c.issuer}) - ${c.year} <span style="color:var(--accent)">[${c.grade}]</span></li>`).join('')}
+                            ${DATA.education.certifications.map(c => `<li style="margin-bottom: 0.1rem; font-size: 0.8rem;">${c.name} (${c.issuer}) - ${c.year}</li>`).join('')}
                         </ul>
                     </div>
                 </div>

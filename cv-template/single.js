@@ -405,17 +405,19 @@ window.renderSingle = (DATA, ROOT, STYLE) => {
                 </div>
             </section>
 
-            <!-- Certifications -->
+            <!-- Honors & Certifications -->
             <section id="certifications">
-                <h2 class="sec-title">Certifications</h2>
-                <div class="item-entry">
+                <h2 class="sec-title">Honors & Certifications</h2>
+                <div class="item-entry" style="margin-bottom: 2px;">
+                    <div class="item-row-1">
+                        <span>&bull; <span class="company-name">AlphaAward — Engineering Performance & Impact</span></span>
+                        <span class="right-date" style="font-style: italic; color: #b45309; font-weight: 700;"><i class="fas fa-trophy" style="color: #d97706;"></i> AlphaSense</span>
+                    </div>
+                </div>
+                <div class="item-entry" style="margin-bottom: 0;">
                     <div class="item-row-1">
                         <span>&bull; <span class="company-name">VSkills Selenium Professional Certification</span></span>
                         <span class="right-date" style="font-style: italic; color: #475569; font-weight: 600;">Certified, 2019</span>
-                    </div>
-                    <div class="item-row-2">
-                        <span class="left-role">VSkills &bull; Enterprise Web Automation, WebDriver Architecture, CI/CD Test Grids</span>
-                        <span class="right-date"></span>
                     </div>
                 </div>
             </section>

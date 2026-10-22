@@ -370,7 +370,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <div>
                             <h1 class="candidate-name">${DATA.profile.name}</h1>
                             <div class="tagline">${DATA.profile.taglines.join(' &bull; ')}</div>
-                            <div class="header-specialization"><strong>Specialization :</strong> Cloud-Native Quality Engineering & In-Cluster Testing &bull; Kubernetes Testkube &bull; Crossplane Multi-Cloud IaC &bull; SRE Observability</div>
+                            <div class="header-specialization"><strong style="color: #b45309;"><i class="fas fa-trophy" style="color: #d97706;"></i> AlphaAward Winner (AlphaSense) :</strong> Selective recognition awarded for outstanding engineering performance & organizational impact</div>
                             <div class="header-left-links">
                                 <a href="${linkedinUrl}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
                                 <span class="social-sep">&bull;</span>
@@ -596,9 +596,19 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         </div>
                     </section>
 
-                    <!-- Certifications -->
+                    <!-- Honors & Certifications -->
                     <section id="certifications">
-                        <h2 class="sec-title">Certifications</h2>
+                        <h2 class="sec-title">Honors & Certifications</h2>
+                        <div class="item-entry">
+                            <div class="item-row-1">
+                                <span>&bull; <span class="company-name">AlphaAward — Engineering Performance & Impact</span></span>
+                                <span class="right-text" style="color:#b45309; font-weight:700;"><i class="fas fa-trophy" style="color:#d97706;"></i> AlphaSense</span>
+                            </div>
+                            <div class="item-row-2">
+                                <span class="left-role">Selective stock option award recognizing high-impact QA platform delivery and organizational excellence</span>
+                                <span class="right-date"></span>
+                            </div>
+                        </div>
                         <div class="item-entry">
                             <div class="item-row-1">
                                 <span>&bull; <span class="company-name">VSkills</span> Selenium Professional Certification</span>
