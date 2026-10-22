@@ -370,7 +370,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <div>
                             <h1 class="candidate-name">${DATA.profile.name}</h1>
                             <div class="tagline">${DATA.profile.taglines.join(' &bull; ')}</div>
-                            <div class="header-specialization"><strong style="color: #b45309;"><i class="fas fa-trophy" style="color: #d97706;"></i> AlphaAward Winner (AlphaSense) :</strong> Selective recognition awarded for outstanding engineering performance & organizational impact</div>
+                            <div class="header-specialization"><strong style="color: #b45309;"><i class="fas fa-trophy" style="color: #d97706;"></i> AlphaAward Winner (AlphaSense) :</strong> Awarded for outstanding performance & organizational impact</div>
                             <div class="header-left-links">
                                 <a href="${linkedinUrl}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
                                 <span class="social-sep">&bull;</span>
