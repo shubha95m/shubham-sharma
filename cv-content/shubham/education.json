@@ -25,5 +25,12 @@
       "issuer": "VSkills",
       "year": "2019"
     }
+  ],
+  "awards": [
+    {
+      "name": "AlphaAward",
+      "issuer": "AlphaSense",
+      "description": "Selective performance & impact award recognized for exceptional engineering excellence"
+    }
   ]
 }

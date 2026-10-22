@@ -542,8 +542,8 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                             <h1 class="sidebar-h1">${DATA.profile.name}</h1>
                             <div class="sidebar-tagline">${DATA.profile.taglines[0]}</div>
                             <div class="sidebar-spec-badge">
-                                <i class="fas fa-certificate" style="color:#60a5fa; margin-right:3px;"></i> Cloud-Native QE Specialization<br>
-                                <span style="opacity:0.85; font-size:0.62rem;">AlphaSense &bull; 2024</span>
+                                <i class="fas fa-trophy" style="color:#f59e0b; margin-right:3px;"></i> AlphaAward Winner<br>
+                                <span style="opacity:0.85; font-size:0.62rem;">AlphaSense &bull; Performance & Impact</span>
                             </div>
                         </div>
 
@@ -692,13 +692,13 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                             <i class="fas fa-award"></i> Certifications
                         </div>
                         <div class="cert-card">
-                            <div class="cert-name">Selenium Professional Certification</div>
-                            <div class="cert-meta">VSkills &bull; 2019</div>
+                            <div class="cert-name"><i class="fas fa-trophy" style="color:#f59e0b; font-size:0.68rem; margin-right:3px;"></i> AlphaAward</div>
+                            <div class="cert-meta">AlphaSense</div>
+                            <div style="font-size:0.63rem; color:#cbd5e1; margin-top:2px;">Selective engineering performance & impact award</div>
                         </div>
                         <div class="cert-card">
-                            <div class="cert-name">Cloud-Native Quality Engineering Specialization</div>
-                            <div class="cert-meta">AlphaSense &bull; 2024</div>
-                            <div style="font-size:0.63rem; color:#cbd5e1; margin-top:2px;">Testkube, Crossplane IaC, SRE Observability</div>
+                            <div class="cert-name">Selenium Professional Certification</div>
+                            <div class="cert-meta">VSkills &bull; 2019</div>
                         </div>
 
                         <!-- Core Competencies -->

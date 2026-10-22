@@ -634,11 +634,11 @@ window.renderClean = (DATA, ROOT, STYLE) => {
                             <h1 class="candidate-name">${DATA.profile.name}</h1>
                             <div class="tagline">${DATA.profile.taglines.join(' &bull; ')}</div>
                             
-                            <!-- Cloud-Native QE Specialization Badge -->
+                            <!-- AlphaAward Recognition Badge -->
                             <div class="clean-spec-badge">
-                                <i class="fas fa-certificate"></i>
-                                <span><strong>Cloud-Native Quality Engineering Specialization</strong> &bull; AlphaSense (2024)</span>
-                                <span class="badge-sub">&bull; Testkube &bull; Crossplane IaC &bull; SRE Observability</span>
+                                <i class="fas fa-trophy" style="color: #f59e0b;"></i>
+                                <span><strong>AlphaAward Winner</strong> &bull; AlphaSense</span>
+                                <span class="badge-sub">&bull; Selective Engineering Performance & Impact Award</span>
                             </div>
 
                             <!-- Contact & Social Details -->
@@ -858,21 +858,22 @@ window.renderClean = (DATA, ROOT, STYLE) => {
                         `).join('')}
                     </section>
 
-                    <!-- Certifications Below Education -->
+                    <!-- Honors & Certifications Below Education -->
                     <section class="clean-sec" id="certifications" style="margin-bottom: 0;">
                         <div class="clean-sec-head">
-                            <span class="clean-sec-title"><i class="fas fa-award"></i> Certifications</span>
-                            <span class="clean-sec-tag">Professional Credentials</span>
+                            <span class="clean-sec-title"><i class="fas fa-award"></i> Honors & Certifications</span>
+                            <span class="clean-sec-tag">Recognition & Credentials</span>
                         </div>
                         <div class="certs-grid">
                             <div class="cert-card">
-                                <div class="cert-title">Selenium Professional Certification</div>
-                                <div class="cert-meta">VSkills &bull; 2019</div>
+                                <div class="cert-title"><i class="fas fa-trophy" style="color: #f59e0b; margin-right: 4px;"></i> AlphaAward — Engineering Impact</div>
+                                <div class="cert-meta">AlphaSense</div>
+                                <div class="cert-sub">Selective performance stock award recognizing high-impact QA platform delivery</div>
                             </div>
                             <div class="cert-card">
-                                <div class="cert-title">Cloud-Native Quality Engineering Specialization</div>
-                                <div class="cert-meta">AlphaSense &bull; 2024</div>
-                                <div class="cert-sub">Testkube &bull; Crossplane IaC &bull; SRE Observability</div>
+                                <div class="cert-title">Selenium Professional Certification</div>
+                                <div class="cert-meta">VSkills &bull; 2019</div>
+                                <div class="cert-sub">Enterprise Web Automation & Continuous Quality Testing</div>
                             </div>
                         </div>
                     </section>
