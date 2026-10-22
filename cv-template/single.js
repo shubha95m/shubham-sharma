@@ -79,6 +79,10 @@ window.renderSingle = (DATA, ROOT, STYLE) => {
             font-size: 0.86rem;
             color: #1f2328;
         }
+        .single-theme .header-left-links a i.fa-npm {
+            font-size: 0.95rem;
+            color: #cb3837;
+        }
         .single-theme .header-left-links .social-sep {
             color: #94a3b8;
             font-size: 0.65rem;
@@ -252,11 +256,13 @@ window.renderSingle = (DATA, ROOT, STYLE) => {
 
     const linkedinObj = DATA.profile.social ? DATA.profile.social.find(s => s.platform.toLowerCase() === 'linkedin') : null;
     const githubObj = DATA.profile.social ? DATA.profile.social.find(s => s.platform.toLowerCase() === 'github') : null;
+    const npmObj = DATA.profile.social ? DATA.profile.social.find(s => s.platform.toLowerCase() === 'npm') : null;
 
     const linkedinUrl = linkedinObj ? linkedinObj.url : 'https://www.linkedin.com/in/shubham-sharma-4a4aaab9';
     const linkedinDisplay = linkedinUrl.replace(/^https?:\/\/(www\.)?/, '');
     const githubUrl = githubObj ? githubObj.url : 'https://github.com/shubha95m';
     const githubDisplay = githubUrl.replace(/^https?:\/\/(www\.)?/, '');
+    const npmUrl = npmObj ? npmObj.url : 'https://www.npmjs.com/~shubha20m';
 
     ROOT.innerHTML = `
         <div class="single-page-wrapper">
@@ -269,6 +275,8 @@ window.renderSingle = (DATA, ROOT, STYLE) => {
                         <a href="${linkedinUrl}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
                         <span class="social-sep">&bull;</span>
                         <a href="${githubUrl}" target="_blank" rel="noopener"><i class="fab fa-github"></i> <span>GitHub</span></a>
+                        <span class="social-sep">&bull;</span>
+                        <a href="${npmUrl}" target="_blank" rel="noopener"><i class="fab fa-npm"></i> <span>npm</span></a>
                     </div>
                 </div>
                 <div class="header-right-contact">
