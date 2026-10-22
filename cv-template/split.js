@@ -646,10 +646,6 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                                         <li>${highlightMetrics(staffRole.details[3])}</li>
                                         <li>${highlightMetrics(staffRole.details[4])}</li>
                                         <li>${highlightMetrics(staffRole.details[5])}</li>
-                                        <li>${highlightMetrics(staffRole.details[6])}</li>
-                                        <li>${highlightMetrics(staffRole.details[7])}</li>
-                                        <li>${highlightMetrics(staffRole.details[8])}</li>
-                                        <li>${highlightMetrics(staffRole.details[9])}</li>
                                     </ul>
                                 </div>
                             ` : ''}
@@ -658,7 +654,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
 
                     <div class="sheet-footer">
                         <span>Shubham Sharma &bull; Staff SDET</span>
-                        <span>Continued on Page 2 (Team Lead & Experience History)</span>
+                        <span>Continued on Page 2 &bull; Experience History</span>
                     </div>
                 </main>
             </div>
@@ -734,13 +730,8 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                 <!-- PAGE 2 MAIN CONTENT -->
                 <main class="split-main">
                     <div>
-                        <!-- Professional Journey (Continued): Team Lead, Senior QA, QA, Accenture -->
+                        <!-- Professional Journey: Team Lead, Senior QA, QA, Accenture -->
                         <section class="main-sec">
-                            <h2 class="main-sec-head">
-                                <span>Professional Journey (Continued)</span>
-                                <span class="sec-tag">Leadership & Experience</span>
-                            </h2>
-
                             <!-- Team Lead QA Automation -->
                             ${leadRole ? `
                                 <div class="job-entry">
