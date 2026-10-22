@@ -22,7 +22,7 @@
     <!-- Pattern Templates -->
     <script src="cv-template/split.js?v=5"></script>
     <script src="cv-template/glass.js?v=5"></script>
-    <script src="cv-template/clean.js?v=5"></script>
+    <script src="cv-template/clean.js?v=6"></script>
     <script src="cv-template/classic.js?v=5"></script>
     <script src="cv-template/single.js?v=5"></script>
     <script src="cv-template/dual.js?v=5"></script>
@@ -376,24 +376,26 @@
         /* PDF Export Mode - Paginated Themes */
         body.single-theme.pdf-export-mode #app-root,
         body.dual-theme.pdf-export-mode #app-root,
-        body.split-theme.pdf-export-mode #app-root {
+        body.split-theme.pdf-export-mode #app-root,
+        body.clean-theme.pdf-export-mode #app-root {
             min-height: 0 !important;
             height: auto !important;
         }
         body.single-theme.pdf-export-mode,
         body.dual-theme.pdf-export-mode,
-        body.split-theme.pdf-export-mode {
+        body.split-theme.pdf-export-mode,
+        body.clean-theme.pdf-export-mode {
             padding: 0 !important;
             margin: 0 !important;
         }
 
         /* PDF Export Mode - Other Templates */
-        body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme) .sidebar,
-        body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme) #profile {
+        body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme):not(.clean-theme) .sidebar,
+        body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme):not(.clean-theme) #profile {
             display: none !important;
         }
 
-        body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme) .main-content {
+        body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme):not(.clean-theme) .main-content {
             margin: 0 !important;
             padding: 40px !important;
             width: 794px !important;
@@ -2416,6 +2418,8 @@
                                             staticFilename = 'Shubham_Resume_Split.pdf';
                                         } else if (currentPattern === 'dual') {
                                             staticFilename = 'Shubham_Resume_2Page.pdf';
+                                        } else if (currentPattern === 'clean') {
+                                            staticFilename = 'Shubham_Resume_Clean.pdf';
                                         }
                                         const staticPath = `cv-content/${CURRENT_USER}/${staticFilename}`;
                                         const staticRes = await fetch(staticPath);
