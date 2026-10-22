@@ -150,23 +150,23 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
         /* Section Dividers with crisp Oxford Navy rule */
         .dual-theme h2.sec-title {
-            font-size: 0.86rem;
+            font-size: 0.90rem;
             font-weight: 700;
             text-transform: none;
             color: #1e3a8a;
             border-bottom: 1.2px solid #1e3a8a;
-            padding-bottom: 1.5px;
-            margin-top: 7px;
-            margin-bottom: 4px;
+            padding-bottom: 2px;
+            margin-top: 9px;
+            margin-bottom: 5px;
             letter-spacing: 0.01em;
         }
 
         /* Summary text */
         .dual-theme .summary-p {
-            font-size: 0.74rem;
-            line-height: 1.30;
+            font-size: 0.78rem;
+            line-height: 1.35;
             color: #1e293b;
-            margin: 0 0 4px 0;
+            margin: 0 0 5px 0;
             text-align: justify;
         }
 
@@ -174,13 +174,13 @@ window.renderDual = (DATA, ROOT, STYLE) => {
         .dual-theme ul.skills-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 2px 0;
+            margin: 0 0 3px 0;
         }
         .dual-theme ul.skills-list li {
-            font-size: 0.73rem;
-            line-height: 1.28;
+            font-size: 0.76rem;
+            line-height: 1.32;
             color: #1e293b;
-            margin-bottom: 1.5px;
+            margin-bottom: 2.5px;
             text-align: justify;
         }
         .dual-theme ul.skills-list li strong {
@@ -190,16 +190,16 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
         /* Items (Experience, Projects, Education) */
         .dual-theme .item-entry {
-            margin-bottom: 5px;
+            margin-bottom: 7px;
         }
         .dual-theme .item-row-1 {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            font-size: 0.78rem;
+            font-size: 0.81rem;
             font-weight: 700;
             color: #0f172a;
-            line-height: 1.26;
+            line-height: 1.28;
         }
         .dual-theme .company-name {
             color: #1e40af;
@@ -219,9 +219,9 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            font-size: 0.74rem;
-            line-height: 1.25;
-            margin-bottom: 1.5px;
+            font-size: 0.76rem;
+            line-height: 1.26;
+            margin-bottom: 2px;
         }
         .dual-theme .item-row-2 .left-role {
             font-weight: 600;
@@ -242,10 +242,10 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             list-style-type: circle;
         }
         .dual-theme ul.bullets li {
-            font-size: 0.72rem;
-            line-height: 1.26;
+            font-size: 0.75rem;
+            line-height: 1.30;
             color: #111111;
-            margin-bottom: 1.5px;
+            margin-bottom: 2.5px;
             text-align: justify;
         }
         .dual-theme ul.bullets li strong {
@@ -270,27 +270,30 @@ window.renderDual = (DATA, ROOT, STYLE) => {
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 0 !important; /* Suppresses browser native header (date/title) and footer (URL) */
+                margin: 10mm 14mm 10mm 14mm;
             }
             html {
-                font-size: 13px !important;
+                font-size: 12.8px !important;
             }
             html, body {
                 width: 100% !important;
                 height: auto !important;
+                min-height: 0 !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 background: #ffffff !important;
+                overflow: visible !important;
             }
             body.dual-theme {
                 padding: 0 !important;
+                margin: 0 !important;
                 background: #ffffff !important;
             }
             .dual-theme .cv-paper {
                 box-shadow: none !important;
                 border: none !important;
                 padding: 0 !important;
-                margin: 0 !important;
+                margin: 0 auto !important;
                 width: 100% !important;
                 max-width: 100% !important;
                 gap: 0 !important;
@@ -298,24 +301,30 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             .dual-theme .dual-sheet {
                 box-shadow: none !important;
                 border: none !important;
-                padding: 10mm 14mm 10mm 14mm !important;
+                padding: 0 !important;
                 margin: 0 !important;
                 width: 100% !important;
                 max-width: 100% !important;
-                min-height: 297mm !important;
+                min-height: 0 !important;
+                height: auto !important;
+                display: block !important;
                 box-sizing: border-box !important;
             }
             .dual-theme .dual-sheet.page-1 {
                 page-break-after: always !important;
                 break-after: page !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
             }
             .dual-theme .dual-sheet.page-2 {
                 page-break-after: avoid !important;
                 break-after: avoid !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+            }
+            .dual-theme .item-entry {
+                margin-bottom: 4px !important;
+            }
+            .dual-theme h2.sec-title {
+                margin-top: 6px !important;
+                margin-bottom: 3px !important;
+                padding-bottom: 1.5px !important;
             }
             .dual-theme .screen-divider {
                 display: none !important;
@@ -376,9 +385,10 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <h2 class="sec-title">Skills Summary</h2>
                         <ul class="skills-list">
                             <li>&bull; <strong>Test Automation & Frameworks :</strong> Playwright, Selenium, Cypress, RestAssured, K6, Testkube, Selenoid, Allure, ReportPortal, Contract Testing, API Testing</li>
-                            <li>&bull; <strong>Languages & Stacks :</strong> Java, Kotlin, JavaScript, Python, Node.js, Spring Boot, GraphQL, Microservices</li>
-                            <li>&bull; <strong>Cloud, DevOps & SRE :</strong> AWS, Azure, GCP, Docker, Kubernetes, Crossplane, Jenkins CI/CD, Git, Linux, Infrastructure as Code, Test Observability</li>
-                            <li>&bull; <strong>Quality Architecture & Practices :</strong> Autonomous Self-Healing, Shift-Left Testing, TDD, Agile/Scrum, CI/CD Quality Gates, Release Management, Performance Engineering</li>
+                            <li>&bull; <strong>Languages & Backend :</strong> Java, Kotlin, JavaScript, Python, Node.js, Spring Boot, GraphQL, Microservices, REST APIs</li>
+                            <li>&bull; <strong>Cloud, DevOps & SRE :</strong> AWS, Azure, GCP, Docker, Kubernetes, Crossplane, Jenkins CI/CD, Spinnaker, Git, Linux, Infrastructure as Code, Test Observability</li>
+                            <li>&bull; <strong>Autonomous Testing & AI :</strong> Model Context Protocol (MCP), Claude, Cursor, AI Auto-Review Bots, Self-Healing Pipelines, AI Failure Diagnostics</li>
+                            <li>&bull; <strong>Quality Architecture & Practices :</strong> Shift-Left Testing, TDD, Agile/Scrum, CI/CD Quality Gates, Release Management, Performance Engineering</li>
                         </ul>
                     </section>
 
@@ -420,7 +430,24 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                                 <li>${highlightMetrics("Integrated cloud resources using Crossplane across AWS, Azure, and GCP with 99.5% uptime; optimized cloud costs via IaC saving $1K+/month (12% reduction).")}</li>
                                 <li>${highlightMetrics("Implemented and enhanced Testkube with in-cluster testing, triggers, and reusable workflows, improving test observability by 50%.")}</li>
                                 <li>${highlightMetrics("Shifted validation to build-level execution in Jenkins continuous pipelines, reducing late-stage failures by 45%.")}</li>
-                                <li>${highlightMetrics("Mentored QA engineers to independently own complex automation systems and cloud tooling, improving team autonomy by 60%.")}</li>
+                            </ul>
+                        </div>
+
+                        <!-- Senior Automation QA -->
+                        <div class="item-entry">
+                            <div class="item-row-1">
+                                <span>&bull; <span class="company-name">AlphaSense</span> — Framework Scalability & Core Automation</span>
+                                <span class="right-text">Pune, India</span>
+                            </div>
+                            <div class="item-row-2">
+                                <span class="left-role">Senior Automation QA</span>
+                                <span class="right-date">Jan 2022 – Sept 2023</span>
+                            </div>
+                            <ul class="bullets">
+                                <li>${highlightMetrics("Led team of 3 QA engineers; managed sprint planning, automation roadmaps, and execution following Agile and Scrum methodologies.")}</li>
+                                <li>${highlightMetrics("Built scalable automation frameworks using Java, JavaScript, Cypress, K6, and Selenide with test-driven development principles.")}</li>
+                                <li>${highlightMetrics("Integrated post-deployment automation using Spinnaker for continuous testing and automated release verification.")}</li>
+                                <li>${highlightMetrics("Implemented performance testing strategies for microservices and SQS-based systems, improving throughput by 35% and reducing production incidents by 30%.")}</li>
                             </ul>
                         </div>
                     </section>
@@ -449,24 +476,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
                     <!-- Work Experience Continued -->
                     <section id="experience-continued">
-
-                        <!-- Senior Automation QA -->
-                        <div class="item-entry">
-                            <div class="item-row-1">
-                                <span>&bull; <span class="company-name">AlphaSense</span> — Framework Scalability & Core Automation</span>
-                                <span class="right-text">Pune, India</span>
-                            </div>
-                            <div class="item-row-2">
-                                <span class="left-role">Senior Automation QA</span>
-                                <span class="right-date">Jan 2022 – Sept 2023</span>
-                            </div>
-                            <ul class="bullets">
-                                <li>${highlightMetrics("Led team of 3 QA engineers; managed sprint planning and execution following Agile and Scrum methodologies.")}</li>
-                                <li>${highlightMetrics("Built scalable automation frameworks using Java, JavaScript, Cypress, K6, and Selenide with test-driven development principles.")}</li>
-                                <li>${highlightMetrics("Integrated post-deployment automation using Spinnaker for continuous testing and release management.")}</li>
-                                <li>${highlightMetrics("Implemented performance testing strategies for microservices and SQS-based systems, improving throughput by 35% and reducing production incidents by 30%.")}</li>
-                            </ul>
-                        </div>
+                        <h2 class="sec-title">Work Experience (Continued)</h2>
 
                         <!-- Automation QA -->
                         <div class="item-entry">
@@ -479,10 +489,10 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                                 <span class="right-date">Mar 2020 – Dec 2021</span>
                             </div>
                             <ul class="bullets">
-                                <li>${highlightMetrics("Implemented frontend automation using Selenium (Java) and Selenide (Kotlin) with comprehensive API testing coverage.")}</li>
+                                <li>${highlightMetrics("Implemented frontend automation using Selenium (Java) and Selenide (Kotlin) with comprehensive API testing and contract testing coverage.")}</li>
                                 <li>${highlightMetrics("Built backend API automation using Kotlin and RestAssured following shift-left testing practices.")}</li>
                                 <li>${highlightMetrics("Automated GraphQL APIs and maintained large-scale regression suites (4K+ test cases) with 95% pass rate.")}</li>
-                                <li>${highlightMetrics("Integrated Allure, ReportPortal, and Selenoid Grid for test observability, reporting, and execution scalability.")}</li>
+                                <li>${highlightMetrics("Integrated Allure, ReportPortal, and Selenoid Grid for test observability, reporting, and execution scalability across multi-tenant architecture.")}</li>
                             </ul>
                         </div>
 
@@ -498,15 +508,16 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                             </div>
                             <ul class="bullets">
                                 <li>${highlightMetrics("Automated 100+ healthcare enterprise web applications across enterprise client engagements under strict compliance standards.")}</li>
-                                <li>${highlightMetrics("Executed E2E, regression, smoke, UAT, and UI testing within complete SDLC, achieving a 98% defect detection rate.")}</li>
-                                <li>${highlightMetrics("Built strong foundations in enterprise QA processes, documentation, and quality engineering methodologies.")}</li>
+                                <li>${highlightMetrics("Executed E2E, regression, smoke, UAT, and UI testing within complete SDLC lifecycle, achieving a 98% defect detection rate.")}</li>
+                                <li>${highlightMetrics("Contributed to US healthcare & government programs with strict HIPAA/regulatory standards and automated validation gates.")}</li>
+                                <li>${highlightMetrics("Built strong foundations in enterprise QA processes, documentation, test strategy, and quality engineering methodologies.")}</li>
                             </ul>
                         </div>
                     </section>
 
                     <!-- Projects and Technical Systems -->
                     <section id="innovation">
-                        <h2 class="sec-title">Projects and Technical Systems</h2>
+                        <h2 class="sec-title">Key Projects & Technical Platforms</h2>
 
                         <div class="item-entry">
                             <div class="item-row-1">
@@ -514,6 +525,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                             </div>
                             <ul class="bullets">
                                 <li>${highlightMetrics("Architected multi-agent system consolidating GitLab, Linear, Slack, Allure & Testkube tools to diagnose and remediate CI/CD failures autonomously with 350+ tools and 150+ skills.")}</li>
+                                <li>${highlightMetrics("Empowered developers and SDETs to query test telemetry, triage pipeline logs, and trigger self-healing automated workflows via conversational prompts.")}</li>
                             </ul>
                         </div>
 
@@ -522,7 +534,8 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                                 <span>&bull; <span class="company-name">AI-Driven Regression Intelligence</span> & Self-Healing Pipeline</span>
                             </div>
                             <ul class="bullets">
-                                <li>${highlightMetrics("Built AI-powered regression analyzer processing 4,000+ test cases, querying Grafana logs via MCP, analyzing GitLab commits, and diagnosing defect origins with 85% accuracy.")}</li>
+                                <li>${highlightMetrics("Built AI-powered regression analyzer processing 4,000+ test cases daily, querying Grafana logs via MCP, analyzing GitLab commits, and diagnosing defect origins with 85% accuracy.")}</li>
+                                <li>${highlightMetrics("Dynamically correlates flakiness vs authentic code bugs, reducing triage turnaround time from hours to under 3 minutes.")}</li>
                             </ul>
                         </div>
 
@@ -531,7 +544,8 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                                 <span>&bull; <span class="company-name">AI-Assisted Test Gen & Auto-SDK Pipeline</span> (Cursor, Claude, Swagger)</span>
                             </div>
                             <ul class="bullets">
-                                <li>${highlightMetrics("Developed polyglot test generation toolkit saving 80% test authoring effort and auto-syncing SDKs from Swagger specs with 85% less maintenance overhead.")}</li>
+                                <li>${highlightMetrics("Developed polyglot test generation toolkit saving 80% test authoring effort across Java, Node.js, and Python microservices.")}</li>
+                                <li>${highlightMetrics("Automated client SDK updates directly from OpenAPI/Swagger specs, slashing API maintenance overhead by 85%.")}</li>
                             </ul>
                         </div>
 
@@ -541,8 +555,20 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                             </div>
                             <ul class="bullets">
                                 <li>${highlightMetrics("Orchestrated cloud resources across AWS, Azure, and GCP using Crossplane with 99.5% uptime and automated governance saving $1K+/month.")}</li>
+                                <li>${highlightMetrics("Eliminated environment drift by codifying ephemeral test environments directly inside Kubernetes clusters.")}</li>
                             </ul>
                         </div>
+                    </section>
+
+                    <!-- Key Architectural Achievements & Quality Strategy -->
+                    <section id="achievements">
+                        <h2 class="sec-title">Quality Architecture & Engineering Strategy</h2>
+                        <ul class="bullets">
+                            <li>${highlightMetrics("<strong>Enterprise SaaS Quality Strategy :</strong> Owned continuous quality governance across US & UK regions, supporting horizontal multi-tenant scaling without compromising delivery velocity.")}</li>
+                            <li>${highlightMetrics("<strong>Code-Aware Testing Architecture :</strong> Built service-aligned testing harnesses improving failure diagnosis by 60% and reducing test flakiness by 50%.")}</li>
+                            <li>${highlightMetrics("<strong>Shift-Left CI/CD Quality Gates :</strong> Implemented automated gatekeeper checks in Jenkins and GitLab CI, reducing regression feedback cycles by 45% and late-stage defects by 40%.")}</li>
+                            <li>${highlightMetrics("<strong>Engineering Enablement & Mentorship :</strong> Mentored 10+ QA engineers in cloud tooling, microservices debugging, and agentic workflows, improving team autonomy by 60%.")}</li>
+                        </ul>
                     </section>
 
                     <!-- Education -->
@@ -562,14 +588,14 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
                     <!-- Certifications -->
                     <section id="certifications">
-                        <h2 class="sec-title">Certifications</h2>
+                        <h2 class="sec-title">Certifications & Specialized Training</h2>
                         <div class="item-entry">
                             <div class="item-row-1">
                                 <span>&bull; <span class="company-name">VSkills</span> Selenium Professional Certification</span>
                                 <span class="right-text">Certified, 2019</span>
                             </div>
                             <div class="item-row-2">
-                                <span class="left-role">VSkills &bull; Enterprise Web Automation, WebDriver Architecture, CI/CD Test Grids</span>
+                                <span class="left-role">Enterprise Web Automation, WebDriver Architecture, CI/CD Test Grids, Testkube Kubernetes Orchestration</span>
                                 <span class="right-date"></span>
                             </div>
                         </div>
