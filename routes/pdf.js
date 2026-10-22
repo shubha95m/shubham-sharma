@@ -27,12 +27,12 @@ router.get('/generate', async (req, res) => {
 
         const page = await browser.newPage();
 
-        const isLandscape = templateView === 'split';
+        const isLandscape = false;
 
-        // Set viewport for proper rendering
+        // Set viewport for proper rendering (A4 Portrait standard)
         await page.setViewport({
-            width: isLandscape ? 1400 : 794,
-            height: isLandscape ? 990 : 1123,
+            width: 794,
+            height: 1123,
             deviceScaleFactor: 1
         });
 

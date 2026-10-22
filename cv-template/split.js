@@ -6,307 +6,877 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
 
     STYLE.innerHTML = `
         body.split-theme { 
-            margin: 0 !important; font-family: 'Outfit', sans-serif; background: #ffffff; color: #020617; min-height: 100vh; display: block !important; 
-            --sidebar-bg: #0f172a; --content-bg: #ffffff; --text-main: #020617; --text-muted: #1e293b; --accent: #2563eb; --sidebar-text: #ffffff; --border: #cbd5e1;
-        }
-        .split-theme .sidebar { width: 320px !important; background: #0f172a; color: #ffffff; padding: 2rem 1.5rem; position: fixed !important; left: 0 !important; top: 0 !important; height: 100vh; overflow-y: auto; text-align: center; z-index: 10; box-sizing: border-box; -ms-overflow-style: none; scrollbar-width: none; }
-        .split-theme .sidebar::-webkit-scrollbar { display: none; }
-        .split-theme .main-content { margin-left: 320px !important; padding: 2rem 5rem; min-height: 100vh; max-width: calc(100vw - 320px) !important; box-sizing: border-box; }
-        .split-theme .sidebar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; margin: 0; color: #ffffff; }
-        .split-theme .profile-img { width: 120px !important; height: 120px !important; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1); object-fit: cover; margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto; }
-        .split-theme .nav-link { display: block; padding: 0.8rem 0; color: #cbd5e1; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .split-theme .nav-link:hover, .split-theme .nav-link.active { color: #ffffff; padding-left: 10px; font-weight: 500; }
-        .split-theme .contact-item { margin-top: 1rem; font-size: 0.9rem; color: #e2e8f0; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .split-theme .section { margin-bottom: 1rem; opacity: 0; animation: fadeIn 0.8s forwards; }
-        @keyframes fadeIn { to { opacity: 1; } }
-        .split-theme h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: #0f172a; border-bottom: 3px solid #2563eb; padding-bottom: 0.4rem; display: block; margin-top: 0; margin-bottom: 0.6rem; font-weight: 700; width: 100%; }
-        /* Removed duplicate profile-img rule to avoid conflict */
-        .split-theme .timeline-item { border-left: 2px solid #cbd5e1; padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative; }
-        .split-theme .timeline-content h3 { margin: 0; font-size: 1.15rem; color: #020617; font-weight: 700; }
-        .split-theme .company { color: #2563eb; font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
-        .split-theme .date { font-size: 0.95rem; color: #475569; margin-left: 10px; font-weight: 500; }
-        .split-theme .skills-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
-        .split-theme .skill-card { background: #e2e8f0; padding: 0.8rem; border-radius: 8px; text-align: center; min-width: 100px; flex: 1; border: 1px solid #cbd5e1; margin-bottom: 0.5rem; }
-        .split-theme .skill-icon { font-size: 1.5rem; color: #2563eb; margin-bottom: 0.5rem; }
-        .split-theme .text-dark { color: #0f172a !important; }
-        .split-theme .main-content ul, .split-theme .main-content li, .split-theme .main-content p { color: #0f172a !important; margin-bottom: 0.3rem; }
-        .split-theme .pill { display: inline-block; background: #e2e8f0; padding: 0.5rem 1rem; border-radius: 50px; margin: 0.4rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); color: #0f172a; font-size: 0.9rem; font-weight: 500; border: 1px solid #cbd5e1; vertical-align: middle; }
-        .split-theme .skill-container { line-height: 2.8; }
-        .split-theme .main-content h1, .split-theme .main-content h2, .split-theme .main-content h3, .split-theme .main-content h4, .split-theme .main-content h5, .split-theme .main-content h6 { color: #0f172a; }
-        @media (max-width: 900px) { body.split-theme { flex-direction: column; } .split-theme .sidebar { width: 100%; position: relative; height: auto; } .split-theme .main-content { margin-left: 0; padding: 2rem; } }
-        
-        @media print {
-            @page { size: A4 landscape; margin: 0; }
-            body.split-theme { display: block; height: auto; overflow: visible; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            /* Force side-by-side layout in print */
-            .split-theme .sidebar { 
-                position: fixed !important; 
-                left: 0 !important; 
-                top: 0 !important; 
-                width: 320px !important; 
-                height: 100vh !important; 
-                overflow: visible !important; 
-                display: block !important;
-                background: #0f172a !important;
-                -webkit-print-color-adjust: exact;
-            }
-            .split-theme .main-content { 
-                margin-left: 320px !important; 
-                padding: 2rem 3rem !important; 
-                max-width: calc(100% - 320px) !important; 
-                width: auto !important;
-            }
-            .split-theme .section { page-break-inside: avoid; opacity: 1; animation: none; }
-            .split-theme .timeline-item, .split-theme .card { page-break-inside: avoid; }
-            .split-theme a { text-decoration: none; color: inherit; }
-            .split-theme .contact-info a { color: black !important; }
-            /* Hide unnecessary UI elements */
-            .edit-trigger, #control-panel, #template-carousel { display: none !important; }
+            margin: 0 !important; 
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: #f1f5f9; 
+            color: #0f172a; 
+            min-height: 100vh; 
+            display: block !important; 
+            padding: 1.5rem 0.5rem;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            --sidebar-bg: #0f172a; 
+            --content-bg: #ffffff; 
+            --text-main: #0f172a; 
+            --text-muted: #334155; 
+            --accent: #2563eb; 
+            --sidebar-text: #ffffff; 
+            --border: #cbd5e1;
         }
 
-        /* PDF Export Mode - Clean layout for Puppeteer PDF generation */
+        /* Screen Sheet container calibrated strictly to standard paper proportions */
+        .split-theme .split-cv-container {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .split-theme .split-sheet {
+            background: #ffffff;
+            display: flex;
+            flex-direction: row;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 2px;
+            box-sizing: border-box;
+            min-height: 1120px;
+            overflow: hidden;
+        }
+
+        /* Screen Visual Divider between pages */
+        .split-theme .screen-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            color: #64748b;
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.4rem 0;
+            border-top: 1px dashed #cbd5e1;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        /* Left Dark Sidebar */
+        .split-theme .split-sidebar {
+            width: 255px;
+            min-width: 255px;
+            max-width: 255px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 20px 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .split-theme .sidebar-profile {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .split-theme .profile-img {
+            width: 86px !important;
+            height: 86px !important;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            object-fit: cover;
+            margin: 0 auto 10px auto;
+            display: block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .split-theme .sidebar-h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.35rem;
+            margin: 0 0 2px 0;
+            color: #ffffff;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+        }
+
+        .split-theme .sidebar-tagline {
+            color: #93c5fd;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+
+        .split-theme .sidebar-spec-badge {
+            background: linear-gradient(135deg, rgba(37,99,235,0.25) 0%, rgba(30,58,138,0.35) 100%);
+            border: 1px solid rgba(59,130,246,0.4);
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 0.68rem;
+            color: #bfdbfe;
+            line-height: 1.25;
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .split-theme .sidebar-divider {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .split-theme .contact-box {
+            text-align: left;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .split-theme .contact-row {
+            font-size: 0.72rem;
+            color: #e2e8f0;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            word-break: break-word;
+        }
+        .split-theme .contact-row i {
+            color: #60a5fa;
+            width: 12px;
+            text-align: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        .split-theme .contact-row a {
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .split-theme .contact-row a:hover {
+            color: #93c5fd;
+            text-decoration: underline;
+        }
+
+        .split-theme .sidebar-sec-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #93c5fd;
+            letter-spacing: 0.8px;
+            font-weight: 700;
+            margin: 10px 0 6px 0;
+            padding-bottom: 3px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .split-theme .sidebar-sec-title.emerald {
+            color: #6ee7b7;
+        }
+
+        .split-theme .sidebar-bullets {
+            margin: 0;
+            padding-left: 14px;
+            font-size: 0.70rem;
+            color: #e2e8f0;
+            line-height: 1.35;
+        }
+        .split-theme .sidebar-bullets li {
+            margin-bottom: 4px;
+        }
+
+        .split-theme .skills-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            line-height: 1.4;
+        }
+        .split-theme .skill-pill {
+            background: rgba(59, 130, 246, 0.18);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            color: #ffffff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.67rem;
+            font-weight: 500;
+        }
+        .split-theme .skill-pill.process {
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .split-theme .cert-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+        }
+        .split-theme .cert-name {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 2px;
+            line-height: 1.25;
+        }
+        .split-theme .cert-meta {
+            font-size: 0.67rem;
+            color: #94a3b8;
+            line-height: 1.25;
+        }
+
+        .split-theme .sidebar-footer {
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.65rem;
+            color: #64748b;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Right Main Content */
+        .split-theme .split-main {
+            flex: 1;
+            background: #ffffff;
+            padding: 20px 24px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .split-theme .main-sec {
+            margin-bottom: 11px;
+        }
+
+        .split-theme .main-sec-head {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.02rem;
+            color: #0f172a;
+            font-weight: 700;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 2px;
+            margin: 0 0 6px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            letter-spacing: -0.01em;
+        }
+        .split-theme .main-sec-head .sec-tag {
+            font-size: 0.68rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .split-theme .summary-p {
+            font-size: 0.74rem;
+            line-height: 1.34;
+            color: #1e293b;
+            margin: 0 0 4px 0;
+            text-align: justify;
+        }
+        .split-theme .summary-p strong,
+        .split-theme .job-bullets strong,
+        .split-theme .exec-list strong,
+        .split-theme .platform-list strong {
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .split-theme .exec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .split-theme .exec-col-title {
+            font-size: 0.76rem;
+            color: #2563eb;
+            font-weight: 700;
+            margin: 0 0 3px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .split-theme .exec-list {
+            margin: 0;
+            padding-left: 13px;
+            font-size: 0.71rem;
+            line-height: 1.28;
+            color: #1e293b;
+        }
+        .split-theme .exec-list li {
+            margin-bottom: 3px;
+        }
+
+        .split-theme .job-entry {
+            margin-bottom: 8px;
+        }
+        .split-theme .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
+        .split-theme .job-role {
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .split-theme .job-company {
+            color: #2563eb;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            margin-left: 4px;
+        }
+        .split-theme .job-date {
+            font-size: 0.71rem;
+            color: #475569;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .split-theme .job-bullets {
+            margin: 0;
+            padding-left: 14px;
+            font-size: 0.71rem;
+            line-height: 1.28;
+            color: #1e293b;
+        }
+        .split-theme .job-bullets li {
+            margin-bottom: 3px;
+        }
+
+        .split-theme .platform-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 12px;
+        }
+        .split-theme .platform-item {
+            font-size: 0.71rem;
+            line-height: 1.28;
+            color: #1e293b;
+            position: relative;
+            padding-left: 12px;
+        }
+        .split-theme .platform-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .split-theme .edu-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 3px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.72rem;
+            line-height: 1.3;
+        }
+        .split-theme .edu-degree {
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .split-theme .edu-meta {
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .split-theme .sheet-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 3px;
+            margin-top: 4px;
+            font-size: 0.65rem;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        /* STRICT PRINT STYLES - A4 PORTRAIT EXACT SPLIT VIEW GUARANTEE */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0 !important; /* Suppresses browser native header (URL/date/title) and footer */
+            }
+            html {
+                font-size: 11.2px !important;
+            }
+            html, body {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #ffffff !important;
+                overflow: visible !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body.split-theme {
+                padding: 0 !important;
+                margin: 0 !important;
+                background: #ffffff !important;
+            }
+            .split-theme .split-cv-container {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                gap: 0 !important;
+            }
+            .split-theme .screen-divider {
+                display: none !important;
+            }
+            .split-theme .split-sheet {
+                width: 210mm !important;
+                height: 297mm !important;
+                max-height: 297mm !important;
+                min-height: 297mm !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+                display: flex !important;
+                flex-direction: row !important;
+            }
+            .split-theme .split-sheet.page-2 {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+            .split-theme .split-sidebar {
+                background: #0f172a !important;
+                width: 66mm !important;
+                min-width: 66mm !important;
+                max-width: 66mm !important;
+                padding: 6.5mm 5mm !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .split-theme .split-main {
+                flex: 1 !important;
+                width: calc(210mm - 66mm) !important;
+                padding: 6.5mm 7mm !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .split-theme a {
+                text-decoration: none !important;
+                color: inherit !important;
+            }
+            .edit-trigger, #control-panel, #template-carousel {
+                display: none !important;
+            }
+        }
+
+        /* PDF Export Mode override */
         body.split-theme.pdf-export-mode {
-            display: flex !important;
-            flex-direction: row !important;
-            height: auto !important;
-            min-height: 100vh !important;
-            width: 1400px !important;
-            overflow: visible !important;
-            margin: 0 !important;
             padding: 0 !important;
+            margin: 0 !important;
+            background: #ffffff !important;
         }
-        body.split-theme.pdf-export-mode .sidebar {
-            position: relative !important;
-            left: auto !important;
-            top: auto !important;
-            width: 260px !important;
-            min-width: 260px !important;
-            max-width: 260px !important;
-            height: auto !important;
-            min-height: 100vh !important;
-            overflow: visible !important;
-            flex-shrink: 0 !important;
-            padding: 1.2rem 0.8rem !important;
-            font-size: 0.8rem !important;
-        }
-        body.split-theme.pdf-export-mode .sidebar h1 {
-            font-size: 1.2rem !important;
-        }
-        body.split-theme.pdf-export-mode .sidebar h5,
-        body.split-theme.pdf-export-mode .sidebar h6 {
-            font-size: 0.7rem !important;
-        }
-        body.split-theme.pdf-export-mode .sidebar li,
-        body.split-theme.pdf-export-mode .sidebar p,
-        body.split-theme.pdf-export-mode .sidebar span {
-            font-size: 0.65rem !important;
-            line-height: 1.25 !important;
-        }
-        body.split-theme.pdf-export-mode .sidebar .contact-item {
-            font-size: 0.7rem !important;
-            margin-top: 0.4rem !important;
-        }
-        body.split-theme.pdf-export-mode .profile-img {
-            width: 80px !important;
-            height: 80px !important;
-            margin-bottom: 0.8rem !important;
-        }
-        body.split-theme.pdf-export-mode .main-content {
-            flex: 1 !important;
-            margin-left: 0 !important;
-            padding: 1.2rem 1.5rem !important;
-            height: auto !important;
-            min-height: 100vh !important;
-            overflow: visible !important;
-            width: calc(1400px - 260px) !important;
-        }
-        body.split-theme.pdf-export-mode .main-content h2 {
-            font-size: 1.1rem !important;
-            margin-bottom: 0.4rem !important;
-        }
-        body.split-theme.pdf-export-mode .main-content h3 {
-            font-size: 0.95rem !important;
-        }
-        body.split-theme.pdf-export-mode .main-content h4 {
-            font-size: 0.9rem !important;
-        }
-        body.split-theme.pdf-export-mode .main-content p,
-        body.split-theme.pdf-export-mode .main-content li {
-            font-size: 0.8rem !important;
-            line-height: 1.35 !important;
-        }
-        body.split-theme.pdf-export-mode .section {
-            margin-bottom: 0.6rem !important;
-            animation: none !important;
-            opacity: 1 !important;
-        }
-        body.split-theme.pdf-export-mode .timeline-item {
-            margin-bottom: 0.5rem !important;
-            padding-left: 1rem !important;
-        }
-        body.split-theme.pdf-export-mode #exec-highlights {
-            margin-top: 0.5rem !important;
-        }
+        body.split-theme.pdf-export-mode .screen-divider,
         body.split-theme.pdf-export-mode .edit-trigger,
         body.split-theme.pdf-export-mode #control-panel,
         body.split-theme.pdf-export-mode #template-carousel {
             display: none !important;
         }
+        body.split-theme.pdf-export-mode .split-cv-container {
+            max-width: 100% !important;
+            gap: 0 !important;
+        }
+        body.split-theme.pdf-export-mode .split-sheet {
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            page-break-after: always !important;
+            break-after: page !important;
+        }
+        body.split-theme.pdf-export-mode .split-sheet.page-2 {
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+        }
     `;
 
+    // ATS Metric Highlighter
+    const highlightMetrics = (text) => {
+        if (!text) return '';
+        return text.replace(/(\b\d+(?:\.\d+)?%|\$\d+[Kk]?\+?(?:\/month)?|\b350\+\s*tools\b|\b150\+\s*skills\b|\b350\+\b|\b150\+\b|\b4,000\+\b|\b4K\+\b|\b99\.5%\b|\b9\.7\s*years\b|\b85%\b|\b90%\b|\b65%\b|\b70-80%\b|\b100%\b|\b98%\b|\b80%\b|\b60%\b|\b55%\b|\b50%\b|\b45%\b|\b40%\b|\b35%\b|\b30%\b|\b25%\b|\b12%\b)/g, '<strong>$1</strong>');
+    };
+
+    // Social URLs & Display
+    const linkedinObj = DATA.profile.social ? DATA.profile.social.find(s => s.platform.toLowerCase() === 'linkedin') : null;
+    const githubObj = DATA.profile.social ? DATA.profile.social.find(s => s.platform.toLowerCase() === 'github') : null;
+    const npmObj = DATA.profile.social ? DATA.profile.social.find(s => s.platform.toLowerCase() === 'npm') : null;
+
+    const linkedinUrl = linkedinObj ? linkedinObj.url : 'https://www.linkedin.com/in/shubham-sharma-4a4aaab9';
+    const linkedinDisplay = linkedinUrl.replace(/^https?:\/\/(www\.)?/, '');
+    const githubUrl = githubObj ? githubObj.url : 'https://github.com/shubha95m';
+    const githubDisplay = githubUrl.replace(/^https?:\/\/(www\.)?/, '');
+    const npmUrl = npmObj ? npmObj.url : 'https://www.npmjs.com/~shubha20m';
+    const npmDisplay = npmUrl.replace(/^https?:\/\/(www\.)?/, '');
+
+    // Journey partitioning for 2 pages
+    const staffRole = DATA.journey && DATA.journey[0] ? DATA.journey[0] : null;
+    const leadRole = DATA.journey && DATA.journey[1] ? DATA.journey[1] : null;
+    const seniorRole = DATA.journey && DATA.journey[2] ? DATA.journey[2] : null;
+    const qaRole = DATA.journey && DATA.journey[3] ? DATA.journey[3] : null;
+    const accentureRole = DATA.journey && DATA.journey[4] ? DATA.journey[4] : null;
+
     ROOT.innerHTML = `
-        <aside class="sidebar" id="profile">
-            <img src="${DATA.profile.profilePic}" class="profile-img">
-            <h1>${DATA.profile.name}</h1>
-            <p style="opacity: 1; color: #e2e8f0; margin-top: 0.5rem; font-size: 0.95rem;">${DATA.profile.taglines[0]}</p>
-
-            <!-- Divider -->
-            <div style="width: 60px; height: 2px; background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%); margin: 1.5rem auto; border-radius: 2px;"></div>
-
-            <nav style="margin: 1rem 0 1.5rem 0; text-align: left;">
-                <a href="#about" class="nav-link">About Me</a>
-                <a href="#experience" class="nav-link">Experience</a>
-                <a href="#education" class="nav-link">Education</a>
-            </nav>
-            <div class="contact-info">
-                <div style="margin-bottom: 1rem; text-align: left; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px;">
-                    <h5 style="color: #ffffff !important; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px;">Career Focus</h5>
-                    <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #ffffff !important; line-height: 1.5;">
-                        ${DATA.highlights.careerFocus.map(f => `<li style="color: #ffffff !important;">${f}</li>`).join('')}
-                    </ul>
-                </div>
-
-                <!-- Skills Section (Technical + Process & Methodology) -->
-                ${(() => {
-            let html = '';
-            if (DATA.skills) {
-                html += `<div style="margin-bottom: 1rem; text-align: left; background: rgba(255,255,255,0.05); padding: 1.2rem 1rem; border-radius: 8px;">
-                                    <h5 style="color: #ffffff !important; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 1px; font-weight: 700;">Skills</h5>`;
-
-                // Technical Skills
-                if (DATA.skills.technical && DATA.skills.technical.length > 0) {
-                    html += `
-                                <div style="margin-bottom: 1rem;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 0.6rem;">
-                                        <div style="width: 3px; height: 14px; background: #3b82f6; border-radius: 2px; margin-right: 0.5rem;"></div>
-                                        <h6 style="color: #93c5fd; font-size: 0.8rem; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;">Technical</h6>
-                                    </div>
-                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; line-height: 1.8;">
-                                        ${DATA.skills.technical.map(skill => `
-                                            <span style="background: linear-gradient(135deg, rgba(59,130,246,0.25) 0%, rgba(37,99,235,0.2) 100%); color: #ffffff; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; border: 1px solid rgba(59,130,246,0.3); font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.2s;">${skill}</span>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            `;
-                }
-
-                // Process & Methodology
-                if (DATA.skills.process && DATA.skills.process.length > 0) {
-                    html += `
-                                <div>
-                                    <div style="display: flex; align-items: center; margin-bottom: 0.6rem;">
-                                        <div style="width: 3px; height: 14px; background: #10b981; border-radius: 2px; margin-right: 0.5rem;"></div>
-                                        <h6 style="color: #6ee7b7; font-size: 0.8rem; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;">Process</h6>
-                                    </div>
-                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; line-height: 1.8;">
-                                        ${DATA.skills.process.map(skill => `
-                                            <span style="background: linear-gradient(135deg, rgba(16,185,129,0.22) 0%, rgba(5,150,105,0.18) 100%); color: #ffffff; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; border: 1px solid rgba(16,185,129,0.3); font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.2s;">${skill}</span>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            `;
-                }
-
-                html += `</div>`;
-            }
-            return html;
-        })()}
-
-                <!-- Certifications Section -->
-                ${(() => {
-            if (DATA.education && DATA.education.certifications && DATA.education.certifications.length > 0) {
-                return `
-                            <div style="margin-bottom: 1rem; text-align: left; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px;">
-                                <h5 style="color: #ffffff !important; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 1px;">Certifications</h5>
-                                ${DATA.education.certifications.map(cert => `
-                                    <div style="margin-bottom: 0.6rem; font-size: 0.8rem; color: #e2e8f0; line-height: 1.4;">
-                                        <div style="color: #ffffff; font-weight: 600; margin-bottom: 0.1rem;">${cert.name}</div>
-                                        <div style="color: #cbd5e1; font-size: 0.75rem;">${cert.issuer}, ${cert.year}</div>
-                                    </div>
-                                `).join('')}
+        <div class="split-cv-container">
+            <!-- ==================== PAGE 1 ==================== -->
+            <div class="split-sheet page-1">
+                <!-- PAGE 1 SIDEBAR -->
+                <aside class="split-sidebar" id="profile">
+                    <div>
+                        <div class="sidebar-profile">
+                            <img src="${DATA.profile.profilePic}" class="profile-img" alt="${DATA.profile.name}">
+                            <h1 class="sidebar-h1">${DATA.profile.name}</h1>
+                            <div class="sidebar-tagline">${DATA.profile.taglines[0]}</div>
+                            <div class="sidebar-spec-badge">
+                                <i class="fas fa-certificate" style="color:#60a5fa; margin-right:3px;"></i> Cloud-Native QE Specialization<br>
+                                <span style="opacity:0.85; font-size:0.62rem;">AlphaSense &bull; 2024</span>
                             </div>
-                        `;
-            }
-            return '';
-        })()}
+                        </div>
 
-                <div class="contact-item"><i class="fas fa-map-marker-alt"></i> ${DATA.profile.contact.location}</div>
-                <div class="contact-item"><i class="fas fa-envelope"></i> ${DATA.profile.contact.email}</div>
-                <div class="contact-item"><i class="fas fa-phone"></i> ${DATA.profile.contact.phone}</div>
-                 <div style="margin-top: 1.5rem; display:flex; gap:15px; justify-content:center;">
-                    ${DATA.profile.social.map(s => `<a href="${s.url}" target="_blank" style="color:white; font-size:1.2rem;"><i class="${s.icon}"></i></a>`).join('')}
-                </div>
+                        <div class="sidebar-divider"></div>
+
+                        <!-- Contact Details -->
+                        <div class="contact-box">
+                            <div class="contact-row"><i class="fas fa-map-marker-alt"></i> <span>${DATA.profile.contact.location}</span></div>
+                            <div class="contact-row"><i class="fas fa-envelope"></i> <a href="mailto:${DATA.profile.contact.email}">${DATA.profile.contact.email}</a></div>
+                            <div class="contact-row"><i class="fas fa-phone"></i> <span>${DATA.profile.contact.phone}</span></div>
+                            <div class="contact-row"><i class="fab fa-linkedin"></i> <a href="${linkedinUrl}" target="_blank">${linkedinDisplay}</a></div>
+                            <div class="contact-row"><i class="fab fa-github"></i> <a href="${githubUrl}" target="_blank">${githubDisplay}</a></div>
+                            <div class="contact-row"><i class="fab fa-npm"></i> <a href="${npmUrl}" target="_blank">${npmDisplay}</a></div>
+                        </div>
+
+                        <!-- Career Focus -->
+                        <div class="sidebar-sec-title">
+                            <i class="fas fa-bullseye"></i> Career Focus
+                        </div>
+                        <ul class="sidebar-bullets">
+                            ${DATA.highlights.careerFocus.map(f => `<li>${f}</li>`).join('')}
+                        </ul>
+
+                        <!-- Technical Skills -->
+                        <div class="sidebar-sec-title" id="skills">
+                            <i class="fas fa-code"></i> Technical Skills
+                        </div>
+                        <div class="skills-cloud">
+                            ${(DATA.skills.technical || []).map(skill => `<span class="skill-pill">${skill}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="sidebar-footer">
+                        Page 1 of 2 &bull; Shubham Sharma
+                    </div>
+                </aside>
+
+                <!-- PAGE 1 MAIN CONTENT -->
+                <main class="split-main">
+                    <div>
+                        <!-- Professional Summary -->
+                        <section class="main-sec" id="about">
+                            <h2 class="main-sec-head">
+                                <span>Professional Summary</span>
+                                <span class="sec-tag">Enterprise Cloud-Native QA</span>
+                            </h2>
+                            ${DATA.summary.summary.map(p => `<p class="summary-p">${highlightMetrics(p)}</p>`).join('')}
+                        </section>
+
+                        <!-- Executive Highlights -->
+                        <section class="main-sec" id="exec-highlights">
+                            <h2 class="main-sec-head">
+                                <span>Executive Highlights</span>
+                                <span class="sec-tag">Impact & Architecture</span>
+                            </h2>
+                            <div class="exec-grid">
+                                <div>
+                                    <div class="exec-col-title">Scope & Impact</div>
+                                    <ul class="exec-list">
+                                        <li>${highlightMetrics(DATA.highlights.scope[0])}</li>
+                                        <li>${highlightMetrics(DATA.highlights.scope[1])}</li>
+                                        <li>${highlightMetrics(DATA.highlights.scope[2])}</li>
+                                        <li>${highlightMetrics(DATA.highlights.scope[3])}</li>
+                                        <li>${highlightMetrics(DATA.highlights.scope[5])}</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="exec-col-title">Architecture & Design</div>
+                                    <ul class="exec-list">
+                                        <li>${highlightMetrics(DATA.highlights.architecture[0])}</li>
+                                        <li>${highlightMetrics(DATA.highlights.architecture[1])}</li>
+                                        <li>${highlightMetrics(DATA.highlights.architecture[3])}</li>
+                                        <li>${highlightMetrics(DATA.highlights.architecture[4])}</li>
+                                        <li>${highlightMetrics(DATA.highlights.architecture[5])}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Professional Journey: Staff SDET & Team Lead -->
+                        <section class="main-sec" id="experience">
+                            <h2 class="main-sec-head">
+                                <span>Professional Journey</span>
+                                <span class="sec-tag">Recent Leadership</span>
+                            </h2>
+
+                            ${staffRole ? `
+                                <div class="job-entry">
+                                    <div class="job-header">
+                                        <div>
+                                            <span class="job-role">${staffRole.role}</span>
+                                            <span class="job-company">&bull; ${staffRole.company}</span>
+                                        </div>
+                                        <span class="job-date">${staffRole.date}</span>
+                                    </div>
+                                    <ul class="job-bullets">
+                                        <li>${highlightMetrics(staffRole.details[0])}</li>
+                                        <li>${highlightMetrics(staffRole.details[1])}</li>
+                                        <li>${highlightMetrics(staffRole.details[2])}</li>
+                                        <li>${highlightMetrics(staffRole.details[3])}</li>
+                                        <li>${highlightMetrics(staffRole.details[4])}</li>
+                                        <li>${highlightMetrics(staffRole.details[5])}</li>
+                                    </ul>
+                                </div>
+                            ` : ''}
+
+                            ${leadRole ? `
+                                <div class="job-entry" style="margin-bottom:0;">
+                                    <div class="job-header">
+                                        <div>
+                                            <span class="job-role">${leadRole.role}</span>
+                                            <span class="job-company">&bull; ${leadRole.company}</span>
+                                        </div>
+                                        <span class="job-date">${leadRole.date}</span>
+                                    </div>
+                                    <ul class="job-bullets">
+                                        <li>${highlightMetrics(leadRole.details[0])}</li>
+                                        <li>${highlightMetrics(leadRole.details[1])}</li>
+                                        <li>${highlightMetrics(leadRole.details[2])}</li>
+                                        <li>${highlightMetrics(leadRole.details[3])}</li>
+                                        <li>${highlightMetrics(leadRole.details[4])}</li>
+                                        <li>${highlightMetrics(leadRole.details[6])}</li>
+                                    </ul>
+                                </div>
+                            ` : ''}
+                        </section>
+                    </div>
+
+                    <div class="sheet-footer">
+                        <span>Shubham Sharma &bull; Staff SDET</span>
+                        <span>Continued on Page 2</span>
+                    </div>
+                </main>
             </div>
-        </aside>
-        <main class="main-content">
-            <section id="about" class="section">
-                <h2>Professional Summary</h2>
-                <div style="line-height: 1.5; font-size: 1rem;">
-                    ${DATA.summary.summary.map(p => `<p style="margin-bottom:0.3rem;">${p}</p>`).join('')}
-                </div>
-                
-                    <div id="exec-highlights" style="margin-top: 0.8rem;">
-                    <h3 style="color:#020617; font-family: 'Space Grotesk'; border-left: 4px solid var(--accent); padding-left: 1rem; margin-bottom: 0.3rem; font-size: 1.1rem; font-weight: 600;">Executive Highlights</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div>
-                            <h4 style="color:var(--accent); margin-top: 0; margin-bottom: 0.2rem; font-size: 1rem; font-weight: 600;">Scope & Impact</h4>
-                            <ul class="text-dark" style="line-height: 1.4; padding-left: 1rem; font-size: 0.95rem;">
-                                ${DATA.highlights.scope.map(i => `<li style="margin-bottom:0.25rem;">${i}</li>`).join('')}
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 style="color:var(--accent); margin-top: 0; margin-bottom: 0.2rem; font-size: 1rem; font-weight: 600;">Architecture & Design</h4>
-                            <ul class="text-dark" style="line-height: 1.4; padding-left: 1rem; font-size: 0.95rem;">
-                                ${DATA.highlights.architecture.map(i => `<li style="margin-bottom:0.25rem;">${i}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <section id="experience" class="section">
-                <h2>Professional Journey</h2>
-                ${DATA.journey.map(role => `
-                    <div class="timeline-item">
-                        <div class="timeline-icon"><i class="fas fa-briefcase"></i></div>
-                        <div class="timeline-content">
-                            <h3>${role.role}</h3>
-                            <span class="company">${role.company}</span> <span class="date">${role.date}</span>
-                            <ul class="text-dark" style="margin-top: 0.4rem; padding-left: 1.2rem; line-height: 1.4;">
-                                ${role.details.map(d => `<li>${d}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                `).join('')}
-            </section>
+            <!-- Screen Visual Divider -->
+            <div class="screen-divider">
+                <i class="fas fa-chevron-down"></i>
+                <span>Page 1 of 2 &bull; Scroll for Page 2</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
 
-            <section id="innovation" class="section" style="margin-top: 1.2rem;">
-                <h2>Key Platforms & Innovation</h2>
-                <ul class="text-dark" style="padding-left: 1.5rem; line-height: 1.4; columns: 2; column-gap: 2rem; margin-top: 0.3rem;">
-                    ${DATA.highlights.platforms.map(p => `
-                        <li style="margin-bottom: 0.25rem; break-inside: avoid;">${p}</li>
-                    `).join('')}
-                </ul>
-            </section>
-            <section id="education" class="section">
-                <h2>Education</h2>
-                ${DATA.education.degrees.map(d => `
-                    <div style="padding: 0.6rem 0; border-bottom: 1px solid #e2e8f0;">
-                        <strong style="color: #020617;">${d.degree}</strong>
-                        <span style="color: #475569; font-size: 0.9rem; font-weight: 500;"> | ${d.school} | ${d.year} | ${d.grade}</span>
+            <!-- ==================== PAGE 2 ==================== -->
+            <div class="split-sheet page-2">
+                <!-- PAGE 2 SIDEBAR -->
+                <aside class="split-sidebar">
+                    <div>
+                        <!-- Mini Brand Identity -->
+                        <div class="sidebar-profile" style="margin-bottom:8px;">
+                            <h2 class="sidebar-h1" style="font-size:1.15rem;">${DATA.profile.name}</h2>
+                            <div class="sidebar-tagline" style="font-size:0.75rem;">${DATA.profile.taglines[0]} &bull; QA Architect</div>
+                        </div>
+
+                        <div class="sidebar-divider" style="margin: 8px auto;"></div>
+
+                        <!-- Process & Methodology Skills -->
+                        <div class="sidebar-sec-title emerald">
+                            <i class="fas fa-tasks"></i> Process & Methodologies
+                        </div>
+                        <div class="skills-cloud" style="margin-bottom: 12px;">
+                            ${(DATA.skills.process || []).map(skill => `<span class="skill-pill process">${skill}</span>`).join('')}
+                        </div>
+
+                        <!-- Certifications -->
+                        <div class="sidebar-sec-title">
+                            <i class="fas fa-award"></i> Certifications
+                        </div>
+                        <div class="cert-card">
+                            <div class="cert-name">Selenium Professional Certification</div>
+                            <div class="cert-meta">VSkills &bull; 2019</div>
+                        </div>
+                        <div class="cert-card">
+                            <div class="cert-name">Cloud-Native Quality Engineering Specialization</div>
+                            <div class="cert-meta">AlphaSense &bull; 2024</div>
+                            <div style="font-size:0.63rem; color:#cbd5e1; margin-top:2px;">Testkube, Crossplane IaC, SRE Observability</div>
+                        </div>
+
+                        <!-- Core Competencies -->
+                        <div class="sidebar-sec-title">
+                            <i class="fas fa-check-double"></i> Core Competencies
+                        </div>
+                        <ul class="sidebar-bullets">
+                            <li>Autonomous Testing & Agentic MCP Tooling</li>
+                            <li>Multi-Cloud Infrastructure (AWS, Azure, GCP)</li>
+                            <li>Contract & Microservices API Testing</li>
+                            <li>Shift-Left & Test-Driven Development (TDD)</li>
+                            <li>SRE Reliability & Test Observability</li>
+                        </ul>
                     </div>
-                `).join('')}
-            </section>
-        </main>
+
+                    <!-- Compact Contact & Social in Sidebar Footer -->
+                    <div class="contact-box" style="margin-top:auto; margin-bottom:8px;">
+                        <div class="contact-row"><i class="fas fa-envelope"></i> <a href="mailto:${DATA.profile.contact.email}">${DATA.profile.contact.email}</a></div>
+                        <div class="contact-row"><i class="fas fa-phone"></i> <span>${DATA.profile.contact.phone}</span></div>
+                        <div class="contact-row"><i class="fab fa-linkedin"></i> <a href="${linkedinUrl}" target="_blank">linkedin.com/in/shubham-sharma-4a4aaab9</a></div>
+                        <div class="contact-row"><i class="fab fa-npm"></i> <a href="${npmUrl}" target="_blank">npmjs.com/~shubha20m</a></div>
+                    </div>
+
+                    <div class="sidebar-footer">
+                        Page 2 of 2 &bull; Shubham Sharma
+                    </div>
+                </aside>
+
+                <!-- PAGE 2 MAIN CONTENT -->
+                <main class="split-main">
+                    <div>
+                        <!-- Professional Journey (Continued) -->
+                        <section class="main-sec">
+                            <h2 class="main-sec-head">
+                                <span>Professional Journey (Continued)</span>
+                                <span class="sec-tag">Experience History</span>
+                            </h2>
+
+                            ${seniorRole ? `
+                                <div class="job-entry">
+                                    <div class="job-header">
+                                        <div>
+                                            <span class="job-role">${seniorRole.role}</span>
+                                            <span class="job-company">&bull; ${seniorRole.company}</span>
+                                        </div>
+                                        <span class="job-date">${seniorRole.date}</span>
+                                    </div>
+                                    <ul class="job-bullets">
+                                        <li>${highlightMetrics(seniorRole.details[0])}</li>
+                                        <li>${highlightMetrics(seniorRole.details[1])}</li>
+                                        <li>${highlightMetrics(seniorRole.details[2])}</li>
+                                        <li>${highlightMetrics(seniorRole.details[3])}</li>
+                                        <li>${highlightMetrics(seniorRole.details[4])}</li>
+                                    </ul>
+                                </div>
+                            ` : ''}
+
+                            ${qaRole ? `
+                                <div class="job-entry">
+                                    <div class="job-header">
+                                        <div>
+                                            <span class="job-role">${qaRole.role}</span>
+                                            <span class="job-company">&bull; ${qaRole.company}</span>
+                                        </div>
+                                        <span class="job-date">${qaRole.date}</span>
+                                    </div>
+                                    <ul class="job-bullets">
+                                        <li>${highlightMetrics(qaRole.details[0])}</li>
+                                        <li>${highlightMetrics(qaRole.details[1])}</li>
+                                        <li>${highlightMetrics(qaRole.details[2])}</li>
+                                        <li>${highlightMetrics(qaRole.details[3])}</li>
+                                    </ul>
+                                </div>
+                            ` : ''}
+
+                            ${accentureRole ? `
+                                <div class="job-entry" style="margin-bottom:0;">
+                                    <div class="job-header">
+                                        <div>
+                                            <span class="job-role">${accentureRole.role}</span>
+                                            <span class="job-company">&bull; ${accentureRole.company}</span>
+                                        </div>
+                                        <span class="job-date">${accentureRole.date}</span>
+                                    </div>
+                                    <ul class="job-bullets">
+                                        <li>${highlightMetrics(accentureRole.details[0])}</li>
+                                        <li>${highlightMetrics(accentureRole.details[1])}</li>
+                                        <li>${highlightMetrics(accentureRole.details[2])}</li>
+                                        <li>${highlightMetrics(accentureRole.details[3])}</li>
+                                    </ul>
+                                </div>
+                            ` : ''}
+                        </section>
+
+                        <!-- Key Platforms & Innovation -->
+                        <section class="main-sec" id="innovation">
+                            <h2 class="main-sec-head">
+                                <span>Key Platforms & Innovation</span>
+                                <span class="sec-tag">Architecture & Tooling</span>
+                            </h2>
+                            <div class="platform-grid">
+                                <div class="platform-item">
+                                    <strong>AI-Driven Regression Platform:</strong> Analyzes <strong>4,000+ test cases</strong> via MCP tooling (Grafana, Linear, GitLab) with <strong>85% precision</strong>.
+                                </div>
+                                <div class="platform-item">
+                                    <strong>AI Test Generation Framework:</strong> Multi-service automation using Cursor/Claude, reducing authoring effort by <strong>80%</strong>.
+                                </div>
+                                <div class="platform-item">
+                                    <strong>Playwright MCP Server:</strong> Autonomous test generation, cutting bootstrap time from days to minutes (<strong>90% improvement</strong>).
+                                </div>
+                                <div class="platform-item">
+                                    <strong>Backend E2E Generators:</strong> Complete API surface contract testing, reducing manual effort by <strong>70-80%</strong>.
+                                </div>
+                                <div class="platform-item">
+                                    <strong>Auto-SDK Pipelines:</strong> Swagger change detection auto-updating polyglot SDKs with <strong>85% maintenance reduction</strong>.
+                                </div>
+                                <div class="platform-item">
+                                    <strong>Cloud-Agnostic Execution:</strong> Crossplane and Infrastructure as Code across <strong>AWS, Azure, and GCP</strong> with <strong>99.5% uptime</strong>.
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Education -->
+                        <section class="main-sec" id="education" style="margin-bottom:0;">
+                            <h2 class="main-sec-head">
+                                <span>Education</span>
+                                <span class="sec-tag">Academic Credentials</span>
+                            </h2>
+                            ${DATA.education.degrees.map(d => `
+                                <div class="edu-row">
+                                    <span class="edu-degree">${d.degree}</span>
+                                    <span class="edu-meta">${d.school} &bull; ${d.year} &bull; ${d.grade}</span>
+                                </div>
+                            `).join('')}
+                        </section>
+                    </div>
+
+                    <div class="sheet-footer">
+                        <span>Shubham Sharma &bull; Staff SDET</span>
+                        <span>End of Resume &bull; Page 2 of 2</span>
+                    </div>
+                </main>
+            </div>
+        </div>
     `;
 };

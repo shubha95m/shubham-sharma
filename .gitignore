@@ -2,8 +2,6 @@ pnpm-lock.yaml
 package-lock.json
 node_modules/
 .env
-temp-pdfs/print_test_dual.pdf
-temp-pdfs/print_test_single.pdf
-temp-pdfs/Shubham_Resume.pdf
+temp-pdfs/
 Akshita.jpg
 Bhashkar.jpg

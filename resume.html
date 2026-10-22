@@ -318,23 +318,7 @@
                 overflow: visible !important;
             }
 
-            /* Fixed sidebar for split template */
-            .sidebar {
-                position: fixed !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 280px !important;
-                height: 100vh !important;
-                overflow: hidden !important;
-                page-break-after: avoid !important;
-                page-break-inside: avoid !important;
-            }
-
-            .main-content {
-                margin-left: 280px !important;
-                width: calc(100% - 280px) !important;
-                height: auto !important;
-            }
+            /* Split and Dual templates manage their own print layout */
 
             /* Prevent awkward page breaks */
             h2,
@@ -389,46 +373,24 @@
             background: white !important;
         }
 
-        /* PDF Export Mode - Split Template Specific */
+        /* PDF Export Mode - Paginated Themes */
+        body.single-theme.pdf-export-mode #app-root,
+        body.dual-theme.pdf-export-mode #app-root,
         body.split-theme.pdf-export-mode #app-root {
-            position: relative !important;
+            min-height: 0 !important;
             height: auto !important;
-            overflow: visible !important;
         }
-
-        body.split-theme.pdf-export-mode .sidebar {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            height: 100% !important;
-            width: 320px !important;
-            display: block !important;
-            overflow: visible !important;
-            background: #0f172a !important;
-        }
-
-        body.split-theme.pdf-export-mode .main-content {
-            margin-left: 320px !important;
-            height: auto !important;
-            overflow: visible !important;
-            padding: 2rem 3rem !important;
+        body.single-theme.pdf-export-mode,
+        body.dual-theme.pdf-export-mode,
+        body.split-theme.pdf-export-mode {
+            padding: 0 !important;
+            margin: 0 !important;
         }
 
         /* PDF Export Mode - Other Templates */
         body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme) .sidebar,
         body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme) #profile {
             display: none !important;
-        }
-
-        body.single-theme.pdf-export-mode #app-root,
-        body.dual-theme.pdf-export-mode #app-root {
-            min-height: 0 !important;
-            height: auto !important;
-        }
-        body.single-theme.pdf-export-mode,
-        body.dual-theme.pdf-export-mode {
-            padding: 0 !important;
-            margin: 0 !important;
         }
 
         body.pdf-export-mode:not(.split-theme):not(.single-theme):not(.dual-theme) .main-content {
@@ -1845,22 +1807,11 @@
                                 for (const [selector, file] of Object.entries(sections)) {
                                     const el = document.querySelector(selector);
                                     if (el) {
-                                        // Special handling for Split Theme Sidebar
-                                        if (currentPattern === 'split' && selector === '#profile') {
-                                            el.style.setProperty('position', 'fixed', 'important');
-                                            el.style.setProperty('top', '0', 'important');
-                                            el.style.setProperty('left', '0', 'important');
-                                            // Ensure edit button is positioned correctly
-                                            const btn = createBtn(file, '10px', '10px');
-                                            el.appendChild(btn);
-                                        } else {
-                                            // Default logic for other sections
-                                            const computedStyle = window.getComputedStyle(el);
-                                            if (computedStyle.position === 'static') {
-                                                el.style.position = 'relative';
-                                            }
-                                            el.appendChild(createBtn(file, '0', '0'));
+                                        const computedStyle = window.getComputedStyle(el);
+                                        if (computedStyle.position === 'static') {
+                                            el.style.position = 'relative';
                                         }
+                                        el.appendChild(createBtn(file, '0', '0'));
                                     }
                                 }
                             }
@@ -2460,7 +2411,12 @@
 
                                     // First try pre-generated static PDF (instant, works on GitHub Pages without server)
                                     try {
-                                        const staticFilename = currentPattern === 'dual' ? 'Shubham_Resume_2Page.pdf' : 'Shubham_Resume.pdf';
+                                        let staticFilename = 'Shubham_Resume.pdf';
+                                        if (currentPattern === 'split') {
+                                            staticFilename = 'Shubham_Resume_Split.pdf';
+                                        } else if (currentPattern === 'dual') {
+                                            staticFilename = 'Shubham_Resume_2Page.pdf';
+                                        }
                                         const staticPath = `cv-content/${CURRENT_USER}/${staticFilename}`;
                                         const staticRes = await fetch(staticPath);
                                         if (staticRes.ok) {
