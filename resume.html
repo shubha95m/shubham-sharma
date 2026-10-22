@@ -2424,11 +2424,10 @@
                                 window.open(previewUrl, '_blank');
                             }
 
-                            // PDF Download Function – fetch bytes → Blob → guaranteed disk save
+                            // PDF Download Function – direct download without print dialog
                             async function downloadPDF() {
-                                console.log('[PDF] Starting PDF generation...');
+                                console.log('[PDF] Starting PDF download...');
 
-                                // Show loading notification
                                 const notification = document.createElement('div');
                                 notification.style.cssText = `
                                     position: fixed;
@@ -2450,27 +2449,48 @@
                                     <div style="font-size: 1.4rem;"><i class="fas fa-spinner fa-spin"></i></div>
                                     <div>
                                         <div style="font-weight: 600; font-size: 0.95rem;">Preparing Download...</div>
-                                        <div style="font-size: 0.82rem; opacity: 0.9;">Generating high-quality PDF, please wait</div>
+                                        <div style="font-size: 0.82rem; opacity: 0.9;">Downloading high-quality PDF, please wait</div>
                                     </div>
                                 `;
                                 document.body.appendChild(notification);
 
                                 try {
-                                    const response = await fetch(`/api/pdf/generate?user=${CURRENT_USER}&view=${currentPattern}`);
-                                    if (!response.ok) throw new Error(await response.text());
-                                    const data = await response.json();
-                                    if (!data.success) throw new Error('PDF generation failed');
+                                    let blobUrl = null;
+                                    let downloadFilename = `${CURRENT_USER.charAt(0).toUpperCase() + CURRENT_USER.slice(1)}_Resume.pdf`;
 
-                                    // Fetch raw bytes → Blob → createObjectURL
-                                    // This ALWAYS saves to disk, never opens in browser tab
-                                    const pdfRes = await fetch(data.downloadUrl);
-                                    if (!pdfRes.ok) throw new Error('Could not retrieve PDF bytes');
-                                    const pdfBlob = await pdfRes.blob();
-                                    const blobUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+                                    // First try pre-generated static PDF (instant, works on GitHub Pages without server)
+                                    try {
+                                        const staticPath = `cv-content/${CURRENT_USER}/Shubham_Resume.pdf`;
+                                        const staticRes = await fetch(staticPath);
+                                        if (staticRes.ok) {
+                                            const pdfBlob = await staticRes.blob();
+                                            if (pdfBlob && pdfBlob.size > 2000) {
+                                                blobUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+                                            }
+                                        }
+                                    } catch (e) {
+                                        console.log('[PDF] Static download check:', e);
+                                    }
+
+                                    // If static not available, use backend generator (local dev)
+                                    if (!blobUrl) {
+                                        const response = await fetch(`/api/pdf/generate?user=${CURRENT_USER}&view=${currentPattern}`);
+                                        if (!response.ok) throw new Error(await response.text());
+                                        const data = await response.json();
+                                        if (!data.success) throw new Error('PDF generation failed');
+
+                                        const pdfRes = await fetch(data.downloadUrl);
+                                        if (!pdfRes.ok) throw new Error('Could not retrieve PDF bytes');
+                                        const pdfBlob = await pdfRes.blob();
+                                        blobUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+                                        if (data.filename) downloadFilename = data.filename;
+                                    }
+
+                                    if (!blobUrl) throw new Error('Could not generate PDF');
 
                                     const a = document.createElement('a');
                                     a.href = blobUrl;
-                                    a.download = data.filename;
+                                    a.download = downloadFilename;
                                     document.body.appendChild(a);
                                     a.click();
                                     setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(blobUrl); }, 4000);
@@ -2480,82 +2500,28 @@
                                         <div style="font-size: 1.4rem;"><i class="fas fa-check-circle"></i></div>
                                         <div>
                                             <div style="font-weight: 600; font-size: 0.95rem;">Downloaded to your computer!</div>
-                                            <div style="font-size: 0.82rem; opacity: 0.9;">Saved as <strong>${data.filename}</strong></div>
+                                            <div style="font-size: 0.82rem; opacity: 0.9;">Saved as <strong>${downloadFilename}</strong></div>
                                         </div>
                                     `;
                                     setTimeout(() => { if (notification.parentElement) notification.remove(); }, 6000);
 
                                 } catch (err) {
-                                    console.warn('[PDF] Backend generate unavailable, falling back to browser print:', err);
-                                    if (notification.parentElement) notification.remove();
-                                    // Seamless fallback for static hosting / GitHub Pages
-                                    window.print();
+                                    console.error('[PDF] Download error:', err);
+                                    notification.style.background = '#ef4444';
+                                    notification.innerHTML = `
+                                        <div style="font-size: 1.4rem;"><i class="fas fa-exclamation-circle"></i></div>
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 0.95rem;">Download Failed</div>
+                                            <div style="font-size: 0.82rem; opacity: 0.9;">${err.message || 'Please try again'}</div>
+                                        </div>
+                                    `;
+                                    setTimeout(() => notification.remove(), 5000);
                                 }
                             }
 
                             // Direct PDF Download for any template card
                             window.downloadPDFForTemplate = async function(templateId) {
-                                const templateName = templateId ? (templateId.charAt(0).toUpperCase() + templateId.slice(1)) : 'Resume';
-                                console.log(`[PDF] Downloading template: ${templateId}`);
-
-                                const notification = document.createElement('div');
-                                notification.style.cssText = `
-                                    position: fixed;
-                                    top: 20px;
-                                    right: 20px;
-                                    background: #2563eb;
-                                    color: white;
-                                    padding: 1.2rem 1.6rem;
-                                    border-radius: 12px;
-                                    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-                                    z-index: 100000;
-                                    max-width: 400px;
-                                    font-family: 'Inter', sans-serif;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                `;
-                                notification.innerHTML = `
-                                    <div style="font-size: 1.4rem;"><i class="fas fa-spinner fa-spin"></i></div>
-                                    <div>
-                                        <div style="font-weight: 600; font-size: 0.95rem;">Preparing PDF Download...</div>
-                                        <div style="font-size: 0.82rem; opacity: 0.9;">Generating ${templateName} template</div>
-                                    </div>
-                                `;
-                                document.body.appendChild(notification);
-
-                                try {
-                                    const response = await fetch(`/api/pdf/generate?user=${CURRENT_USER}&view=${templateId}`);
-                                    if (!response.ok) throw new Error(await response.text() || 'Failed to generate PDF');
-                                    const data = await response.json();
-                                    if (!data.success || !data.downloadUrl) throw new Error('PDF generation failed');
-
-                                    // Fetch raw bytes → Blob → force disk download
-                                    const pdfRes = await fetch(data.downloadUrl);
-                                    if (!pdfRes.ok) throw new Error('Could not retrieve PDF bytes');
-                                    const pdfBlob = await pdfRes.blob();
-                                    const blobUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
-                                    const a = document.createElement('a');
-                                    a.href = blobUrl;
-                                    a.download = data.filename;
-                                    document.body.appendChild(a);
-                                    a.click();
-                                    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(blobUrl); }, 3000);
-
-                                    notification.style.background = '#10b981';
-                                    notification.innerHTML = `
-                                        <div style="font-size: 1.4rem;"><i class="fas fa-check-circle"></i></div>
-                                        <div>
-                                            <div style="font-weight: 600; font-size: 0.95rem;">Downloaded to your computer!</div>
-                                            <div style="font-size: 0.82rem; opacity: 0.9;">Saved as <strong>${data.filename}</strong></div>
-                                        </div>
-                                    `;
-                                    setTimeout(() => { notification.style.opacity = '0'; setTimeout(() => notification.remove(), 400); }, 4000);
-                                } catch (err) {
-                                    console.warn('[PDF] Backend generate unavailable, falling back to browser print:', err);
-                                    if (notification.parentElement) notification.remove();
-                                    window.print();
-                                }
+                                downloadPDF();
                             };
 
                             // Init
@@ -2609,10 +2575,6 @@
                                         <button onclick="downloadPDF()" class="preview-dl-btn" title="Download PDF to your laptop">
                                             <i class="fas fa-download"></i>
                                             <span>Download PDF</span>
-                                        </button>
-                                        <button onclick="window.print()" class="preview-print-btn" title="Print this resume">
-                                            <i class="fas fa-print"></i>
-                                            <span>Print</span>
                                         </button>
                                     `;
                                     document.body.appendChild(previewBar);
