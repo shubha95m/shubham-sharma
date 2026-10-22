@@ -71,7 +71,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
         .dual-theme h1.candidate-name {
             font-size: 1.65rem;
             font-weight: 700;
-            color: #000000;
+            color: #0f172a;
             margin: 0 0 2px 0;
             line-height: 1.1;
             letter-spacing: -0.01em;
@@ -80,7 +80,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             font-size: 0.82rem;
             font-weight: 600;
             font-style: italic;
-            color: #222222;
+            color: #334155;
             margin-bottom: 3px;
         }
         .dual-theme .header-left-links {
@@ -97,20 +97,24 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            color: #000000;
+            color: #0f172a;
             text-decoration: underline;
             text-underline-offset: 2px;
         }
-        .dual-theme .header-left-links a i {
-            font-size: 0.84rem;
-            color: #000000;
+        .dual-theme .header-left-links a i.fa-linkedin {
+            font-size: 0.88rem;
+            color: #0a66c2;
+        }
+        .dual-theme .header-left-links a i.fa-github {
+            font-size: 0.88rem;
+            color: #1f2328;
         }
         .dual-theme .header-left-links .social-sep {
-            color: #555555;
+            color: #94a3b8;
             font-size: 0.65rem;
         }
         .dual-theme .header-right-contact a {
-            color: #000000;
+            color: #0f172a;
             text-decoration: underline;
             text-underline-offset: 2px;
         }
@@ -118,7 +122,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             text-align: right;
             font-size: 0.76rem;
             line-height: 1.35;
-            color: #111111;
+            color: #334155;
         }
 
         /* Page 2 Continuation Header */
@@ -126,22 +130,27 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            border-bottom: 1.2px solid #000000;
+            border-bottom: 1.2px solid #1e3a8a;
             padding-bottom: 2px;
             margin-bottom: 6px;
             font-size: 0.78rem;
             font-weight: 700;
-            color: #000000;
+            color: #1e3a8a;
+            font-style: italic;
+        }
+        .dual-theme .page2-header .page2-subtitle {
+            color: #64748b;
+            font-weight: 600;
             font-style: italic;
         }
 
-        /* Section Dividers with crisp horizontal rule */
+        /* Section Dividers with crisp Oxford Navy rule */
         .dual-theme h2.sec-title {
             font-size: 0.86rem;
             font-weight: 700;
             text-transform: none;
-            color: #000000;
-            border-bottom: 1.2px solid #000000;
+            color: #1e3a8a;
+            border-bottom: 1.2px solid #1e3a8a;
             padding-bottom: 1.5px;
             margin-top: 7px;
             margin-bottom: 4px;
@@ -152,7 +161,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
         .dual-theme .summary-p {
             font-size: 0.74rem;
             line-height: 1.30;
-            color: #111111;
+            color: #1e293b;
             margin: 0 0 4px 0;
             text-align: justify;
         }
@@ -166,13 +175,13 @@ window.renderDual = (DATA, ROOT, STYLE) => {
         .dual-theme ul.skills-list li {
             font-size: 0.73rem;
             line-height: 1.28;
-            color: #111111;
+            color: #1e293b;
             margin-bottom: 1.5px;
             text-align: justify;
         }
         .dual-theme ul.skills-list li strong {
             font-weight: 700;
-            color: #000000;
+            color: #1e3a8a;
         }
 
         /* Items (Experience, Projects, Education) */
@@ -185,15 +194,20 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             align-items: baseline;
             font-size: 0.78rem;
             font-weight: 700;
-            color: #000000;
+            color: #0f172a;
             line-height: 1.26;
         }
-        .dual-theme .item-row-1 .right-text {
+        .dual-theme .company-name {
+            color: #1e40af;
             font-weight: 700;
+        }
+        .dual-theme .item-row-1 .right-text {
+            font-weight: 600;
+            color: #64748b;
             text-align: right;
         }
         .dual-theme .item-row-1 .right-text a {
-            color: #000000;
+            color: #0f172a;
             text-decoration: underline;
             text-underline-offset: 2px;
         }
@@ -208,12 +222,12 @@ window.renderDual = (DATA, ROOT, STYLE) => {
         .dual-theme .item-row-2 .left-role {
             font-weight: 600;
             font-style: italic;
-            color: #111111;
+            color: #0369a1;
         }
         .dual-theme .item-row-2 .right-date {
             font-style: italic;
-            color: #222222;
-            font-weight: 500;
+            color: #475569;
+            font-weight: 600;
             text-align: right;
         }
 
@@ -332,6 +346,8 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                             <div class="tagline">${DATA.profile.taglines.join(' &bull; ')}</div>
                             <div class="header-left-links">
                                 <a href="${linkedinUrl}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
+                                <span class="social-sep">&bull;</span>
+                                <a href="${githubUrl}" target="_blank" rel="noopener"><i class="fab fa-github"></i> <span>GitHub</span></a>
                             </div>
                         </div>
                         <div class="header-right-contact">
@@ -365,7 +381,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <!-- Staff SDET -->
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; AlphaSense — Software Quality & Platform Engineering</span>
+                                <span>&bull; <span class="company-name">AlphaSense</span> — Software Quality & Platform Engineering</span>
                                 <span class="right-text">Pune, India</span>
                             </div>
                             <div class="item-row-2">
@@ -384,7 +400,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <!-- Team Lead -->
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; AlphaSense — Cloud Infrastructure & Test Automation</span>
+                                <span>&bull; <span class="company-name">AlphaSense</span> — Cloud Infrastructure & Test Automation</span>
                                 <span class="right-text">Pune, India</span>
                             </div>
                             <div class="item-row-2">
@@ -420,7 +436,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                     <!-- Page 2 Continuation Header -->
                     <div class="page2-header">
                         <span>Shubham Sharma — Staff SDET &bull; QA Platform Engineer</span>
-                        <span>Professional Experience &bull; Page 2</span>
+                        <span class="page2-subtitle">Professional Experience &bull; Page 2</span>
                     </div>
 
                     <!-- Work Experience Continued -->
@@ -429,7 +445,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <!-- Senior Automation QA -->
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; AlphaSense — Framework Scalability & Core Automation</span>
+                                <span>&bull; <span class="company-name">AlphaSense</span> — Framework Scalability & Core Automation</span>
                                 <span class="right-text">Pune, India</span>
                             </div>
                             <div class="item-row-2">
@@ -447,7 +463,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <!-- Automation QA -->
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; AlphaSense — Multi-Tenant Quality Engineering</span>
+                                <span>&bull; <span class="company-name">AlphaSense</span> — Multi-Tenant Quality Engineering</span>
                                 <span class="right-text">Pune, India</span>
                             </div>
                             <div class="item-row-2">
@@ -465,7 +481,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <!-- Accenture -->
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; Accenture — Enterprise Quality Engineering</span>
+                                <span>&bull; <span class="company-name">Accenture</span> — Enterprise Quality Engineering</span>
                                 <span class="right-text">Pune, India</span>
                             </div>
                             <div class="item-row-2">
@@ -486,7 +502,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; Enterprise QA Platform MCP — Autonomous Multi-Agent Testing Engine</span>
+                                <span>&bull; <span class="company-name">Enterprise QA Platform MCP</span> — Autonomous Multi-Agent Testing Engine</span>
                             </div>
                             <ul class="bullets">
                                 <li>${highlightMetrics("Architected multi-agent system consolidating GitLab, Linear, Slack, Allure & Testkube tools to diagnose and remediate CI/CD failures autonomously with 350+ tools and 150+ skills.")}</li>
@@ -495,7 +511,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; AI-Driven Regression Intelligence & Self-Healing Pipeline</span>
+                                <span>&bull; <span class="company-name">AI-Driven Regression Intelligence</span> & Self-Healing Pipeline</span>
                             </div>
                             <ul class="bullets">
                                 <li>${highlightMetrics("Built AI-powered regression analyzer processing 4,000+ test cases, querying Grafana logs via MCP, analyzing GitLab commits, and diagnosing defect origins with 85% accuracy.")}</li>
@@ -504,7 +520,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; AI-Assisted Test Gen & Auto-SDK Pipeline (Cursor, Claude, Swagger)</span>
+                                <span>&bull; <span class="company-name">AI-Assisted Test Gen & Auto-SDK Pipeline</span> (Cursor, Claude, Swagger)</span>
                             </div>
                             <ul class="bullets">
                                 <li>${highlightMetrics("Developed polyglot test generation toolkit saving 80% test authoring effort and auto-syncing SDKs from Swagger specs with 85% less maintenance overhead.")}</li>
@@ -513,7 +529,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; Crossplane Multi-Cloud Governance & Infrastructure as Code</span>
+                                <span>&bull; <span class="company-name">Crossplane Multi-Cloud Governance</span> & Infrastructure as Code</span>
                             </div>
                             <ul class="bullets">
                                 <li>${highlightMetrics("Orchestrated cloud resources across AWS, Azure, and GCP using Crossplane with 99.5% uptime and automated governance saving $1K+/month.")}</li>
@@ -526,7 +542,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <h2 class="sec-title">Education</h2>
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; JECRC Foundation</span>
+                                <span>&bull; <span class="company-name">JECRC Foundation</span></span>
                                 <span class="right-text">Jaipur, Rajasthan, India</span>
                             </div>
                             <div class="item-row-2">
@@ -541,7 +557,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <h2 class="sec-title">Certifications</h2>
                         <div class="item-entry">
                             <div class="item-row-1">
-                                <span>&bull; VSkills Selenium Professional Certification</span>
+                                <span>&bull; <span class="company-name">VSkills</span> Selenium Professional Certification</span>
                                 <span class="right-text">Certified, 2019</span>
                             </div>
                             <div class="item-row-2">

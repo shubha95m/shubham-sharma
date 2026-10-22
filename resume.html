@@ -2460,12 +2460,14 @@
 
                                     // First try pre-generated static PDF (instant, works on GitHub Pages without server)
                                     try {
-                                        const staticPath = `cv-content/${CURRENT_USER}/Shubham_Resume.pdf`;
+                                        const staticFilename = currentPattern === 'dual' ? 'Shubham_Resume_2Page.pdf' : 'Shubham_Resume.pdf';
+                                        const staticPath = `cv-content/${CURRENT_USER}/${staticFilename}`;
                                         const staticRes = await fetch(staticPath);
                                         if (staticRes.ok) {
                                             const pdfBlob = await staticRes.blob();
                                             if (pdfBlob && pdfBlob.size > 2000) {
                                                 blobUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+                                                downloadFilename = staticFilename;
                                             }
                                         }
                                     } catch (e) {
