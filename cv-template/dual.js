@@ -81,7 +81,18 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             font-weight: 600;
             font-style: italic;
             color: #334155;
+            margin-bottom: 2px;
+        }
+        .dual-theme .header-specialization {
+            font-size: 0.72rem;
+            color: #1e3a8a;
+            font-weight: 600;
             margin-bottom: 3px;
+            line-height: 1.25;
+        }
+        .dual-theme .header-specialization strong {
+            color: #0f172a;
+            font-weight: 700;
         }
         .dual-theme .header-left-links {
             display: flex;
@@ -270,10 +281,10 @@ window.renderDual = (DATA, ROOT, STYLE) => {
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 10mm 14mm 10mm 14mm;
+                margin: 0 !important; /* Suppresses browser URL and date headers/footers */
             }
             html {
-                font-size: 12.8px !important;
+                font-size: 12.2px !important;
             }
             html, body {
                 width: 100% !important;
@@ -301,7 +312,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
             .dual-theme .dual-sheet {
                 box-shadow: none !important;
                 border: none !important;
-                padding: 0 !important;
+                padding: 7mm 14mm 6mm 14mm !important;
                 margin: 0 !important;
                 width: 100% !important;
                 max-width: 100% !important;
@@ -359,6 +370,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                         <div>
                             <h1 class="candidate-name">${DATA.profile.name}</h1>
                             <div class="tagline">${DATA.profile.taglines.join(' &bull; ')}</div>
+                            <div class="header-specialization"><strong>Specialization :</strong> Cloud-Native Quality Engineering & In-Cluster Testing &bull; Kubernetes Testkube &bull; Crossplane Multi-Cloud IaC &bull; SRE Observability</div>
                             <div class="header-left-links">
                                 <a href="${linkedinUrl}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
                                 <span class="social-sep">&bull;</span>
@@ -445,8 +457,7 @@ window.renderDual = (DATA, ROOT, STYLE) => {
                             </div>
                             <ul class="bullets">
                                 <li>${highlightMetrics("Led team of 3 QA engineers; managed sprint planning, automation roadmaps, and execution following Agile and Scrum methodologies.")}</li>
-                                <li>${highlightMetrics("Built scalable automation frameworks using Java, JavaScript, Cypress, K6, and Selenide with test-driven development principles.")}</li>
-                                <li>${highlightMetrics("Integrated post-deployment automation using Spinnaker for continuous testing and automated release verification.")}</li>
+                                <li>${highlightMetrics("Built scalable automation frameworks using Java, JavaScript, Cypress, K6, and Selenide; integrated Spinnaker pipelines for continuous automated release verification.")}</li>
                                 <li>${highlightMetrics("Implemented performance testing strategies for microservices and SQS-based systems, improving throughput by 35% and reducing production incidents by 30%.")}</li>
                             </ul>
                         </div>
@@ -476,7 +487,6 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
                     <!-- Work Experience Continued -->
                     <section id="experience-continued">
-                        <h2 class="sec-title">Work Experience (Continued)</h2>
 
                         <!-- Automation QA -->
                         <div class="item-entry">
@@ -588,14 +598,14 @@ window.renderDual = (DATA, ROOT, STYLE) => {
 
                     <!-- Certifications -->
                     <section id="certifications">
-                        <h2 class="sec-title">Certifications & Specialized Training</h2>
+                        <h2 class="sec-title">Certifications</h2>
                         <div class="item-entry">
                             <div class="item-row-1">
                                 <span>&bull; <span class="company-name">VSkills</span> Selenium Professional Certification</span>
                                 <span class="right-text">Certified, 2019</span>
                             </div>
                             <div class="item-row-2">
-                                <span class="left-role">Enterprise Web Automation, WebDriver Architecture, CI/CD Test Grids, Testkube Kubernetes Orchestration</span>
+                                <span class="left-role">VSkills &bull; Enterprise Web Automation, WebDriver Architecture, CI/CD Test Grids</span>
                                 <span class="right-date"></span>
                             </div>
                         </div>

@@ -279,7 +279,7 @@
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 10mm 14mm 10mm 14mm;
+                margin: 0 !important; /* Suppresses browser URL and date headers/footers */
             }
 
             html:not(.single-theme):not(.dual-theme) {
