@@ -362,17 +362,12 @@ window.renderClean = (DATA, ROOT, STYLE) => {
             margin-bottom: 2.2px;
         }
 
-        /* Education & Certifications Row */
-        .clean-theme .bottom-grid {
-            display: grid;
-            grid-template-columns: 1.05fr 0.95fr;
-            gap: 14px;
-        }
+        /* Education */
         .clean-theme .edu-row {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            padding: 2.5px 0;
+            padding: 2.2px 0;
             border-bottom: 1px solid #f1f5f9;
             font-size: 0.68rem;
             line-height: 1.28;
@@ -386,12 +381,18 @@ window.renderClean = (DATA, ROOT, STYLE) => {
             font-weight: 500;
         }
 
+        /* Certifications Below Education */
+        .clean-theme .certs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.25fr;
+            gap: 10px;
+        }
         .clean-theme .cert-card {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 4px;
             padding: 4px 7px;
-            margin-bottom: 4px;
+            margin-bottom: 0;
         }
         .clean-theme .cert-title {
             font-size: 0.69rem;
@@ -553,6 +554,12 @@ window.renderClean = (DATA, ROOT, STYLE) => {
             }
             .clean-theme .job-bullets li {
                 margin-bottom: 1.8px !important;
+            }
+            .clean-theme .certs-grid {
+                gap: 8px !important;
+            }
+            .clean-theme .cert-card {
+                padding: 3.5px 7px !important;
             }
             .clean-theme a {
                 text-decoration: none !important;
@@ -837,28 +844,27 @@ window.renderClean = (DATA, ROOT, STYLE) => {
                         ` : ''}
                     </section>
 
-                    <!-- Education & Certifications Row -->
-                    <div class="bottom-grid">
-                        <!-- Education -->
-                        <section class="clean-sec" id="education" style="margin-bottom:0;">
-                            <div class="clean-sec-head">
-                                <span class="clean-sec-title"><i class="fas fa-graduation-cap"></i> Education</span>
-                                <span class="clean-sec-tag">Academic Credentials</span>
+                    <!-- Education -->
+                    <section class="clean-sec" id="education" style="margin-bottom: 5px;">
+                        <div class="clean-sec-head">
+                            <span class="clean-sec-title"><i class="fas fa-graduation-cap"></i> Education</span>
+                            <span class="clean-sec-tag">Academic Credentials</span>
+                        </div>
+                        ${DATA.education.degrees.map(d => `
+                            <div class="edu-row">
+                                <span class="edu-degree">${d.degree}</span>
+                                <span class="edu-meta">${d.school} &bull; ${d.year} &bull; ${d.grade}</span>
                             </div>
-                            ${DATA.education.degrees.map(d => `
-                                <div class="edu-row">
-                                    <span class="edu-degree">${d.degree}</span>
-                                    <span class="edu-meta">${d.school} &bull; ${d.year} &bull; ${d.grade}</span>
-                                </div>
-                            `).join('')}
-                        </section>
+                        `).join('')}
+                    </section>
 
-                        <!-- Certifications & Credentials -->
-                        <section class="clean-sec" id="certifications" style="margin-bottom:0;">
-                            <div class="clean-sec-head">
-                                <span class="clean-sec-title"><i class="fas fa-award"></i> Certifications</span>
-                                <span class="clean-sec-tag">Credentials</span>
-                            </div>
+                    <!-- Certifications Below Education -->
+                    <section class="clean-sec" id="certifications" style="margin-bottom: 0;">
+                        <div class="clean-sec-head">
+                            <span class="clean-sec-title"><i class="fas fa-award"></i> Certifications</span>
+                            <span class="clean-sec-tag">Professional Credentials</span>
+                        </div>
+                        <div class="certs-grid">
                             <div class="cert-card">
                                 <div class="cert-title">Selenium Professional Certification</div>
                                 <div class="cert-meta">VSkills &bull; 2019</div>
@@ -868,8 +874,8 @@ window.renderClean = (DATA, ROOT, STYLE) => {
                                 <div class="cert-meta">AlphaSense &bull; 2024</div>
                                 <div class="cert-sub">Testkube &bull; Crossplane IaC &bull; SRE Observability</div>
                             </div>
-                        </section>
-                    </div>
+                        </div>
+                    </section>
                 </div>
 
                 <div class="sheet-footer">
