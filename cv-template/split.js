@@ -79,16 +79,16 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
 
         .split-theme .sidebar-profile {
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .split-theme .profile-img {
-            width: 86px !important;
-            height: 86px !important;
+            width: 84px !important;
+            height: 84px !important;
             border-radius: 50%;
             border: 3px solid rgba(255, 255, 255, 0.15);
             object-fit: cover;
-            margin: 0 auto 10px auto;
+            margin: 0 auto 8px auto;
             display: block;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
@@ -109,15 +109,15 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .split-theme .sidebar-spec-badge {
             background: linear-gradient(135deg, rgba(37,99,235,0.25) 0%, rgba(30,58,138,0.35) 100%);
             border: 1px solid rgba(59,130,246,0.4);
             border-radius: 4px;
-            padding: 4px 6px;
-            font-size: 0.68rem;
+            padding: 3px 6px;
+            font-size: 0.67rem;
             color: #bfdbfe;
             line-height: 1.25;
             text-align: center;
@@ -128,13 +128,13 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             width: 40px;
             height: 2px;
             background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
-            margin: 10px auto;
+            margin: 8px auto;
             border-radius: 2px;
         }
 
         .split-theme .contact-box {
             text-align: left;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             background: rgba(255, 255, 255, 0.04);
             padding: 8px 10px;
             border-radius: 6px;
@@ -142,9 +142,9 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         }
 
         .split-theme .contact-row {
-            font-size: 0.72rem;
+            font-size: 0.71rem;
             color: #e2e8f0;
-            margin-bottom: 4px;
+            margin-bottom: 3.5px;
             display: flex;
             align-items: center;
             gap: 7px;
@@ -154,7 +154,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             color: #60a5fa;
             width: 12px;
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             flex-shrink: 0;
         }
         .split-theme .contact-row a {
@@ -174,7 +174,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             color: #93c5fd;
             letter-spacing: 0.8px;
             font-weight: 700;
-            margin: 10px 0 6px 0;
+            margin: 9px 0 5px 0;
             padding-bottom: 3px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
@@ -188,27 +188,27 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         .split-theme .sidebar-bullets {
             margin: 0;
             padding-left: 14px;
-            font-size: 0.70rem;
+            font-size: 0.69rem;
             color: #e2e8f0;
-            line-height: 1.35;
+            line-height: 1.32;
         }
         .split-theme .sidebar-bullets li {
-            margin-bottom: 4px;
+            margin-bottom: 3.5px;
         }
 
         .split-theme .skills-cloud {
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
-            line-height: 1.4;
+            line-height: 1.35;
         }
         .split-theme .skill-pill {
             background: rgba(59, 130, 246, 0.18);
             border: 1px solid rgba(59, 130, 246, 0.35);
             color: #ffffff;
-            padding: 2px 6px;
+            padding: 2px 5.5px;
             border-radius: 4px;
-            font-size: 0.67rem;
+            font-size: 0.66rem;
             font-weight: 500;
         }
         .split-theme .skill-pill.process {
@@ -220,25 +220,25 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 6px;
-            padding: 8px 10px;
-            margin-bottom: 8px;
+            padding: 7px 9px;
+            margin-bottom: 7px;
         }
         .split-theme .cert-name {
-            font-size: 0.74rem;
+            font-size: 0.73rem;
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 2px;
             line-height: 1.25;
         }
         .split-theme .cert-meta {
-            font-size: 0.67rem;
+            font-size: 0.66rem;
             color: #94a3b8;
             line-height: 1.25;
         }
 
         .split-theme .sidebar-footer {
             margin-top: auto;
-            padding-top: 8px;
+            padding-top: 6px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.65rem;
             color: #64748b;
@@ -250,7 +250,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         .split-theme .split-main {
             flex: 1;
             background: #ffffff;
-            padding: 20px 24px;
+            padding: 18px 22px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -258,12 +258,12 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         }
 
         .split-theme .main-sec {
-            margin-bottom: 11px;
+            margin-bottom: 10px;
         }
 
         .split-theme .main-sec-head {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.02rem;
+            font-size: 0.98rem;
             color: #0f172a;
             font-weight: 700;
             border-bottom: 2px solid #2563eb;
@@ -275,7 +275,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             letter-spacing: -0.01em;
         }
         .split-theme .main-sec-head .sec-tag {
-            font-size: 0.68rem;
+            font-size: 0.67rem;
             color: #64748b;
             font-weight: 600;
             text-transform: uppercase;
@@ -283,37 +283,43 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         }
 
         .split-theme .summary-p {
-            font-size: 0.74rem;
-            line-height: 1.34;
+            font-size: 0.73rem;
+            line-height: 1.33;
             color: #1e293b;
             margin: 0 0 4px 0;
             text-align: justify;
         }
         .split-theme .summary-p strong,
         .split-theme .job-bullets strong,
-        .split-theme .exec-list strong,
-        .split-theme .platform-list strong {
+        .split-theme .exec-list strong {
             color: #0f172a;
             font-weight: 700;
         }
 
+        /* Clubbed Executive Highlights Grid */
         .split-theme .exec-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 12px;
+            background: #f8fafc;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
         }
         .split-theme .exec-col-title {
-            font-size: 0.76rem;
+            font-size: 0.74rem;
             color: #2563eb;
             font-weight: 700;
-            margin: 0 0 3px 0;
+            margin: 0 0 4px 0;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 2px;
         }
         .split-theme .exec-list {
             margin: 0;
-            padding-left: 13px;
-            font-size: 0.71rem;
+            padding-left: 12px;
+            font-size: 0.70rem;
             line-height: 1.28;
             color: #1e293b;
         }
@@ -322,7 +328,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         }
 
         .split-theme .job-entry {
-            margin-bottom: 8px;
+            margin-bottom: 7px;
         }
         .split-theme .job-header {
             display: flex;
@@ -331,7 +337,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             margin-bottom: 2px;
         }
         .split-theme .job-role {
-            font-size: 0.84rem;
+            font-size: 0.83rem;
             font-weight: 700;
             color: #0f172a;
         }
@@ -339,11 +345,11 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             color: #2563eb;
             font-weight: 600;
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.82rem;
+            font-size: 0.81rem;
             margin-left: 4px;
         }
         .split-theme .job-date {
-            font-size: 0.71rem;
+            font-size: 0.70rem;
             color: #475569;
             font-weight: 600;
             white-space: nowrap;
@@ -351,33 +357,12 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
         .split-theme .job-bullets {
             margin: 0;
             padding-left: 14px;
-            font-size: 0.71rem;
-            line-height: 1.28;
+            font-size: 0.70rem;
+            line-height: 1.27;
             color: #1e293b;
         }
         .split-theme .job-bullets li {
-            margin-bottom: 3px;
-        }
-
-        .split-theme .platform-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px 12px;
-        }
-        .split-theme .platform-item {
-            font-size: 0.71rem;
-            line-height: 1.28;
-            color: #1e293b;
-            position: relative;
-            padding-left: 12px;
-        }
-        .split-theme .platform-item::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: #2563eb;
-            font-weight: bold;
+            margin-bottom: 2.8px;
         }
 
         .split-theme .edu-row {
@@ -386,7 +371,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             align-items: baseline;
             padding: 3px 0;
             border-bottom: 1px solid #f1f5f9;
-            font-size: 0.72rem;
+            font-size: 0.71rem;
             line-height: 1.3;
         }
         .split-theme .edu-degree {
@@ -404,7 +389,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             align-items: center;
             border-top: 1px solid #e2e8f0;
             padding-top: 3px;
-            margin-top: 4px;
+            margin-top: 3px;
             font-size: 0.65rem;
             color: #64748b;
             font-style: italic;
@@ -417,7 +402,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                 margin: 0 !important; /* Suppresses browser native header (URL/date/title) and footer */
             }
             html {
-                font-size: 11.2px !important;
+                font-size: 11.0px !important;
             }
             html, body {
                 width: 100% !important;
@@ -479,7 +464,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
             .split-theme .split-main {
                 flex: 1 !important;
                 width: calc(210mm - 66mm) !important;
-                padding: 6.5mm 7mm !important;
+                padding: 6mm 7mm !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -538,7 +523,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
     const npmUrl = npmObj ? npmObj.url : 'https://www.npmjs.com/~shubha20m';
     const npmDisplay = npmUrl.replace(/^https?:\/\/(www\.)?/, '');
 
-    // Journey partitioning for 2 pages
+    // Journey partitioning: Staff SDET on Page 1; Team Lead, Senior QA, QA, Accenture on Page 2
     const staffRole = DATA.journey && DATA.journey[0] ? DATA.journey[0] : null;
     const leadRole = DATA.journey && DATA.journey[1] ? DATA.journey[1] : null;
     const seniorRole = DATA.journey && DATA.journey[2] ? DATA.journey[2] : null;
@@ -608,45 +593,45 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                             ${DATA.summary.summary.map(p => `<p class="summary-p">${highlightMetrics(p)}</p>`).join('')}
                         </section>
 
-                        <!-- Executive Highlights -->
+                        <!-- Clubbed Executive Highlights & Platform Innovations -->
                         <section class="main-sec" id="exec-highlights">
                             <h2 class="main-sec-head">
                                 <span>Executive Highlights</span>
-                                <span class="sec-tag">Impact & Architecture</span>
+                                <span class="sec-tag">Scope, Architecture & Platforms</span>
                             </h2>
                             <div class="exec-grid">
                                 <div>
-                                    <div class="exec-col-title">Scope & Impact</div>
+                                    <div class="exec-col-title">Scope & Enterprise Impact</div>
                                     <ul class="exec-list">
-                                        <li>${highlightMetrics(DATA.highlights.scope[0])}</li>
-                                        <li>${highlightMetrics(DATA.highlights.scope[1])}</li>
-                                        <li>${highlightMetrics(DATA.highlights.scope[2])}</li>
-                                        <li>${highlightMetrics(DATA.highlights.scope[3])}</li>
-                                        <li>${highlightMetrics(DATA.highlights.scope[5])}</li>
+                                        <li>${highlightMetrics("Owned enterprise quality strategy and continuous testing across US & UK regions.")}</li>
+                                        <li>${highlightMetrics("Built AI-driven regression platform analyzing 4,000+ test cases via MCP tooling (Grafana, Linear, GitLab) with 85% precision.")}</li>
+                                        <li>${highlightMetrics("Created test generation framework using Cursor & Claude AI across polyglot microservices, reducing authoring effort by 80%.")}</li>
+                                        <li>${highlightMetrics("Deployed Playwright MCP tooling for rapid test generation, reducing test bootstrap time from days to minutes (90% improvement).")}</li>
+                                        <li>${highlightMetrics("Built shared QA platforms consumed org-wide by multiple teams with 99.5% uptime and enterprise reliability.")}</li>
                                     </ul>
                                 </div>
                                 <div>
-                                    <div class="exec-col-title">Architecture & Design</div>
+                                    <div class="exec-col-title">Architecture & Platform Engineering</div>
                                     <ul class="exec-list">
-                                        <li>${highlightMetrics(DATA.highlights.architecture[0])}</li>
-                                        <li>${highlightMetrics(DATA.highlights.architecture[1])}</li>
-                                        <li>${highlightMetrics(DATA.highlights.architecture[3])}</li>
-                                        <li>${highlightMetrics(DATA.highlights.architecture[4])}</li>
-                                        <li>${highlightMetrics(DATA.highlights.architecture[5])}</li>
+                                        <li>${highlightMetrics("Architected scalable automation spanning frontend, backend, contract testing, and performance engineering with TDD.")}</li>
+                                        <li>${highlightMetrics("Built code-aware test setups aligned with microservices internals, improving failure diagnosis by 60% and flakiness by 50%.")}</li>
+                                        <li>${highlightMetrics("Backend E2E generators covering near-complete API surfaces with contract testing, reducing manual effort by 70-80%.")}</li>
+                                        <li>${highlightMetrics("Led in-cluster test execution using Kubernetes and Testkube with comprehensive SRE observability and telemetry.")}</li>
+                                        <li>${highlightMetrics("Cloud-agnostic execution frameworks using Crossplane and IaC across AWS, Azure, and GCP, reducing cloud costs by 12%.")}</li>
                                     </ul>
                                 </div>
                             </div>
                         </section>
 
-                        <!-- Professional Journey: Staff SDET & Team Lead -->
-                        <section class="main-sec" id="experience">
+                        <!-- Professional Journey: Staff SDET (Full Flagship Leadership) -->
+                        <section class="main-sec" id="experience" style="margin-bottom:0;">
                             <h2 class="main-sec-head">
                                 <span>Professional Journey</span>
-                                <span class="sec-tag">Recent Leadership</span>
+                                <span class="sec-tag">Staff SDET Role</span>
                             </h2>
 
                             ${staffRole ? `
-                                <div class="job-entry">
+                                <div class="job-entry" style="margin-bottom:0;">
                                     <div class="job-header">
                                         <div>
                                             <span class="job-role">${staffRole.role}</span>
@@ -661,26 +646,10 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                                         <li>${highlightMetrics(staffRole.details[3])}</li>
                                         <li>${highlightMetrics(staffRole.details[4])}</li>
                                         <li>${highlightMetrics(staffRole.details[5])}</li>
-                                    </ul>
-                                </div>
-                            ` : ''}
-
-                            ${leadRole ? `
-                                <div class="job-entry" style="margin-bottom:0;">
-                                    <div class="job-header">
-                                        <div>
-                                            <span class="job-role">${leadRole.role}</span>
-                                            <span class="job-company">&bull; ${leadRole.company}</span>
-                                        </div>
-                                        <span class="job-date">${leadRole.date}</span>
-                                    </div>
-                                    <ul class="job-bullets">
-                                        <li>${highlightMetrics(leadRole.details[0])}</li>
-                                        <li>${highlightMetrics(leadRole.details[1])}</li>
-                                        <li>${highlightMetrics(leadRole.details[2])}</li>
-                                        <li>${highlightMetrics(leadRole.details[3])}</li>
-                                        <li>${highlightMetrics(leadRole.details[4])}</li>
-                                        <li>${highlightMetrics(leadRole.details[6])}</li>
+                                        <li>${highlightMetrics(staffRole.details[6])}</li>
+                                        <li>${highlightMetrics(staffRole.details[7])}</li>
+                                        <li>${highlightMetrics(staffRole.details[8])}</li>
+                                        <li>${highlightMetrics(staffRole.details[9])}</li>
                                     </ul>
                                 </div>
                             ` : ''}
@@ -689,7 +658,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
 
                     <div class="sheet-footer">
                         <span>Shubham Sharma &bull; Staff SDET</span>
-                        <span>Continued on Page 2</span>
+                        <span>Continued on Page 2 (Team Lead & Experience History)</span>
                     </div>
                 </main>
             </div>
@@ -707,18 +676,18 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                 <aside class="split-sidebar">
                     <div>
                         <!-- Mini Brand Identity -->
-                        <div class="sidebar-profile" style="margin-bottom:8px;">
+                        <div class="sidebar-profile" style="margin-bottom:6px;">
                             <h2 class="sidebar-h1" style="font-size:1.15rem;">${DATA.profile.name}</h2>
                             <div class="sidebar-tagline" style="font-size:0.75rem;">${DATA.profile.taglines[0]} &bull; QA Architect</div>
                         </div>
 
-                        <div class="sidebar-divider" style="margin: 8px auto;"></div>
+                        <div class="sidebar-divider" style="margin: 6px auto;"></div>
 
                         <!-- Process & Methodology Skills -->
                         <div class="sidebar-sec-title emerald">
                             <i class="fas fa-tasks"></i> Process & Methodologies
                         </div>
-                        <div class="skills-cloud" style="margin-bottom: 12px;">
+                        <div class="skills-cloud" style="margin-bottom: 10px;">
                             ${(DATA.skills.process || []).map(skill => `<span class="skill-pill process">${skill}</span>`).join('')}
                         </div>
 
@@ -750,7 +719,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                     </div>
 
                     <!-- Compact Contact & Social in Sidebar Footer -->
-                    <div class="contact-box" style="margin-top:auto; margin-bottom:8px;">
+                    <div class="contact-box" style="margin-top:auto; margin-bottom:6px;">
                         <div class="contact-row"><i class="fas fa-envelope"></i> <a href="mailto:${DATA.profile.contact.email}">${DATA.profile.contact.email}</a></div>
                         <div class="contact-row"><i class="fas fa-phone"></i> <span>${DATA.profile.contact.phone}</span></div>
                         <div class="contact-row"><i class="fab fa-linkedin"></i> <a href="${linkedinUrl}" target="_blank">linkedin.com/in/shubham-sharma-4a4aaab9</a></div>
@@ -765,13 +734,36 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                 <!-- PAGE 2 MAIN CONTENT -->
                 <main class="split-main">
                     <div>
-                        <!-- Professional Journey (Continued) -->
+                        <!-- Professional Journey (Continued): Team Lead, Senior QA, QA, Accenture -->
                         <section class="main-sec">
                             <h2 class="main-sec-head">
                                 <span>Professional Journey (Continued)</span>
-                                <span class="sec-tag">Experience History</span>
+                                <span class="sec-tag">Leadership & Experience</span>
                             </h2>
 
+                            <!-- Team Lead QA Automation -->
+                            ${leadRole ? `
+                                <div class="job-entry">
+                                    <div class="job-header">
+                                        <div>
+                                            <span class="job-role">${leadRole.role}</span>
+                                            <span class="job-company">&bull; ${leadRole.company}</span>
+                                        </div>
+                                        <span class="job-date">${leadRole.date}</span>
+                                    </div>
+                                    <ul class="job-bullets">
+                                        <li>${highlightMetrics(leadRole.details[0])}</li>
+                                        <li>${highlightMetrics(leadRole.details[1])}</li>
+                                        <li>${highlightMetrics(leadRole.details[2])}</li>
+                                        <li>${highlightMetrics(leadRole.details[3])}</li>
+                                        <li>${highlightMetrics(leadRole.details[4])}</li>
+                                        <li>${highlightMetrics(leadRole.details[5])}</li>
+                                        <li>${highlightMetrics(leadRole.details[6])}</li>
+                                    </ul>
+                                </div>
+                            ` : ''}
+
+                            <!-- Senior Automation QA -->
                             ${seniorRole ? `
                                 <div class="job-entry">
                                     <div class="job-header">
@@ -791,6 +783,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                                 </div>
                             ` : ''}
 
+                            <!-- Automation QA -->
                             ${qaRole ? `
                                 <div class="job-entry">
                                     <div class="job-header">
@@ -809,6 +802,7 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                                 </div>
                             ` : ''}
 
+                            <!-- QA Automation / Associate QA -->
                             ${accentureRole ? `
                                 <div class="job-entry" style="margin-bottom:0;">
                                     <div class="job-header">
@@ -826,34 +820,6 @@ window.renderSplit = (DATA, ROOT, STYLE) => {
                                     </ul>
                                 </div>
                             ` : ''}
-                        </section>
-
-                        <!-- Key Platforms & Innovation -->
-                        <section class="main-sec" id="innovation">
-                            <h2 class="main-sec-head">
-                                <span>Key Platforms & Innovation</span>
-                                <span class="sec-tag">Architecture & Tooling</span>
-                            </h2>
-                            <div class="platform-grid">
-                                <div class="platform-item">
-                                    <strong>AI-Driven Regression Platform:</strong> Analyzes <strong>4,000+ test cases</strong> via MCP tooling (Grafana, Linear, GitLab) with <strong>85% precision</strong>.
-                                </div>
-                                <div class="platform-item">
-                                    <strong>AI Test Generation Framework:</strong> Multi-service automation using Cursor/Claude, reducing authoring effort by <strong>80%</strong>.
-                                </div>
-                                <div class="platform-item">
-                                    <strong>Playwright MCP Server:</strong> Autonomous test generation, cutting bootstrap time from days to minutes (<strong>90% improvement</strong>).
-                                </div>
-                                <div class="platform-item">
-                                    <strong>Backend E2E Generators:</strong> Complete API surface contract testing, reducing manual effort by <strong>70-80%</strong>.
-                                </div>
-                                <div class="platform-item">
-                                    <strong>Auto-SDK Pipelines:</strong> Swagger change detection auto-updating polyglot SDKs with <strong>85% maintenance reduction</strong>.
-                                </div>
-                                <div class="platform-item">
-                                    <strong>Cloud-Agnostic Execution:</strong> Crossplane and Infrastructure as Code across <strong>AWS, Azure, and GCP</strong> with <strong>99.5% uptime</strong>.
-                                </div>
-                            </div>
                         </section>
 
                         <!-- Education -->
